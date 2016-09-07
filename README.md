@@ -74,6 +74,7 @@ secret=f0436ede68654f0bbebc82f703b9406d
   - email -> confirm email    ->    カード情報登録 　  -> jwt作成
   - google                              ->    カード情報登録   　  -> jwt作成
   - github                              ->    カード情報登録   　  -> jwt作成
+
 sign up時、必要情報：名前、email、社名、カード情報
 
 ## 外部URL
