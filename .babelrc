@@ -1,0 +1,20 @@
+{
+  "presets": [
+    "react",
+    "es2015",
+    "stage-0"
+  ],
+  "plugins": [
+    "syntax-async-functions",
+    "transform-regenerator",
+    ["transform-runtime", {
+      "polyfill": false,
+      "regenerator": true
+    }]
+ ],
+ "env": {
+   "development": {
+     "presets": [ "power-assert" ]
+   }
+ }
+}

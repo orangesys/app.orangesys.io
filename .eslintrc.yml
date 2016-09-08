@@ -1,0 +1,20 @@
+extends: ["plugin:react/recommended", "airbnb"]
+plugins: ["react"]
+parser: "babel-eslint"
+env:
+  es6: true
+  node: true
+  browser: true
+  mocha: true
+parserOptions:
+  ecmaFeatures:
+    jsx: true
+globals:
+  firebase: true
+settings:
+  import/resolver:
+    webpack:
+      config: "webpack.config.babel.js"
+
+rules:
+  no-constant-condition: 0
