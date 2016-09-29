@@ -1,5 +1,3 @@
-// import { firebaseAuth } from 'src/core/firebase';
-
 import { createAction } from 'redux-act';
 
 export const initAuth = createAction('init auth');
