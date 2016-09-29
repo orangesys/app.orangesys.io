@@ -19,9 +19,6 @@ const FIREBASE_AUTH_DOMAIN = process.env.FIREBASE_AUTH_DOMAIN;
 const FIREBASE_DATABASE_URL = process.env.FIREBASE_DATABASE_URL;
 const FIREBASE_STORAGE_BUCKET = process.env.FIREBASE_STORAGE_BUCKET;
 
-console.log("FIREBASE_API_KEY:", FIREBASE_API_KEY)
-
-
 const ENV_DEVELOPMENT = NODE_ENV === 'development';
 const ENV_PRODUCTION = NODE_ENV === 'production';
 const ENV_TEST = NODE_ENV === 'test';
