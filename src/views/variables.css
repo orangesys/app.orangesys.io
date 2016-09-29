@@ -1,0 +1,9 @@
+:root {
+  --primary1Color: #FF5722; /* deepOrange500 */
+  --primary2Color: #F4511E; /* deepOrange600 */
+  --primary3Color: #F4511E; /* deepOrange600 */
+  --accent1Color: #F4511E; /* deepOrange600 */
+  --accent2Color: #FF9800; /* orange500 */
+  --accent3Color: #F4511E; /* deepOrange600 */
+  --subTextColor: #828282;
+}

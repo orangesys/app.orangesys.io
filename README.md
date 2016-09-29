@@ -23,11 +23,11 @@ Flexible Box
 
 react
 redux
-react-route 
+react-route
 
 ## DB
 
-firebase 
+firebase
 
 ## リリース環境
 
@@ -74,6 +74,7 @@ secret=f0436ede68654f0bbebc82f703b9406d
   - email -> confirm email    ->    カード情報登録 　  -> jwt作成
   - google                              ->    カード情報登録   　  -> jwt作成
   - github                              ->    カード情報登録   　  -> jwt作成
+
 sign up時、必要情報：名前、email、社名、カード情報
 
 ## 外部URL
@@ -88,3 +89,29 @@ https://www.campaignmonitor.com/
 
 - https://repro.io/
 - https://cloud.influxdata.com/
+
+
+## Development Settings
+
+### Install
+
+```
+npm install
+```
+
+### Create a Firebase project
+
+https://console.firebase.google.com/
+
+### Set environment variables
+
+```
+cp .env-sample .env
+# edit .env
+```
+
+### Start
+
+```
+npm start
+```
