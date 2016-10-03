@@ -26,3 +26,5 @@ export const signOut = createAction('sign out');
 export const emailVerification = createAction('send email verification');
 export const emailVerificationSent = createAction('verification email sent');
 export const finishEmailVerification = createAction('finish email verification');
+export const goToSignUp = createAction('go to sign up');
+export const goToSignIn = createAction('go to sign in');

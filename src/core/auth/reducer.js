@@ -18,6 +18,8 @@ import {
   signOut,
   emailVerification,
   emailVerificationSent,
+  goToSignUp,
+  goToSignIn,
 } from './actions';
 import * as validators from './validator';
 
@@ -144,6 +146,18 @@ export const authReducer = createReducer({
     state.merge({
       sendingVerificationEmail: false,
       sentVerificationEmail: true,
+    })
+  ),
+  [goToSignUp]: (state) => (
+    state.merge({
+      signInError: null,
+      signUpError: null,
+    })
+  ),
+  [goToSignIn]: (state) => (
+    state.merge({
+      signInError: null,
+      signUpError: null,
     })
   ),
 }, new AuthState());

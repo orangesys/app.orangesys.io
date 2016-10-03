@@ -31,7 +31,7 @@ const submitLabel = {
 
 const SignUp = ({ signUp, onChange, onBlur,
   onstartSigningUpWithGoogle, onstartSigningUpWithGithub,
-  onSubmit, onSubmitWithGoogle, onSubmitWithGithub }) => {
+  onSubmit, onSubmitWithGoogle, onSubmitWithGithub, onGoToSignIn }) => {
   const {
     signingUp,
     signUpFieldErrors,
@@ -57,7 +57,7 @@ const SignUp = ({ signUp, onChange, onBlur,
           >
             <FlatButton
               label="既にアカウントをお持ちの方" secondary
-              onClick={() => { history.replace('/sign-in'); }}
+              onClick={onGoToSignIn}
               icon={<FontIcon className="fa fa-sign-in" />}
             />
           </Col>
@@ -170,6 +170,7 @@ SignUp.propTypes = {
   onstartSigningUpWithGithub: PropTypes.func.isRequired,
   onSubmitWithGoogle: PropTypes.func.isRequired,
   onSubmitWithGithub: PropTypes.func.isRequired,
+  onGoToSignIn: PropTypes.func.isRequired,
   signUp: PropTypes.object.isRequired,
 };
 
@@ -215,6 +216,10 @@ const mapDispatchToProps = (dispatch) => ({
     e.preventDefault();
     const inputs = getInputValues(fieldNamesForOAuth, e.target);
     dispatch(authActions.signUpWithGithub(inputs));
+  },
+  onGoToSignIn: () => {
+    dispatch(authActions.goToSignIn());
+    history.replace('/sign-in');
   },
 });
 

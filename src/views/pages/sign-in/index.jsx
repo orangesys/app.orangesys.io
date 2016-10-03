@@ -21,7 +21,7 @@ import styles from './index.css';
 
 const fieldNames = ['email', 'password'];
 
-const SignIn = ({ signIn, onSubmit,
+const SignIn = ({ signIn, onSubmit, onGoToSignUp,
   onSignInWithGoogle, onSignInWithGithub }) => {
   const { signingIn, signInError } = signIn;
   return (
@@ -43,7 +43,7 @@ const SignIn = ({ signIn, onSubmit,
           >
             <FlatButton
               label="新規ユーザ登録へ" secondary
-              onClick={() => { history.replace('/sign-up'); }}
+              onClick={onGoToSignUp}
               icon={<FontIcon className="fa fa-user" />}
             />
           </Col>
@@ -123,6 +123,7 @@ SignIn.propTypes = {
   onSignInWithGoogle: PropTypes.func.isRequired,
   onSignInWithGithub: PropTypes.func.isRequired,
   signIn: PropTypes.object.isRequired,
+  onGoToSignUp: PropTypes.func.isRequired,
 };
 
 const getInputValues = (target) => (
@@ -147,6 +148,10 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onSignInWithGithub: () => {
     dispatch(authActions.signInWithGithub());
+  },
+  onGoToSignUp: () => {
+    dispatch(authActions.goToSignUp());
+    history.replace('/sign-up');
   },
 });
 
