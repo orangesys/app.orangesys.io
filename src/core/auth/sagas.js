@@ -1,4 +1,4 @@
-import 'firebase';
+import firebase from 'firebase';
 import { call, fork, put, take } from 'redux-saga/effects';
 import { browserHistory as history } from 'react-router';
 import { firebaseAuth, firebaseDB, firebaseErrors } from 'src/core/firebase';
