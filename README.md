@@ -69,6 +69,33 @@ sign up時、必要情報：名前、email、社名、カード情報
 - grafana
 - その他
 
+## Versioning
+A version must follow the [SemVer 2](http://semver.org/) standard.
+
+## Dev in Docker
+- Docker version > 1.10.0
+
+#build 
+```
+sh build.sh
+```
+#run
+
+```
+cat << EOF >  /tmp/env
+NODE_ENV=development
+FIREBASE_API_KEY=XXXXXXXXXXXXXXXXXXXXX
+FIREBASE_AUTH_DOMAIN=orangesys-21d3f.firebaseapp.com
+FIREBASE_DATABASE_URL=https://orangesys-21d3f.firebaseio.com
+FIREBASE_STORAGE_BUCKET=orangesys-21d3f.appspot.com
+HOST=0.0.0.0
+```
+
+ex)
+```
+docker run -d -v /tmp/env:/var/www/.env -p 5000:5000 orangesys.io:1.0.0
+```
+
 ## 参照
 
 https://www.campaignmonitor.com/
