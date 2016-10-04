@@ -85,7 +85,8 @@ function* startSigningUpWithGoogle() {
     }
     yield put(authActions.finishConnectingToGoogleForSignUp(currentUser));
   } catch (e) {
-    console.error(e);
+    const signUpError = e.code ? firebaseErrors[e.code] : 'ログインに失敗しました';
+    yield put(authActions.signUpFailed(signUpError));
   }
 }
 
@@ -105,7 +106,8 @@ function* startSigningUpWithGithub() {
     }
     yield put(authActions.finishConnectingToGithubForSignUp(currentUser));
   } catch (e) {
-    console.error(e);
+    const signUpError = e.code ? firebaseErrors[e.code] : 'ログインに失敗しました';
+    yield put(authActions.signUpFailed(signUpError));
   }
 }
 

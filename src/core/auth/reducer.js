@@ -80,6 +80,7 @@ export const authReducer = createReducer({
       signingUp: false,
       signUpError: null,
       signUpFieldErrors: new Map(),
+      signingUpWithOAuth: false,
       needEmailVerification: user.providerId === 'firebase' && !user.emailVerified,
     })
   ),
