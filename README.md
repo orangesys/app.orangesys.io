@@ -1,3 +1,4 @@
+[![devDependencies Status](https://david-dm.org/orangesys/orangesys.io/dev-status.svg)](https://david-dm.org/orangesys/orangesys.io?type=dev)
 ## site color code
 
 ### MDL
@@ -17,7 +18,6 @@ kong jwt
 ## site layout
 
 Flexible Box
-別のものがあれば、URLを教えて下さい
 
 ## フレームワーク
 
@@ -31,7 +31,7 @@ firebase
 
 ## リリース環境
 
-GKEを利用し、k8sを使います。 # 通信 HTTPS
+GKE
 
 
 ## Offcial site
@@ -51,22 +51,8 @@ stripe
 ※開発しやすいため、stripeにします。但し、JCBが非対応。最後、決済会社の審査によって、変更可能性あり
 PLAN選択、変更
 
-kong認証用のjwt作成、firebaseに保存 (優先順位下げる、最後)
-サンプルコード:
-
-```
-npm install node-uuid
-var uuid = require('node-uuid');
-var rand = uuid.v1().split('-').join(''); // 661708030ec74627a12d3f6c6f8f5dd2
-```
-
-kong を使ってます。下記はkong jwt認証時、のPOSTです。
-
-```
-http POST http://<KONG SERVER>:8001/consumers/influx0000/jwt \
-key=cce40d906f5b46188d060c738c7746b4 \
-secret=f0436ede68654f0bbebc82f703b9406d
-```
+kong認証用のjwt作成、firebaseに保存
+backend対応、backendのAPIにアクセスが必要
 
 ユーザー登録の流れ
 
