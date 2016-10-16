@@ -1,4 +1,6 @@
 import { firebaseAuth, firebaseDB } from 'src/core/firebase';
+import { isEmpty } from 'lodash/lang';
+
 import * as authActions from './actions';
 
 export {
@@ -7,8 +9,12 @@ export {
   getSignUp,
   getSignIn,
   needEmailVerification,
+  needSetupPlan,
   getEmailVerification,
+  getUid,
+  getFieldsForPayment,
 } from './selectors';
+
 export { authActions };
 export { authReducer } from './reducer';
 export { authSagas } from './sagas';
@@ -30,26 +36,33 @@ export function fetchAuth() {
         reject(error);
       }
     );
-  }).then((user) => (
+  }).then((firebaseUser) => (
     new Promise((resolve) => {
-      console.log("user:", user)
       unsub();
-      if (!user) {
-        resolve(user);
+      if (!firebaseUser) {
+        resolve({});
         return;
       }
-      fetchUser(user.uid)
+      fetchUser(firebaseUser.uid)
         .then((snapshot) => {
-          const userDataExists = !!(snapshot.val());
-          console.log("userDataExists:", userDataExists);
-          const { providerId, emailVerified } = user;
-          const payload = Object.assign({}, user, {
-            needPaymentInformation: true,
-            providerId,
-            emailVerified,
-            userDataExists,
-          });
-          resolve(payload);
+          const snapshotData = snapshot.val() || {};
+          // const userDataExists = !isEmpty(snapshotData);
+          // const planId = snapshotData.planId || null;
+          // const email = snapshotData.email || null;
+          // const customerId = snapshotData.customerId || null;
+          // const { providerId, emailVerified } = firebaseUser;
+          const user = Object.assign(
+            {}, firebaseUser, snapshotData, { userDataExists: !isEmpty(snapshotData) });
+          // const payload = Object.assign({}, firebaseUser, {
+          //   providerId,
+          //   emailVerified,
+          //   userDataExists,
+          //   planId,
+          //   email,
+          //   customerId,
+          // });
+          console.log("user:", user)
+          resolve(user);
         });
     })
   ));

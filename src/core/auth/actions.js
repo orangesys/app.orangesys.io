@@ -28,3 +28,5 @@ export const emailVerificationSent = createAction('verification email sent');
 export const finishEmailVerification = createAction('finish email verification');
 export const goToSignUp = createAction('go to sign up');
 export const goToSignIn = createAction('go to sign in');
+export const paymentFulfilled = createAction('payment fulfilled');
+export const clearMessage = createAction('clear message');

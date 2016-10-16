@@ -12,27 +12,22 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import LinearProgress from 'material-ui/LinearProgress';
 import Divider from 'material-ui/Divider';
-import Snackbar from 'material-ui/Snackbar';
 
+import ErrorSnackbar from 'src/views/components/error-snackbar';
 import { getSignIn, authActions } from 'src/core/auth';
 
-import Header from '../../components/header-unauth';
+import Header from 'src/views/components/header-unauth';
 import styles from './index.css';
 
 const fieldNames = ['email', 'password'];
 
 const SignIn = ({ signIn, onSubmit, onGoToSignUp,
-  onSignInWithGoogle, onSignInWithGithub }) => {
+  onSignInWithGoogle, onSignInWithGithub, onCloseMessage }) => {
   const { signingIn, signInError } = signIn;
   return (
     <div>
       <Header />
-      <Snackbar
-        open={!!signInError}
-        message={signInError || ''}
-        autoHideDuration={5000}
-        bodyStyle={{ backgroundColor: 'rgb(250, 100, 100)' }}
-      />
+      <ErrorSnackbar error={signInError} onClose={onCloseMessage} />
       <Grid className={styles.wrapper}>
         <Row className={styles['navigation-wrapper']}>
           <Col
@@ -124,6 +119,7 @@ SignIn.propTypes = {
   onSignInWithGithub: PropTypes.func.isRequired,
   signIn: PropTypes.object.isRequired,
   onGoToSignUp: PropTypes.func.isRequired,
+  onCloseMessage: PropTypes.func,
 };
 
 const getInputValues = (target) => (
@@ -152,6 +148,9 @@ const mapDispatchToProps = (dispatch) => ({
   onGoToSignUp: () => {
     dispatch(authActions.goToSignUp());
     history.replace('/sign-up');
+  },
+  onCloseMessage: () => {
+    dispatch(authActions.clearMessage());
   },
 });
 

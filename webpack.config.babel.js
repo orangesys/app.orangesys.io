@@ -14,10 +14,15 @@ const atImport = require('postcss-import');
 //  ENVIRONMENT VARS
 // ---------------------------------------------------------
 const NODE_ENV = process.env.NODE_ENV;
-const FIREBASE_API_KEY = process.env.FIREBASE_API_KEY;
-const FIREBASE_AUTH_DOMAIN = process.env.FIREBASE_AUTH_DOMAIN;
-const FIREBASE_DATABASE_URL = process.env.FIREBASE_DATABASE_URL;
-const FIREBASE_STORAGE_BUCKET = process.env.FIREBASE_STORAGE_BUCKET;
+const ENV_NAMES = [
+  'NODE_ENV',
+  'FIREBASE_API_KEY',
+  'FIREBASE_AUTH_DOMAIN',
+  'FIREBASE_DATABASE_URL',
+  'FIREBASE_STORAGE_BUCKET',
+  'STRIPE_PUBLISHABLE_KEY',
+  'PAYMENT_API_ENDPOINT',
+];
 
 const ENV_DEVELOPMENT = NODE_ENV === 'development';
 const ENV_PRODUCTION = NODE_ENV === 'production';
@@ -33,6 +38,11 @@ const loaders = {
   js: { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel' },
   css: { test: /.css$/, exclude: /node_modules/, loaders: ['style', 'css?modules', 'postcss'] },
   cssFlexboxGrid: { test: /.css$/, include: /flexboxgrid/, loader: 'style!css?modules' },
+  file: {
+    test: /\.(jpg|png)$/,
+    exclude: /node_modules/,
+    loader: 'url?limit=25000',
+  },
 };
 
 // =========================================================
@@ -48,14 +58,13 @@ config.resolve = {
   root: path.resolve('.'),
 };
 
+const definitions = {};
+ENV_NAMES.forEach((name) => {
+  definitions[name] = JSON.stringify(process.env[name]);
+});
+
 config.plugins = [
-  new webpack.DefinePlugin({
-    NODE_ENV: JSON.stringify(NODE_ENV),
-    FIREBASE_API_KEY: JSON.stringify(FIREBASE_API_KEY),
-    FIREBASE_AUTH_DOMAIN: JSON.stringify(FIREBASE_AUTH_DOMAIN),
-    FIREBASE_DATABASE_URL: JSON.stringify(FIREBASE_DATABASE_URL),
-    FIREBASE_STORAGE_BUCKET: JSON.stringify(FIREBASE_STORAGE_BUCKET),
-  }),
+  new webpack.DefinePlugin(definitions)
 ];
 
 config.postcss = [
@@ -110,6 +119,7 @@ if (ENV_DEVELOPMENT) {
       loaders.js,
       loaders.css,
       loaders.cssFlexboxGrid,
+      loaders.file,
     ],
   };
 

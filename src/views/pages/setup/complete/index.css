@@ -1,0 +1,23 @@
+
+.main {
+  min-height: 30px;
+  margin-top: 100px;
+}
+
+.header {
+  composes: paper-header from '../../../common.css';
+}
+
+.body {
+  padding: 30px 40px;
+}
+
+.message {
+  composes: sub-text from '../../../common.css';
+  margin-bottom: 30px;
+}
+
+.bottom {
+  margin-top: 50px;
+  text-align: center;
+}

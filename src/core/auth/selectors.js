@@ -6,6 +6,23 @@ export function needEmailVerification(state) {
   return getAuth(state).needEmailVerification;
 }
 
+export function getUid(state) {
+  return getAuth(state).uid;
+}
+
+export function getFieldsForPayment(state) {
+  const auth = getAuth(state);
+  return {
+    id: auth.uid,
+    email: auth.email,
+  };
+}
+
+export function needSetupPlan(state) {
+  const auth = getAuth(state);
+  return !auth.planId;
+}
+
 export function getEmailVerification(state) {
   const auth = getAuth(state);
   return {
@@ -27,7 +44,6 @@ export function getSignUp(state) {
     signingUpWithOAuth: auth.signingUpWithOAuth,
     signUpProvider: auth.signUpProvider,
   };
-  console.log("selector data:", data)
   return {
     inputs: auth.signUpInputs,
     signingUp: auth.signingUp,

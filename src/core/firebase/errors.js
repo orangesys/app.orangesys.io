@@ -1,5 +1,6 @@
 
 export default {
+  'auth/user-not-found': 'ユーザが存在しないかメールアドレスとパスワードが正しくありません',
   'auth/email-already-in-use': '既に使用されているメールアドレスです',
   'auth/invalid-email': 'メールアドレスが無効です',
   'auth/operation-not-allowed': 'アカウントが無効です',

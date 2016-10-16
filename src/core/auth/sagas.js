@@ -1,8 +1,9 @@
 import firebase from 'firebase';
 import { call, fork, put, take } from 'redux-saga/effects';
 import { browserHistory as history } from 'react-router';
-import { firebaseAuth, firebaseDB, firebaseErrors } from 'src/core/firebase';
+import moment from 'moment';
 
+import { firebaseAuth, firebaseDB, firebaseErrors } from 'src/core/firebase';
 import * as authActions from './actions';
 import * as validators from './validator';
 import { fetchAuth } from './index';
@@ -12,6 +13,26 @@ function executeFetchAuth() {
   return fetchAuth()
     .then(user => ({ user }))
     .catch(error => ({ error }));
+}
+
+function saveNewUserToDB(uid, email, companyName, fullName) {
+  firebaseDB.ref(`users/${uid}`).set({
+    companyName,
+    fullName,
+    email,
+    createdAt: moment.utc().format(),
+  });
+}
+
+function payloadForSignInFulfilled(user) {
+  return {
+    uid: user.uid,
+    email: user.email,
+    planId: user.planId,
+    emailVerified: user.emailVerified,
+    customerId: user.customerId,
+    providerId: user.providerId,
+  };
 }
 
 function* signUp(inputs) {
@@ -25,10 +46,7 @@ function* signUp(inputs) {
       [firebaseAuth, firebaseAuth.createUserWithEmailAndPassword],
       inputs.email, inputs.password);
     user.sendEmailVerification();
-    firebaseDB.ref(`users/${user.uid}`).set({
-      companyName: inputs.companyName,
-      fullName: inputs.fullName,
-    });
+    saveNewUserToDB(user.uid, user.email, inputs.companyName, inputs.fullName);
     yield put(authActions.signUpFulfilled(user));
     // const { user } = yield executeFetchAuth();
     yield history.replace('/email-verification');
@@ -45,10 +63,7 @@ function* signUpWithGoogle(inputs) {
     return;
   }
   const user = firebaseAuth.currentUser;
-  firebaseDB.ref(`users/${user.uid}`).set({
-    companyName: inputs.companyName,
-    fullName: inputs.fullName,
-  });
+  saveNewUserToDB(user.uid, user.email, inputs.companyName, inputs.fullName);
   yield put(authActions.signUpFulfilled(user));
   yield history.replace('/');
 }
@@ -60,10 +75,7 @@ function* signUpWithGithub(inputs) {
     return;
   }
   const user = firebaseAuth.currentUser;
-  firebaseDB.ref(`users/${user.uid}`).set({
-    companyName: inputs.companyName,
-    fullName: inputs.fullName,
-  });
+  saveNewUserToDB(user.uid, user.email, inputs.companyName, inputs.fullName);
   user.sendEmailVerification();
   yield put(authActions.signUpFulfilled(user));
   yield history.replace('/');
@@ -79,14 +91,13 @@ function* startSigningUpWithGoogle() {
     const currentUser = signInResult.user;
     const { user } = yield call(executeFetchAuth);
     if (user && user.userDataExists) {
-      yield put(authActions.signInFulfilled(currentUser));
+      yield put(authActions.signInFulfilled(payloadForSignInFulfilled(user)));
       yield history.replace('/');
       return;
     }
     yield put(authActions.finishConnectingToGoogleForSignUp(currentUser));
   } catch (e) {
-    const signUpError = e.code ? firebaseErrors[e.code] : 'ログインに失敗しました';
-    yield put(authActions.signUpFailed(signUpError));
+    console.error(e);
   }
 }
 
@@ -100,7 +111,7 @@ function* startSigningUpWithGithub() {
     const currentUser = signInResult.user;
     const { user } = yield call(executeFetchAuth);
     if (user && user.userDataExists) {
-      yield put(authActions.signInFulfilled(currentUser));
+      yield put(authActions.signInFulfilled(payloadForSignInFulfilled(currentUser)));
       yield history.replace('/');
       return;
     }
@@ -117,11 +128,14 @@ function* signIn(inputs) {
       [firebaseAuth, firebaseAuth.signInWithEmailAndPassword],
       inputs.email, inputs.password);
     const { user } = yield call(executeFetchAuth);
-    yield put(authActions.signInFulfilled(user));
+    console.log("user:", user)
+    console.log("AAA user:", payloadForSignInFulfilled(user))
+    yield put(authActions.signInFulfilled(payloadForSignInFulfilled(user)));
     yield history.replace('/');
   } catch (e) {
     console.log(e)
-    const signInError = e.code ? firebaseErrors[e.code] : 'ログインに失敗しました';
+    const signInError = firebaseErrors[e.code] || 'ログインに失敗しました';
+    console.log("signInError:", signInError)
     yield put(authActions.signInFailed(signInError));
   }
 }
@@ -131,14 +145,14 @@ function* signInWithOAuth(provider) {
     const signInResult = yield call(
       [firebaseAuth, firebaseAuth.signInWithPopup], provider
     );
-    const currentUser = signInResult.user;
+    const firebaseUser = signInResult.user;
     const { user } = yield call(executeFetchAuth);
     if (!user.userDataExists) {
-      yield put(authActions.finishConnectingToGoogleForSignUp(currentUser));
+      yield put(authActions.finishConnectingToGoogleForSignUp(firebaseUser));
       yield history.replace('/sign-up');
       return;
     }
-    yield put(authActions.signInFulfilled(currentUser));
+    yield put(authActions.signInFulfilled(payloadForSignInFulfilled(user)));
     yield history.replace('/');
   } catch (e) {
     console.log(e);
