@@ -19,14 +19,18 @@ import {
   emailVerification,
   emailVerificationSent,
   goToSignUp,
-  goToSignIn,
+  // goToSignIn,
+  paymentFulfilled,
+  clearMessage,
 } from './actions';
 import * as validators from './validator';
 
 const AuthState = new Record({
   authenticated: false,
-  id: null,
-  needEmailVerification: false,
+  uid: null,
+  email: null,
+  planId: null,
+  customerId: null,
   signingUp: false,
   signUpInputs: new Map({
     companyName: '',
@@ -42,16 +46,18 @@ const AuthState = new Record({
   sentVerificationEmail: false,
   signingIn: false,
   signInError: null,
+  needEmailVerification: false,
 });
 
 export const authReducer = createReducer({
   [initAuth]: (state, user) => {
     const u = user || {};
-    console.log("u.providerId:", u.providerId)
     return state.merge({
       authenticated: !isEmpty(u) && u.userDataExists,
-      id: u.uid,
+      uid: u.uid,
+      email: u.email,
       needEmailVerification: u.providerId === 'firebase' && !u.emailVerified,
+      planId: u.planId,
       sentVerificationEmail: false,
     });
   },
@@ -78,10 +84,12 @@ export const authReducer = createReducer({
     state.merge({
       authenticated: true,
       signingUp: false,
-      signUpError: null,
       signUpFieldErrors: new Map(),
       signingUpWithOAuth: false,
       needEmailVerification: user.providerId === 'firebase' && !user.emailVerified,
+      uid: user.uid,
+      email: user.email,
+      planId: user.planId,
     })
   ),
   [finishConnectingToGoogleForSignUp]: (state, user) => (
@@ -113,11 +121,13 @@ export const authReducer = createReducer({
     const u = user || {};
     return state.merge({
       authenticated: true,
-      id: u.uid,
+      uid: u.uid,
+      email: u.email,
       needEmailVerification: u.providerId === 'firebase' && !u.emailVerified,
+      planId: u.planId,
+      customerId: u.customerId,
       sentVerificationEmail: false,
       signingIn: false,
-      signInError: null,
     });
   },
   [signUpFailed]: (state, signUpError) => (
@@ -151,11 +161,21 @@ export const authReducer = createReducer({
   ),
   [goToSignUp]: (state) => (
     state.merge({
-      signInError: null,
-      signUpError: null,
+      signUpInputs: new Map({
+        companyName: '',
+        fullName: '',
+        email: '',
+        password: '',
+      }),
     })
   ),
-  [goToSignIn]: (state) => (
+  [paymentFulfilled]: (state, { customerId, planId }) => (
+    state.merge({
+      customerId,
+      planId,
+    })
+  ),
+  [clearMessage]: (state) => (
     state.merge({
       signInError: null,
       signUpError: null,

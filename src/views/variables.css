@@ -6,4 +6,5 @@
   --accent2Color: #FF9800; /* orange500 */
   --accent3Color: #F4511E; /* deepOrange600 */
   --subTextColor: #828282;
+  --errorBackgroundColor: rgb(250, 100, 100);
 }
