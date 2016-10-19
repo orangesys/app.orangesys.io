@@ -64,7 +64,7 @@ ENV_NAMES.forEach((name) => {
 });
 
 config.plugins = [
-  new webpack.DefinePlugin(definitions)
+  new webpack.DefinePlugin(definitions),
 ];
 
 config.postcss = [
@@ -163,6 +163,8 @@ if (ENV_PRODUCTION) {
     loaders: [
       loaders.js,
       loaders.css,
+      loaders.cssFlexboxGrid,
+      loaders.file,
     ],
   };
 
@@ -180,6 +182,7 @@ if (ENV_PRODUCTION) {
         screw_ie8: true, // eslint-disable-line camelcase
         unused: true,
         warnings: false,
+        drop_console: true,
       },
     })
   );
