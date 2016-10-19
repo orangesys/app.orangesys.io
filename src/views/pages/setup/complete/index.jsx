@@ -5,7 +5,7 @@ import { Grid, Row, Col } from 'react-flexbox-grid/lib/index';
 import Paper from 'material-ui/Paper';
 import FlatButton from 'material-ui/FlatButton';
 import { Card, CardHeader } from 'material-ui/Card';
-import { browserHistory as history } from 'react-router';
+import { hashHistory as history } from 'react-router';
 import { getSetup, findPlan } from 'src/core/setup';
 import Header from 'src/views/components/header-auth';
 import styles from './index.css';

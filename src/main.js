@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import { browserHistory } from 'react-router';
+import { hashHistory as history } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import configureStore from './core/store';
 import { initAuth } from './core/auth';
 import Root from './views/root';
 
 const store = configureStore();
-const syncedHistory = syncHistoryWithStore(browserHistory, store);
+const syncedHistory = syncHistoryWithStore(history, store);
 const rootElement = document.getElementById('root');
 
 function render(Component) {

@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { browserHistory as history } from 'react-router';
+import { hashHistory as history } from 'react-router';
 import { createSelector } from 'reselect';
 
 import { Grid, Row, Col } from 'react-flexbox-grid/lib/index';
