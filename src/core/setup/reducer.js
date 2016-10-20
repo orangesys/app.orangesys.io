@@ -28,16 +28,16 @@ export const setupReducer = createReducer({
   [startRegisteringPayment]: (state) => (
     state.merge({ submitting: true, paymentRegistrationError: null })
   ),
-  [stripeTokenGenerationError]: (state, { type }) => (
+  [stripeTokenGenerationError]: (state, { code }) => (
     state.merge({
       submitting: false,
-      paymentRegistrationError: stripeErrors[type] || 'エラーが発生しました',
+      paymentRegistrationError: stripeErrors[code] || 'エラーが発生しました',
     })
   ),
   [registerPaymentError]: (state, errCode) => (
     state.merge({
       submitting: false,
-      paymentRegistrationError: stripeErrors[errCode] || '登録処理でエラーが発生しました',
+      paymentRegistrationError: stripeErrors[errCode] || '登録処理でエラーが発生しました。',
     })
   ),
   [clearMessage]: (state) => (
