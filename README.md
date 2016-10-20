@@ -40,6 +40,13 @@ npm install
 
 https://console.firebase.google.com/
 
+### Update database rules
+
+```
+firebase deploy --only database
+```
+
+
 ### Set environment variables
 
 ```
