@@ -13,7 +13,7 @@ export function getUid(state) {
 export function getFieldsForPayment(state) {
   const auth = getAuth(state);
   return {
-    id: auth.uid,
+    uid: auth.uid,
     email: auth.email,
   };
 }

@@ -8,7 +8,9 @@ import { getPlanId } from './selectors';
 import { getFieldsForPayment, authActions } from 'src/core/auth/';
 import * as setupActions from './actions';
 import { findPlan } from './plans';
-import { stripeConfig } from 'src/core/stripe/';
+import { stripeConfig } from 'src/core/stripe';
+import { telegrafConfig } from 'src/core/telegraf';
+
 
 function requestCustomerRegistrationOnStripe(token, planId, uid, email) {
   const url = `${stripeConfig.paymentApiEndpoint}/customers`;
@@ -17,7 +19,16 @@ function requestCustomerRegistrationOnStripe(token, planId, uid, email) {
     .catch((err) => ({ err }));
 }
 
-function savePaymentToDB(uid, customerId, planId) {
+function requestTelegraphToken(planId) {
+  const { retention } = findPlan(planId);
+  const url = `${telegrafConfig.tokenApiEndpoint}/create?rp=${retention}`;
+  return axios.post(url)
+    .then((res) => ({ res }))
+    .catch((err) => ({ err }));
+}
+
+
+function savePaymentToDB({ uid, customerId, planId, telegraf }) {
   const retention = findPlan(planId).retention;
   const key = `users/${uid}`;
   const updates = {
@@ -26,21 +37,35 @@ function savePaymentToDB(uid, customerId, planId) {
     [`${key}/retention`]: retention,
     [`${key}/updatedAt`]: moment().utc().format(),
   };
+  if (telegraf) {
+    updates[`${key}/telegraf/consumerId`] = telegraf.consumerId;
+    updates[`${key}/telegraf/token`] = telegraf.token;
+  }
   firebaseDB.ref().update(updates);
 }
 
-function* registerPayment({ token }) {
-  const { id, email } = yield(select(getFieldsForPayment));
+function* registerPayment({ stripeToken }) {
+  const { uid, email } = yield(select(getFieldsForPayment));
   const planId = yield(select(getPlanId));
+
+  // stripe
   const { res, err } = yield call(
-    requestCustomerRegistrationOnStripe, token, planId, id, email);
+    requestCustomerRegistrationOnStripe, stripeToken, planId, uid, email);
   if (err) {
+    if (!err.response) {
+      yield put(setupActions.registerPaymentError());
+      return;
+    }
     const { code } = err.response.data;
     yield put(setupActions.registerPaymentError(code));
     return;
   }
   const customerId = res.data.id;
-  savePaymentToDB(id, customerId, planId);
+
+  // generate telegraf token
+  const tokenRequestResult = yield call(requestTelegraphToken, planId);
+  const telegraf = tokenRequestResult.err ? null : tokenRequestResult.res.data;
+  savePaymentToDB({ uid, customerId, planId, telegraf });
   yield put(authActions.paymentFulfilled({ customerId, planId }));
   history.replace('/setup/complete');
 }
@@ -48,7 +73,7 @@ function* registerPayment({ token }) {
 function *watchRegisterPayment() {
   while (true) {
     const { payload } = yield take(`${setupActions.registerPayment}`);
-    yield fork(registerPayment, payload);
+    yield fork(registerPayment, { stripeToken: payload.token });
   }
 }
 
