@@ -35,9 +35,21 @@ const PORT = process.env.PORT || 5000;
 //  LOADERS
 // ---------------------------------------------------------
 const loaders = {
-  js: { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel' },
-  css: { test: /.css$/, exclude: /node_modules/, loaders: ['style', 'css?modules', 'postcss'] },
-  cssFlexboxGrid: { test: /.css$/, include: /flexboxgrid/, loader: 'style!css?modules' },
+  js: {
+    test: /\.jsx?$/,
+    exclude: [/node_modules/, /lp/],
+    loader: 'babel',
+  },
+  css: {
+    test: /.css$/,
+    exclude: [/node_modules/, /lp/],
+    loaders: ['style', 'css?modules', 'postcss'],
+  },
+  cssFlexboxGrid: {
+    test: /.css$/,
+    include: /flexboxgrid/,
+    loader: 'style!css?modules',
+  },
   file: {
     test: /\.(jpg|png)$/,
     exclude: /node_modules/,
@@ -93,10 +105,20 @@ if (ENV_DEVELOPMENT || ENV_PRODUCTION) {
   config.plugins.push(
     new HtmlWebpackPlugin({
       chunkSortMode: 'dependency',
-      filename: 'index.html',
+      chunks: ['main'],
+      filename: 'app.html',
       hash: false,
       inject: 'body',
-      template: './src/index.html',
+      template: './src/app.html',
+    })
+  );
+
+  config.plugins.push(
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      hash: false,
+      inject: false,
+      template: './src/lp.html',
     })
   );
 }
