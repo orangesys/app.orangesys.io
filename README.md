@@ -88,6 +88,7 @@ FIREBASE_API_KEY=XXXXXXXXXXXXXXXXXXXXX
 FIREBASE_AUTH_DOMAIN=orangesys-21d3f.firebaseapp.com
 FIREBASE_DATABASE_URL=https://orangesys-21d3f.firebaseio.com
 FIREBASE_STORAGE_BUCKET=orangesys-21d3f.appspot.com
+PAYMENT_API_ENDPOINT=https://ENDPOINT
 HOST=0.0.0.0
 ```
 
