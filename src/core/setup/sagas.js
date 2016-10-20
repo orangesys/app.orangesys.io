@@ -1,7 +1,7 @@
 import { call, fork, put, take, select } from 'redux-saga/effects';
 import axios from 'axios';
 import moment from 'moment';
-import { browserHistory as history } from 'react-router';
+import { hashHistory as history } from 'react-router';
 
 import { firebaseDB } from 'src/core/firebase';
 import { getPlanId } from './selectors';

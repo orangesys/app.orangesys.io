@@ -1,4 +1,5 @@
 export default {
+  abort: 'ネットワークエラーが発生しました。ネットワーク設定をご確認の上再度お試しください',
   invalid_request_error: 'クレジットカード情報が正しくありません',
   incorrect_number: 'クレジットカード番号が正しくありません',
   invalid_number: 'クレジットカード番号が正しくありません',

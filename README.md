@@ -75,7 +75,7 @@ A version must follow the [SemVer 2](http://semver.org/) standard.
 ## Dev in Docker
 - Docker version > 1.10.0
 
-#build 
+#build
 ```
 sh build.sh
 ```
@@ -127,4 +127,10 @@ cp .env-sample .env
 
 ```
 npm start
+```
+
+### Build a bundle
+
+```
+npm run build
 ```
