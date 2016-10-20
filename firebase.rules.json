@@ -1,1 +1,42 @@
-{}
+{
+  "rules": {
+    "users": {
+      "$user_id": {
+        ".write": "$user_id === auth.uid",
+        ".read": "$user_id === auth.uid",
+        "createdAt": {
+          ".validate": "!data.exists() && newData.isString() && newData.val().matches(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$/)"
+        },
+        "companyName": {
+          ".validate": "newData.isString() && newData.val().length <= 100"
+        },
+        "customerId": {
+          ".validate": "!data.exists() && newData.isString() && newData.val().length === 18"
+        },
+        "email": {
+          ".validate": "newData.isString() && newData.val().matches(/(.+)@(.+){2,}\\.(.+){2,}/)"
+        },
+        "fullName": {
+          ".validate": "newData.isString() && newData.val().length <= 50"
+        },
+        "planId": {
+          ".validate": "newData.isString() && newData.val().matches(/small|medium|large/)"
+        },
+        "retention": {
+          ".validate": "newData.isString() && newData.val().matches(/^\\d{1,4}d$/)"
+        },
+        "telegraf": {
+          "consumerId": {
+            ".validate": "newData.isString() && newData.val().length === 6"
+          },
+          "token": {
+            ".validate": "newData.isString() && newData.val().length >= 50"
+          }
+        },
+        "updatedAt": {
+          ".validate": "newData.isString() && newData.val().matches(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$/)"
+        }
+      }
+    }
+  }
+}
