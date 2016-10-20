@@ -64,9 +64,7 @@ function* registerPayment({ stripeToken }) {
 
   // generate telegraf token
   const tokenRequestResult = yield call(requestTelegraphToken, planId);
-  console.log("tokenRequestResult:", tokenRequestResult)
-  const telegraf = tokenRequestResult.err ? null : tokenRequestResult.res.data
-  console.log("telegraf:", telegraf)
+  const telegraf = tokenRequestResult.err ? null : tokenRequestResult.res.data;
   savePaymentToDB({ uid, customerId, planId, telegraf });
   yield put(authActions.paymentFulfilled({ customerId, planId }));
   history.replace('/setup/complete');
