@@ -49,16 +49,15 @@ sign up時、必要情報：名前、email、社名、カード情報
 
 ## ログイン流れ
 ![usersingup](http://g.gravizo.com/g?
- digraph G {
-   usersingup -> { firebase; stripe};
-   usersingup -> helm;
-   helm -> usersingup [style=bold, label="response consumer_id"];
-   kong -> usersingup [style=bold, label="response consumer_id:token"];
-   helm -> kong;
-   helm -> grafana;
-   helm -> influxdb;
-   rankdir=LR;
- }
+digraph G {
+  usersingup -> { firebase; stripe};
+  { firebase; stripe} -> helm;
+  helm -> usersingup [style=bold, label="response consumer_id&token"];
+  helm -> kong;
+  helm -> grafana;
+  helm -> influxdb;
+  rankdir=LR;
+}
 )
 
 ## logging
