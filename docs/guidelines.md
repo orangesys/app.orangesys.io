@@ -28,7 +28,7 @@ react-route
 
 firebase
 
-## リリース環境
+## PROD環境
 
 GKE
 
@@ -43,24 +43,26 @@ GKE
 
 決済
 
-webpayか
 stripe
-カード情報を保存しない
-
-※開発しやすいため、stripeにします。但し、JCBが非対応。最後、決済会社の審査によって、変更可能性あり
-PLAN選択、変更
-
-kong認証用のjwt作成、firebaseに保存
-backend対応、backendのAPIにアクセスが必要
-
-ユーザー登録の流れ
-
-- sign up
-  - email -> confirm email    ->    カード情報登録 　  -> jwt作成
-  - google                              ->    カード情報登録   　  -> jwt作成
-  - github                              ->    カード情報登録   　  -> jwt作成
 
 sign up時、必要情報：名前、email、社名、カード情報
+
+## ログイン流れ
+![usersingup](http://g.gravizo.com/g?
+ digraph G {
+   usersingup -> { firebase; stripe};
+   usersingup -> helm;
+   helm -> usersingup [style=bold, label="response consumer_id"];
+   kong -> usersingup [style=bold, label="response consumer_id:token"];
+   helm -> kong;
+   helm -> grafana;
+   helm -> influxdb;
+   rankdir=LR;
+ }
+)
+
+## logging
+containerを運用のため、stderr/stdoutへ
 
 ## 外部URL
 
@@ -70,31 +72,6 @@ sign up時、必要情報：名前、email、社名、カード情報
 
 ## Versioning
 A version must follow the [SemVer 2](http://semver.org/) standard.
-
-## Dev in Docker
-- Docker version > 1.10.0
-
-#build
-```
-sh build.sh
-```
-#run
-
-```
-cat << EOF >  /tmp/env
-NODE_ENV=development
-FIREBASE_API_KEY=XXXXXXXXXXXXXXXXXXXXX
-FIREBASE_AUTH_DOMAIN=orangesys-21d3f.firebaseapp.com
-FIREBASE_DATABASE_URL=https://orangesys-21d3f.firebaseio.com
-FIREBASE_STORAGE_BUCKET=orangesys-21d3f.appspot.com
-PAYMENT_API_ENDPOINT=https://ENDPOINT
-HOST=0.0.0.0
-```
-
-ex)
-```
-docker run -d -v /tmp/env:/var/www/.env -p 5000:5000 orangesys.io:1.0.0
-```
 
 ## 参照
 
