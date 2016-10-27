@@ -18,6 +18,8 @@ import {
   signOut,
   emailVerification,
   emailVerificationSent,
+  verifyEmailFinished,
+  verifyEmailFailed,
   goToSignUp,
   // goToSignIn,
   paymentFulfilled,
@@ -47,6 +49,7 @@ const AuthState = new Record({
   signingIn: false,
   signInError: null,
   needEmailVerification: false,
+  emailVerificationResult: 0,
 });
 
 export const authReducer = createReducer({
@@ -56,7 +59,7 @@ export const authReducer = createReducer({
       authenticated: !isEmpty(u) && u.userDataExists,
       uid: u.uid,
       email: u.email,
-      needEmailVerification: u.providerId === 'firebase' && !u.emailVerified,
+      needEmailVerification: !u.emailVerified,
       planId: u.planId,
       sentVerificationEmail: false,
     });
@@ -157,6 +160,16 @@ export const authReducer = createReducer({
     state.merge({
       sendingVerificationEmail: false,
       sentVerificationEmail: true,
+    })
+  ),
+  [verifyEmailFinished]: (state) => (
+    state.merge({
+      emailVerificationResult: 1,
+    })
+  ),
+  [verifyEmailFailed]: (state) => (
+    state.merge({
+      emailVerificationResult: -1,
     })
   ),
   [goToSignUp]: (state) => (

@@ -35,6 +35,13 @@ function payloadForSignInFulfilled(user) {
   };
 }
 
+function executeEmailVerification(params) {
+  return firebase.auth()
+    .applyActionCode(params.oobCode)
+    .then(result => ({ result }))
+    .catch(error => ({ error }));
+}
+
 function* signUp(inputs) {
   const errors = validators.validateSignUp(inputs);
   if (!errors.isEmpty()) {
@@ -49,7 +56,7 @@ function* signUp(inputs) {
     saveNewUserToDB(user.uid, user.email, inputs.companyName, inputs.fullName);
     yield put(authActions.signUpFulfilled(user));
     // const { user } = yield executeFetchAuth();
-    yield history.replace('/email-verification');
+    yield history.replace('/verification-guide');
   } catch (e) {
     const signUpError = firebaseErrors[e.code];
     yield put(authActions.signUpFailed(signUpError));
@@ -128,8 +135,6 @@ function* signIn(inputs) {
       [firebaseAuth, firebaseAuth.signInWithEmailAndPassword],
       inputs.email, inputs.password);
     const { user } = yield call(executeFetchAuth);
-    console.log("user:", user)
-    console.log("AAA user:", payloadForSignInFulfilled(user))
     yield put(authActions.signInFulfilled(payloadForSignInFulfilled(user)));
     yield history.replace('/');
   } catch (e) {
@@ -148,7 +153,12 @@ function* signInWithOAuth(provider) {
     const firebaseUser = signInResult.user;
     const { user } = yield call(executeFetchAuth);
     if (!user.userDataExists) {
-      yield put(authActions.finishConnectingToGoogleForSignUp(firebaseUser));
+      if (provider.providerId === 'github.com') {
+        yield put(authActions.finishConnectingToGithubForSignUp(firebaseUser));
+      } else {
+        yield put(authActions.finishConnectingToGoogleForSignUp(firebaseUser));
+      }
+
       yield history.replace('/sign-up');
       return;
     }
@@ -176,16 +186,13 @@ function* sendEmailVerification() {
   yield put(authActions.emailVerificationSent());
 }
 
-
-function* finishEmailVerification() {
-  // const { user /* , error */} = yield call(executeFetchAuth);
-  try {
-    yield call([firebaseAuth, firebaseAuth.signOut]);
-    yield put(authActions.signOut());
-    yield history.replace('/sign-in');
-  } catch (e) {
-    console.log(e);
+function* verifyEmail(params) {
+  const { result, error } = yield call(executeEmailVerification, params);
+  if (error) {
+    yield put(authActions.verifyEmailFailed());
+    return;
   }
+  yield put(authActions.verifyEmailFinished());
 }
 
 // =====================================
@@ -261,10 +268,17 @@ function* watchEmailVerification() {
   }
 }
 
-function *watchFinishingEmailVerification() {
+function* watchFinishingEmailVerification() {
   while (true) {
     const { payload } = yield take(`${authActions.finishEmailVerification}`);
     yield fork(finishEmailVerification, payload);
+  }
+}
+
+function* watchVerifyEmail() {
+  while (true) {
+    const { payload } = yield take(`${authActions.verifyEmail}`);
+    yield fork(verifyEmail, payload);
   }
 }
 
@@ -280,4 +294,5 @@ export const authSagas = [
   fork(watchSignOut),
   fork(watchEmailVerification),
   fork(watchFinishingEmailVerification),
+  fork(watchVerifyEmail),
 ];

@@ -1,3 +1,5 @@
+import { getLocation } from 'src/core/selectors'
+
 export function getAuth(state) {
   return state.auth;
 }
@@ -31,19 +33,26 @@ export function getEmailVerification(state) {
   };
 }
 
+export function getEmailVerificationParams(state, ownProps) {
+  const query = getLocation(state, ownProps).query;
+  return {
+    apiKey: query.apiKey,
+    mode: query.mode,
+    oobCode: query.oobCode,
+  };
+}
+
+export function getEmailVerificationResult(state) {
+  const auth = getAuth(state);
+  return auth.emailVerificationResult;
+}
+
 export function isAuthenticated(state) {
   return getAuth(state).authenticated;
 }
 
 export function getSignUp(state) {
   const auth = getAuth(state);
-  let data = {
-    inputs: auth.signUpInputs,
-    signingUp: auth.signingUp,
-    signUpFieldErrors: auth.signUpFieldErrors,
-    signingUpWithOAuth: auth.signingUpWithOAuth,
-    signUpProvider: auth.signUpProvider,
-  };
   return {
     inputs: auth.signUpInputs,
     signingUp: auth.signingUp,

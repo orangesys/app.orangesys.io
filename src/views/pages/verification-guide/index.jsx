@@ -4,14 +4,13 @@ import { createSelector } from 'reselect';
 import { Grid, Row, Col } from 'react-flexbox-grid/lib/index';
 import Paper from 'material-ui/Paper';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
 import Snackbar from 'material-ui/Snackbar';
 
 import Header from '../../components/header-unauth';
 import { getEmailVerification, authActions } from 'src/core/auth';
 import styles from './index.css';
 
-const EmailVerifiation = ({ emailVerification, onSendEmail, onGoToNext }) => {
+const VerificationGuide = ({ emailVerification, onSendEmail, onGoToNext }) => {
   const { sendingVerificationEmail, sentVerificationEmail } = emailVerification;
   return (
     <div>
@@ -43,14 +42,6 @@ const EmailVerifiation = ({ emailVerification, onSendEmail, onGoToNext }) => {
                   />
                 </div>
               </div>
-              <div className={styles.bottom}>
-                <div>
-                  <RaisedButton
-                    label="メール確認済み" fullWidth
-                    onClick={onGoToNext}
-                  />
-                </div>
-              </div>
             </Paper>
           </Col>
         </Row>
@@ -59,7 +50,7 @@ const EmailVerifiation = ({ emailVerification, onSendEmail, onGoToNext }) => {
   );
 };
 
-EmailVerifiation.propTypes = {
+VerificationGuide.propTypes = {
   emailVerification: PropTypes.object,
   onSendEmail: PropTypes.func.isRequired,
   onGoToNext: PropTypes.func.isRequired,
@@ -74,9 +65,6 @@ const mapDispatchToProps = (dispatch) => ({
   onSendEmail: () => {
     dispatch(authActions.emailVerification());
   },
-  onGoToNext: () => {
-    dispatch(authActions.finishEmailVerification());
-  },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(EmailVerifiation);
+export default connect(mapStateToProps, mapDispatchToProps)(VerificationGuide);

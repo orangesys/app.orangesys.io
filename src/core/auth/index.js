@@ -9,6 +9,8 @@ export {
   getSignUp,
   getSignIn,
   needEmailVerification,
+  getEmailVerificationParams,
+  getEmailVerificationResult,
   needSetupPlan,
   getEmailVerification,
   getUid,

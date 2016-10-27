@@ -1,0 +1,15 @@
+@import '../../variables.css';
+
+.wrapper {
+  margin-top: 100px;
+}
+
+.header {
+  composes: paper-header from '../../common.css';
+}
+
+.body {
+  min-height: 150px;
+  padding-top: 50px;
+  text-align: center;
+}
