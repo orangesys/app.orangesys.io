@@ -9,7 +9,7 @@ import { getFieldsForPayment, authActions } from 'src/core/auth/';
 import * as setupActions from './actions';
 import { findPlan } from './plans';
 import { stripeConfig } from 'src/core/stripe';
-import { telegrafConfig } from 'src/core/telegraf';
+import { orangesysApiConfig } from 'src/core/orangesys-api';
 
 
 function requestCustomerRegistrationOnStripe(token, planId, uid, email) {
@@ -21,8 +21,10 @@ function requestCustomerRegistrationOnStripe(token, planId, uid, email) {
 
 function requestTelegraphToken(planId) {
   const { retention } = findPlan(planId);
-  const url = `${telegrafConfig.tokenApiEndpoint}/create?rp=${retention}`;
-  return axios.post(url)
+  const getUrl = `${orangesysApiConfig.apiEndpoint}/`;
+  const postUrl = `${orangesysApiConfig.apiEndpoint}/create?rp=${retention}`;
+  return axios.get(getUrl)
+    .then(() => axios.post(postUrl))
     .then((res) => ({ res }))
     .catch((err) => ({ err }));
 }
