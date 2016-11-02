@@ -6,20 +6,22 @@ import {
 } from 'src/core/auth';
 import { planSelected } from 'src/core/setup';
 import App from './app';
-import Home from './pages/home';
-import SignUp from './pages/sign-up';
-import SignIn from './pages/sign-in';
-import EmailVerification from './pages/email-verification';
-import SetupPlan from './pages/setup/plan';
-import SetupPayment from './pages/setup/payment';
-import SetupComplete from './pages/setup/complete';
+import Home from 'src/views/pages/home';
+import SignUp from 'src/views/pages/sign-up';
+import SignIn from 'src/views/pages/sign-in';
+import VerificationGuide from 'src/views/pages/verification-guide';
+import Verify from 'src/views/pages/verify';
+import SetupPlan from 'src/views/pages/setup/plan';
+import SetupPayment from 'src/views/pages/setup/payment';
+import SetupComplete from 'src/views/pages/setup/complete';
 import UITest from './pages/ui-test';
 
 export const paths = {
   ROOT: '/',
   SIGN_IN: '/sign-in',
   SIGN_UP: '/sign-up',
-  EMAIL_VELIFICATION: '/email-verification',
+  VERIFICATION_GUIDE: '/verification-guide',
+  VERIFY: '/verify',
   SETUP_PLAN: '/setup/plan',
   SETUP_PAYMENT: '/setup/payment',
   SETUP_COMPLETE: '/setup/complete',
@@ -32,7 +34,7 @@ const requireAuth = getState => (
       return;
     }
     if (needEmailVerification(getState())) {
-      replace(paths.EMAIL_VELIFICATION);
+      replace(paths.VERIFICATION_GUIDE);
       return;
     }
     if (needSetupPlan(getState())) {
@@ -103,10 +105,16 @@ export const getRoutes = getState => (
         },
       },
       {
-        path: paths.EMAIL_VELIFICATION,
-        component: EmailVerification,
+        path: paths.VERIFICATION_GUIDE,
+        component: VerificationGuide,
         onEnter: shouldVerifyEmail(getState),
       },
+      {
+        path: paths.VERIFY,
+        component: Verify,
+        onEnter: shouldVerifyEmail(getState),
+      },
+
       {
         path: paths.SIGN_UP,
         component: SignUp,
