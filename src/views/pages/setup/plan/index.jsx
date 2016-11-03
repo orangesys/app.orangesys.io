@@ -4,7 +4,7 @@ import { hashHistory as history } from 'react-router';
 
 import { Grid, Row, Col } from 'react-flexbox-grid/lib/index';
 import Paper from 'material-ui/Paper';
-import { Card, CardHeader } from 'material-ui/Card';
+import { Card, CardHeader, CardText } from 'material-ui/Card';
 
 import Header from 'src/views/components/header-auth';
 import { plans, setupActions } from 'src/core/setup';
@@ -37,9 +37,17 @@ const Plan = ({ onClickPlan }) => (
                   >
                     <CardHeader
                       title={plan.title}
-                      subtitle={plan.subtitle}
+                      subtitle={plan.price}
                       onClick={() => { onClickPlan(plan.id); }}
                     />
+                    <CardText>
+                      <span className={styles['plan-attr']}>
+                        {`データ保存期間: ${plan.retentionText}`}
+                      </span>
+                      <span className={styles['plan-attr']}>
+                        {`ストレージ: ${plan.storage}`}
+                      </span>
+                    </CardText>
                   </Card>
                 ))}
               </div>

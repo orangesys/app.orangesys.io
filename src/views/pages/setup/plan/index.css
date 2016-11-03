@@ -23,6 +23,11 @@
   background-color: white;
 }
 
+.plan-attr {
+  margin-right: 15px;
+  font-size: 0.8rem;
+}
+
 .plan-item:hover {
   background-color: rgb(255, 235, 100);
   /*background-color: rgb(255, 255, 200);*/
