@@ -1,9 +1,30 @@
 import { find } from 'lodash/collection';
 
 export const plans = [
-  { id: 'small', retention: '10d', title: 'Smallプラン', subtitle: '¥50,000/月 データ保存期間: 10日' },
-  { id: 'medium', retention: '40d', title: 'Mediumプラン', subtitle: '¥300,000/月 データ保存期間: 40日' },
-  { id: 'large', retention: '400d', title: 'Largeプラン', subtitle: '¥500,000/月 データ保存期間: 400日' },
+  {
+    id: 'small',
+    price: '¥50,000/月',
+    retention: '10d',
+    retentionText: '10日',
+    storage: '10GB',
+    title: 'Smallプラン',
+  },
+  {
+    id: 'medium',
+    price: '¥300,000/月',
+    retention: '40d',
+    retentionText: '40日',
+    title: 'Mediumプラン',
+    storage: '30GB',
+  },
+  {
+    id: 'large',
+    price: '¥50,0000/月',
+    retention: '400d',
+    retentionText: '400日',
+    storage: '100GB',
+    title: 'Largeプラン',
+  },
 ];
 
 export const findPlan = (id) => (find(plans, { id }));

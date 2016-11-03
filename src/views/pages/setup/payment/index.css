@@ -16,6 +16,11 @@
   margin-bottom: 60px;
 }
 
+.plan-attr {
+  margin-right: 15px;
+  font-size: 0.8rem;
+}
+
 .message {
   composes: sub-text from '../../../common.css';
   margin-bottom: 5px;

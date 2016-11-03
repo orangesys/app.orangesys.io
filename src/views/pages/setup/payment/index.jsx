@@ -10,7 +10,7 @@ import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import { Card, CardHeader, CardActions } from 'material-ui/Card';
+import { Card, CardHeader, CardText, CardActions } from 'material-ui/Card';
 import LinearProgress from 'material-ui/LinearProgress';
 
 import Header from 'src/views/components/header-auth';
@@ -46,12 +46,20 @@ const Payment = ({ setup, onSubmit, onMessageClose }) => {
               <div className={styles.body}>
                 <div className={styles.plan}>
                   <Card
-                    key={`setup-plan-${plan.id}`}
+                    key={`setup-plan-${plan.id}`} className={styles['plan-item']}
                   >
                     <CardHeader
                       title={plan.title}
-                      subtitle={plan.subtitle}
+                      subtitle={`${plan.price}`}
                     />
+                    <CardText>
+                      <span className={styles['plan-attr']}>
+                        {`データ保存期間: ${plan.retentionText}`}
+                      </span>
+                      <span className={styles['plan-attr']}>
+                        {`ストレージ: ${plan.storage}`}
+                      </span>
+                    </CardText>
                     <CardActions>
                       <FlatButton
                         label="プランを変更" secondary
