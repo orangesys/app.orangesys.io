@@ -1,4 +1,4 @@
-box: 
+box:
   id: node:6.9.1-slim
   ports:
     - "5000"
@@ -8,7 +8,7 @@ dev:
     - internal/watch:
       code: npm run dev
       reload: true
- 
+
 build:
   steps:
     - npm-install
@@ -23,4 +23,3 @@ build:
         name: build release code
         code: |
             npm run build
-            cp -a src/lp target

@@ -38,12 +38,12 @@ const PORT = process.env.PORT || 5000;
 const loaders = {
   js: {
     test: /\.jsx?$/,
-    exclude: [/node_modules/, /lp/],
+    exclude: [/node_modules/],
     loader: 'babel',
   },
   css: {
     test: /.css$/,
-    exclude: [/node_modules/, /lp/],
+    exclude: [/node_modules/],
     loaders: ['style', 'css?modules', 'postcss'],
   },
   cssFlexboxGrid: {
@@ -106,20 +106,10 @@ if (ENV_DEVELOPMENT || ENV_PRODUCTION) {
   config.plugins.push(
     new HtmlWebpackPlugin({
       chunkSortMode: 'dependency',
-      chunks: ['main'],
-      filename: 'app.html',
-      hash: false,
-      inject: 'body',
-      template: './src/app.html',
-    })
-  );
-
-  config.plugins.push(
-    new HtmlWebpackPlugin({
       filename: 'index.html',
       hash: false,
-      inject: false,
-      template: './src/lp.html',
+      inject: 'body',
+      template: './src/index.html',
     })
   );
 }
