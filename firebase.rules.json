@@ -25,6 +25,23 @@
         "retention": {
           ".validate": "newData.isString() && newData.val().matches(/^\\d{1,4}d$/)"
         },
+        "serverSetup": {
+          "errorCode": {
+            ".validate": "newData.isString() && newData.val().length <= 100"
+          },
+          "errorMessage": {
+            ".validate": "newData.isString() && newData.val().length <= 1000"
+          },
+          "startedAt": {
+            ".validate": "newData.isString() && newData.val().matches(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$/)"
+          },
+          "completedAt": {
+            ".validate": "newData.isString() && newData.val().matches(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$/)"
+          },
+          "status": {
+            ".validate": "newData.isString() && newData.val().matches(/wait_starting|building|completed|errored/)"
+          }
+        },
         "telegraf": {
           "consumerId": {
             ".validate": "newData.isString() && newData.val().length === 6"
