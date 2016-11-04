@@ -9,6 +9,8 @@ export const finishConnectingToGoogleForSignUp =
   createAction('finish connecting to google for sign up');
 export const finishConnectingToGithubForSignUp =
   createAction('finish connecting to github for sign up');
+export const serverSetupError = createAction('server setup error');
+export const serverSetupFinished = createAction('server setup finished');
 export const signUp = createAction('sign up');
 export const signUpWithGoogle = createAction('sign up with google');
 export const signUpWithGithub = createAction('sign up with github');
@@ -31,4 +33,5 @@ export const verifyEmailFinished = createAction('verify email finished');
 export const goToSignUp = createAction('go to sign up');
 export const goToSignIn = createAction('go to sign in');
 export const paymentFulfilled = createAction('payment fulfilled');
+export const putTelegraf = createAction('put telegraf');
 export const clearMessage = createAction('clear message');

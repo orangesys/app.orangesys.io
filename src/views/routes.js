@@ -3,6 +3,7 @@ import {
   isAuthenticated,
   needEmailVerification,
   needSetupPlan,
+  isNeedServerSetup,
 } from 'src/core/auth';
 import { planSelected } from 'src/core/setup';
 import App from './app';
@@ -13,6 +14,7 @@ import VerificationGuide from 'src/views/pages/verification-guide';
 import Verify from 'src/views/pages/verify';
 import SetupPlan from 'src/views/pages/setup/plan';
 import SetupPayment from 'src/views/pages/setup/payment';
+import SetupServer from 'src/views/pages/setup/server';
 import SetupComplete from 'src/views/pages/setup/complete';
 import UITest from './pages/ui-test';
 
@@ -24,6 +26,7 @@ export const paths = {
   VERIFY: '/verify',
   SETUP_PLAN: '/setup/plan',
   SETUP_PAYMENT: '/setup/payment',
+  SETUP_SERVER: '/setup/server',
   SETUP_COMPLETE: '/setup/complete',
 };
 
@@ -39,6 +42,9 @@ const requireAuth = getState => (
     }
     if (needSetupPlan(getState())) {
       replace(paths.SETUP_PLAN);
+    }
+    if (isNeedServerSetup(getState())) {
+      replace(paths.SETUP_SERVER);
     }
   }
 );
@@ -84,6 +90,17 @@ const canSetupPayment = getState => (
   }
 );
 
+const needServerSetup = getState => (
+  (nextState, replace) => {
+    if (!isAuthenticated(getState())) {
+      replace(paths.SIGN_IN);
+      return;
+    }
+    if (!isNeedServerSetup(getState())) {
+      replace(paths.ROOT);
+    }
+  }
+);
 
 const requireUnauth = getState => (
   (nextState, replace) => {
@@ -134,6 +151,11 @@ export const getRoutes = getState => (
         path: paths.SETUP_PAYMENT,
         component: SetupPayment,
         onEnter: canSetupPayment(getState),
+      },
+      {
+        path: paths.SETUP_SERVER,
+        component: SetupServer,
+        onEnter: needServerSetup(getState),
       },
       {
         path: paths.SETUP_COMPLETE,
