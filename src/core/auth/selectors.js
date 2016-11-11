@@ -1,4 +1,5 @@
-import { getLocation } from 'src/core/selectors'
+import { getLocation } from 'src/core/selectors';
+import { needServerSetup } from 'src/core/server_setup';
 
 export function getAuth(state) {
   return state.auth;
@@ -20,9 +21,17 @@ export function getFieldsForPayment(state) {
   };
 }
 
-export function needSetupPlan(state) {
+export function getPlanId(state) {
   const auth = getAuth(state);
-  return !auth.planId;
+  return auth.planId;
+}
+
+export function needSetupPlan(state) {
+  return !getPlanId(state);
+}
+
+export function getTelegraf(state) {
+  return getAuth(state).telegraf.toJS();
 }
 
 export function getEmailVerification(state) {
@@ -68,4 +77,22 @@ export function getSignIn(state) {
     signingIn: auth.signingIn,
     signInError: auth.signInError,
   };
+}
+
+export function getServerSetup(state) {
+  const severSetup = getAuth(state).serverSetup;
+  if (!severSetup) {
+    return {};
+  }
+  return severSetup.toJS();
+}
+
+export function getServerSetupStatus(state) {
+  return getServerSetup(state).status;
+}
+
+export function isNeedServerSetup(state) {
+  const status = getServerSetupStatus(state);
+  console.log("status:", status)
+  return needServerSetup(status);
 }

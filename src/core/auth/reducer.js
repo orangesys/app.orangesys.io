@@ -6,6 +6,7 @@ import {
   initAuth,
   validateSignUp,
   changeSignUpField,
+  serverSetupError,
   signUpValidationFailed,
   signUp,
   signUpFulfilled,
@@ -23,33 +24,38 @@ import {
   goToSignUp,
   // goToSignIn,
   paymentFulfilled,
+  putTelegraf,
+  serverSetupFinished,
   clearMessage,
 } from './actions';
 import * as validators from './validator';
+import { SERVER_SETUP_STATUS } from 'src/core/server_setup';
 
 const AuthState = new Record({
   authenticated: false,
-  uid: null,
-  email: null,
-  planId: null,
   customerId: null,
+  email: null,
+  emailVerificationResult: 0,
+  needEmailVerification: false,
+  planId: null,
+  sendingVerificationEmail: false,
+  sentVerificationEmail: false,
+  serverSetup: new Map(),
+  signInError: null,
+  signingIn: false,
   signingUp: false,
+  signingUpWithOAuth: false,
+  signUpError: null,
+  signUpFieldErrors: new Map(),
   signUpInputs: new Map({
     companyName: '',
     fullName: '',
     email: '',
     password: '',
   }),
-  signUpFieldErrors: new Map(),
-  signUpError: null,
-  signingUpWithOAuth: false,
   signUpProvider: 'firebase',
-  sendingVerificationEmail: false,
-  sentVerificationEmail: false,
-  signingIn: false,
-  signInError: null,
-  needEmailVerification: false,
-  emailVerificationResult: 0,
+  telegraf: new Map(),
+  uid: null,
 });
 
 export const authReducer = createReducer({
@@ -62,6 +68,8 @@ export const authReducer = createReducer({
       needEmailVerification: !u.emailVerified,
       planId: u.planId,
       sentVerificationEmail: false,
+      serverSetup: u.serverSetup,
+      telegraf: u.telegraf,
     });
   },
   [changeSignUpField]: (state, input) => (
@@ -119,7 +127,9 @@ export const authReducer = createReducer({
       }),
     })
   ),
-
+  [putTelegraf]: (state, telegraf) => (
+    state.merge({ telegraf })
+  ),
   [signInFulfilled]: (state, user) => {
     const u = user || {};
     return state.merge({
@@ -187,6 +197,17 @@ export const authReducer = createReducer({
       customerId,
       planId,
     })
+  ),
+  [serverSetupError]: (state, { errorCode }) => (
+    state.merge({
+      serverSetup: {
+        status: SERVER_SETUP_STATUS.ERRORED,
+        errorCode,
+      },
+    })
+  ),
+  [serverSetupFinished]: (state) => (
+    state.merge({ serverSetup: { status: SERVER_SETUP_STATUS.COMPLETED } })
   ),
   [clearMessage]: (state) => (
     state.merge({

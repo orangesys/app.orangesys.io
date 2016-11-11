@@ -4,17 +4,22 @@ import { isEmpty } from 'lodash/lang';
 import * as authActions from './actions';
 
 export {
-  getAuth,
   isAuthenticated,
-  getSignUp,
-  getSignIn,
-  needEmailVerification,
+  isNeedServerSetup,
+  getAuth,
+  getEmailVerification,
   getEmailVerificationParams,
   getEmailVerificationResult,
-  needSetupPlan,
-  getEmailVerification,
-  getUid,
   getFieldsForPayment,
+  getPlanId,
+  getServerSetup,
+  getServerSetupStatus,
+  getSignUp,
+  getSignIn,
+  getTelegraf,
+  getUid,
+  needEmailVerification,
+  needSetupPlan,
 } from './selectors';
 
 export { authActions };
@@ -48,22 +53,8 @@ export function fetchAuth() {
       fetchUser(firebaseUser.uid)
         .then((snapshot) => {
           const snapshotData = snapshot.val() || {};
-          // const userDataExists = !isEmpty(snapshotData);
-          // const planId = snapshotData.planId || null;
-          // const email = snapshotData.email || null;
-          // const customerId = snapshotData.customerId || null;
-          // const { providerId, emailVerified } = firebaseUser;
           const user = Object.assign(
             {}, firebaseUser, snapshotData, { userDataExists: !isEmpty(snapshotData) });
-          // const payload = Object.assign({}, firebaseUser, {
-          //   providerId,
-          //   emailVerified,
-          //   userDataExists,
-          //   planId,
-          //   email,
-          //   customerId,
-          // });
-          console.log("user:", user)
           resolve(user);
         });
     })

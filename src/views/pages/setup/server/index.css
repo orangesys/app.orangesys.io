@@ -1,0 +1,25 @@
+@import '../../../variables.css';
+
+.main {
+  margin-top: 70px;
+}
+
+.header {
+  composes: paper-header from '../../../common.css';
+}
+
+.body {
+  padding: 40px;
+}
+
+.message {
+  font-size: 0.9rem;
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.error {
+  font-size: 0.9rem;
+  text-align: center;
+  color: var(--errorColor);
+}
