@@ -140,6 +140,7 @@ export const authReducer = createReducer({
       planId: u.planId,
       customerId: u.customerId,
       sentVerificationEmail: false,
+      serverSetup: u.serverSetup,
       signingIn: false,
     });
   },

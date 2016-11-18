@@ -93,6 +93,5 @@ export function getServerSetupStatus(state) {
 
 export function isNeedServerSetup(state) {
   const status = getServerSetupStatus(state);
-  console.log("status:", status)
   return needServerSetup(status);
 }

@@ -32,6 +32,7 @@ function payloadForSignInFulfilled(user) {
     emailVerified: user.emailVerified,
     customerId: user.customerId,
     providerId: user.providerId,
+    serverSetup: user.serverSetup,
   };
 }
 
