@@ -20,7 +20,7 @@ import {
   getUid,
 } from 'src/core/auth/';
 import * as setupActions from './actions';
-import { findPlan } from './plans';
+import { findPlan } from 'src/core/plans';
 import { stripeConfig } from 'src/core/stripe';
 import { orangesysApiConfig } from 'src/core/orangesys-api';
 import { SERVER_SETUP_STATUS } from 'src/core/server_setup';
