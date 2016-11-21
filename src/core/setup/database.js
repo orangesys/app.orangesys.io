@@ -1,6 +1,6 @@
 import { firebaseDB } from 'src/core/firebase';
 import moment from 'moment';
-import { findPlan } from './plans';
+import { findPlan } from 'src/core/plans';
 import { SERVER_SETUP_STATUS } from 'src/core/server_setup';
 
 export function savePaymentToDB({ uid, customerId, planId }) {

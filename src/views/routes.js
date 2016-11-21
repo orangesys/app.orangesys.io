@@ -7,6 +7,7 @@ import {
 } from 'src/core/auth';
 import { planSelected } from 'src/core/setup';
 import App from './app';
+import DashboardParent from 'src/views/pages/dashboard/parent';
 import Home from 'src/views/pages/home';
 import SignUp from 'src/views/pages/sign-up';
 import SignIn from 'src/views/pages/sign-in';
@@ -16,6 +17,10 @@ import SetupPlan from 'src/views/pages/setup/plan';
 import SetupPayment from 'src/views/pages/setup/payment';
 import SetupServer from 'src/views/pages/setup/server';
 import SetupComplete from 'src/views/pages/setup/complete';
+import Plan from 'src/views/pages/dashboard/plan';
+import Grafana from 'src/views/pages/dashboard/grafana';
+import InfluxDB from 'src/views/pages/dashboard/influxdb';
+
 import UITest from './pages/ui-test';
 
 export const paths = {
@@ -28,26 +33,27 @@ export const paths = {
   SETUP_PAYMENT: '/setup/payment',
   SETUP_SERVER: '/setup/server',
   SETUP_COMPLETE: '/setup/complete',
+  DASHBOARD: '/dashboard',
 };
 
-const requireAuth = getState => (
-  (nextState, replace) => {
-    if (!isAuthenticated(getState())) {
-      replace(paths.SIGN_IN);
-      return;
-    }
-    if (needEmailVerification(getState())) {
-      replace(paths.VERIFICATION_GUIDE);
-      return;
-    }
-    if (needSetupPlan(getState())) {
-      replace(paths.SETUP_PLAN);
-    }
-    if (isNeedServerSetup(getState())) {
-      replace(paths.SETUP_SERVER);
-    }
-  }
-);
+// const requireAuth = getState => (
+//   (nextState, replace) => {
+//     if (!isAuthenticated(getState())) {
+//       replace(paths.SIGN_IN);
+//       return;
+//     }
+//     if (needEmailVerification(getState())) {
+//       replace(paths.VERIFICATION_GUIDE);
+//       return;
+//     }
+//     if (needSetupPlan(getState())) {
+//       replace(paths.SETUP_PLAN);
+//     }
+//     if (isNeedServerSetup(getState())) {
+//       replace(paths.SETUP_SERVER);
+//     }
+//   }
+// );
 
 const shouldVerifyEmail = getState => (
   (nextState, replace) => {
@@ -110,6 +116,43 @@ const requireUnauth = getState => (
   }
 );
 
+const checkRequirement = (getState, replace) => {
+  if (!isAuthenticated(getState())) {
+    replace(paths.SIGN_IN);
+    return false;
+  }
+  if (needEmailVerification(getState())) {
+    replace(paths.VERIFICATION_GUIDE);
+    return false;
+  }
+  if (needSetupPlan(getState())) {
+    replace(paths.SETUP_PLAN);
+    return false;
+  }
+  if (isNeedServerSetup(getState())) {
+    replace(paths.SETUP_SERVER);
+    return false;
+  }
+  return true;
+};
+
+const onEnterHome = getState => (
+  (nextState, replace) => {
+    if (!checkRequirement(getState, replace)) {
+      return;
+    }
+    replace(paths.DASHBOARD);
+  }
+);
+
+const onEnterDashboard = getState => (
+  (nextState, replace) => {
+    if (!checkRequirement(getState, replace)) {
+      return;
+    }
+  }
+);
+
 export const getRoutes = getState => (
   {
     path: paths.ROOT,
@@ -118,7 +161,7 @@ export const getRoutes = getState => (
       {
         indexRoute: {
           component: Home,
-          onEnter: requireAuth(getState),
+          onEnter: onEnterHome(getState),
         },
       },
       {
@@ -161,6 +204,26 @@ export const getRoutes = getState => (
         path: paths.SETUP_COMPLETE,
         component: SetupComplete,
         onEnter: !canSetupPayment(getState),
+      },
+      {
+        path: paths.DASHBOARD,
+        component: DashboardParent,
+        onEnter: onEnterDashboard(getState),
+        childRoutes: [
+          {
+            indexRoute: {
+              component: Plan,
+            },
+          },
+          {
+            path: 'grafana',
+            component: Grafana,
+          },
+          {
+            path: 'influxdb',
+            component: InfluxDB,
+          },
+        ],
       },
       {
         path: 'ui-test',
