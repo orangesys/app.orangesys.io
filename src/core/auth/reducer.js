@@ -142,6 +142,7 @@ export const authReducer = createReducer({
       sentVerificationEmail: false,
       serverSetup: u.serverSetup,
       signingIn: false,
+      telegraf: u.telegraf,
     });
   },
   [signUpFailed]: (state, signUpError) => (

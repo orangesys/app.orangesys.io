@@ -33,6 +33,7 @@ function payloadForSignInFulfilled(user) {
     customerId: user.customerId,
     providerId: user.providerId,
     serverSetup: user.serverSetup,
+    telegraf: user.telegraf,
   };
 }
 
