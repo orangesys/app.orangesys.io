@@ -23,3 +23,21 @@ build:
         name: build release code
         code: |
             npm run build
+
+deploy:
+  box: 
+    id: google/cloud-sdk
+    tag: latest
+  steps:
+    - script:
+      name: activate service account
+      code: |
+        echo $GCLOUD_SERVICE_KEY >> secret.json
+        CLOUDSDK_PYTHON_SITEPACKAGES=1 gcloud auth activate-service-account $GOOGLE_ACCOUNT --key-file secret.json
+    - script:
+      name: upload to gs
+      code: |
+	    # Sync
+        gsutil -m rsync -r -d public gs://$GOOGLE_BUCKET
+        # Create gz files
+        gsutil -m cp -r -z html,css,js,xml,txt,json,map,svg public/* gs://$GOOGLE_BUCKET
