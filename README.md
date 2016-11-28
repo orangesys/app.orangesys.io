@@ -1,5 +1,5 @@
-[![devDependencies Status](https://david-dm.org/orangesys/orangesys.io/dev-status.svg)](https://david-dm.org/orangesys/orangesys.io?type=dev)
-[![wercker status](https://app.wercker.com/status/14409ed8bedeb4f9e6f5e9d11f120aa5/s/master "wercker status")](https://app.wercker.com/project/byKey/14409ed8bedeb4f9e6f5e9d11f120aa5)
+[![dependencies Status](https://david-dm.org/orangesys/app.orangesys.io/status.svg)](https://david-dm.org/orangesys/app.orangesys.io)
+[![wercker status](https://app.wercker.com/status/e0979c34579ef86cf544ada401a85215/s/master "wercker status")](https://app.wercker.com/project/byKey/e0979c34579ef86cf544ada401a85215)
 
 ## Run Dev in local
 - Docker version > 1.10.0

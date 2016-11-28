@@ -1,10 +1,10 @@
 {
-  "name": "orangesys.io",
+  "name": "app.orangesys.io",
   "version": "0.1.0",
-  "description": "orangesys.io site",
+  "description": "app.orangesys.io site",
   "repository": {
     "type": "git",
-    "url": "https://github.com/orangesys/orangesys.io"
+    "url": "https://github.com/orangesys/app.orangesys.io"
   },
   "scripts": {
     "clean": "del-cli ./target",

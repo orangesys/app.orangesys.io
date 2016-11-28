@@ -6,4 +6,4 @@ if [ -z "${_tag}" ]; then
     _tag=${_VERSION}
 fi
 
-docker build --tag "orangesys.io:${_tag}"  --no-cache=true .
+docker build --tag "app.orangesys.io:${_tag}"  --no-cache=true .
