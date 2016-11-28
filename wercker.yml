@@ -32,8 +32,8 @@ deploy:
     - script:
       name: activate service account
       code: |
-        echo $GCLOUD_SERVICE_KEY | base64 --decode -i > ${HOME}/account-auth.json
-        gcloud auth activate-service-account --key-file ${HOME}/account-auth.json
+        echo $GCLOUD_SERVICE_KEY account-auth.json
+        gcloud auth activate-service-account --key-file account-auth.json
         gcloud config set project $PROJECT_NAME
     - script:
       name: upload to gs
