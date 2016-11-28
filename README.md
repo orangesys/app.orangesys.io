@@ -1,4 +1,4 @@
-[![dependencies Status](https://david-dm.org/orangesys/app.orangesys.io/status.svg)](https://david-dm.org/orangesys/app.orangesys.io)
+[![dependencies Status](https://david-dm.org/orangesys/app.orangesys.io.svg)](https://david-dm.org/orangesys/app.orangesys.io)
 [![wercker status](https://app.wercker.com/status/e0979c34579ef86cf544ada401a85215/s/master "wercker status")](https://app.wercker.com/project/byKey/e0979c34579ef86cf544ada401a85215)
 
 ## Run Dev in local
