@@ -1,5 +1,5 @@
 [![dependencies Status](https://david-dm.org/orangesys/app.orangesys.io.svg)](https://david-dm.org/orangesys/app.orangesys.io)
-[![wercker status](https://app.wercker.com/status/e0979c34579ef86cf544ada401a85215/s/master "wercker status")](https://app.wercker.com/project/byKey/e0979c34579ef86cf544ada401a85215)
+[![CircleCI](https://circleci.com/gh/orangesys/app.orangesys.io.svg?style=svg)](https://circleci.com/gh/orangesys/app.orangesys.io)
 
 ## Run Dev in local
 - Docker version > 1.10.0
@@ -41,17 +41,17 @@ npm install
 
 https://console.firebase.google.com/
 
+### login with ci use token
+>```
+firebase login:ci
+>```
+
 ### Update database rules
 
-```
-firebase deploy --only database
-```
+>```
+firebase deploy --project "$FIREBASE_PROJECT" --token "$FIREBASE_TOKEN" --non-interactive --only database
+>```
 
-
-### Set environment variables
-
-```
-```
 
 ### Start
 
