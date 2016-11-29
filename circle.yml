@@ -20,8 +20,8 @@ dependencies:
 
 test:
   override:
-    - export $(echo $NODEJS_ENV_DEV | base64 --decode -i)
-    - npm run build
+    - echo $NODEJS_ENV_DEV | base64 --decode -i > .env
+    - env $(cat .env | xargs) webpack -p --progress
     - ./node_modules/.bin/firebase deploy --project "$FIREBASE_PROJECT" --token "$FIREBASE_TOKEN" --non-interactive --only database
     - unset $(echo $NODEJS_ENV_DEV | base64 --decode -i| cut -d "=" -f 1)
 
