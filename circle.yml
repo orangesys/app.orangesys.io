@@ -22,7 +22,6 @@ test:
   override:
     - echo $NODEJS_ENV_DEV | base64 --decode -i > .env
     - env $(cat .env | xargs) webpack -p --progress
-    - env $(cat .env | xargs) ./node_modules/.bin/firebase deploy --project "$FIREBASE_PROJECT" --token "$FIREBASE_TOKEN" --non-interactive --only database
     - unset $(echo $NODEJS_ENV_DEV | base64 --decode -i| cut -d "=" -f 1)
 
 general:
@@ -34,12 +33,8 @@ deployment:
     tag: /^v[0-9]+(\.[0-9]+)*/
     owner: orangesys
     commands:
+      - firebase deploy --project "$FIREBASE_PROJECT" --token "$FIREBASE_TOKEN" --non-interactive --only database
       - sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update
       - echo $GCLOUD_SERVICE_KEY | base64 --decode -i > ${HOME}/account-auth.json
       - sudo /opt/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/account-auth.json
       - sudo /opt/google-cloud-sdk/bin/gcloud config set project $PROJECT_NAME
-      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-      - docker push orangesys/orangesys-srv
-      - ./deploy.sh
-      - docker logout
-      - curl -X POST 'https://hooks.microbadger.com/images/orangesys/orangesys-srv/edp4edoOC5WrvQyFLqtLZV7VI9c='
