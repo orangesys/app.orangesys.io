@@ -22,7 +22,6 @@ test:
   override:
     - echo $NODEJS_ENV_DEV | base64 --decode -i > .env
     - env $(cat .env | xargs) webpack -p --progress
-    - unset $(echo $NODEJS_ENV_DEV | base64 --decode -i| cut -d "=" -f 1)
 
 general:
   branches:
