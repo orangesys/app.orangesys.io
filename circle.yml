@@ -38,4 +38,5 @@ deployment:
       - echo $GCLOUD_SERVICE_KEY | base64 --decode -i > ${HOME}/account-auth.json
       - sudo /opt/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/account-auth.json
       - sudo /opt/google-cloud-sdk/bin/gcloud config set project $PROJECT_NAME
-      - sudo /opt/google-cloud-sdk/bin/gsutil -m cp ${CIRCLE_TAG}.tar.gz gs://app-orangesys-io/
+      - sudo /opt/google-cloud-sdk/bin/gsutil -m cp ${CIRCLE_TAG}.tar.gz gs://${GCS_BUCKET}/
+      - sudo /opt/google-cloud-sdk/bin/gsutil -m acl set -R -a public-read gs://${GCS_BUCKET}/
