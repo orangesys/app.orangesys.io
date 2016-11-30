@@ -32,6 +32,9 @@ deployment:
     tag: /^v[0-9]+(\.[0-9]+)*/
     owner: orangesys
     commands:
+      - rm -rf target
+      - echo $NODEJS_ENV_PROD | base64 --decode -i > .env
+      - env $(cat .env | xargs) webpack -p --progress
       - tar -zcvf ${CIRCLE_TAG}.tar.gz target
       - firebase deploy --project "$FIREBASE_PROJECT" --token "$FIREBASE_TOKEN" --non-interactive --only database
       - sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update
