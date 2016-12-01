@@ -3,11 +3,12 @@ import moment from 'moment';
 import { findPlan } from 'src/core/plans';
 import { SERVER_SETUP_STATUS } from 'src/core/server_setup';
 
-export function savePaymentToDB({ uid, customerId, planId }) {
+export function savePaymentToDB({ uid, customerId, planId, subscriptionId }) {
   const retention = findPlan(planId).retention;
   const key = `users/${uid}`;
   const updates = {
     [`${key}/customerId`]: customerId,
+    [`${key}/subscriptionId`]: subscriptionId,
     [`${key}/planId`]: planId,
     [`${key}/retention`]: retention,
     [`${key}/serverSetup/status`]: SERVER_SETUP_STATUS.WAIT_STARTING,
