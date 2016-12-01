@@ -4,12 +4,14 @@ import { hashHistory as history } from 'react-router';
 
 import { Grid, Row, Col } from 'react-flexbox-grid/lib/index';
 import Paper from 'material-ui/Paper';
-import { Card, CardHeader, CardText } from 'material-ui/Card';
+// import { Card, CardText } from 'material-ui/Card';
 
 import Header from 'src/views/components/header-auth';
+import PlanCard from 'src/views/components/plan-card';
 import { plans, setupActions } from 'src/core/setup';
+
 import styles from './index.css';
-const cardStyle = { backgroundColor: 'none' };
+// const cardStyle = { backgroundColor: 'none' };
 
 const Plan = ({ onClickPlan }) => (
   <div>
@@ -32,23 +34,11 @@ const Plan = ({ onClickPlan }) => (
               </div>
               <div>
                 {plans.map(plan => (
-                  <Card
-                    key={`setup-plan-${plan.id}`} className={styles['plan-item']} style={cardStyle}
-                  >
-                    <CardHeader
-                      title={plan.title}
-                      subtitle={plan.price}
-                      onClick={() => { onClickPlan(plan.id); }}
-                    />
-                    <CardText>
-                      <span className={styles['plan-attr']}>
-                        {`データ保存期間: ${plan.retentionText}`}
-                      </span>
-                      <span className={styles['plan-attr']}>
-                        {`ストレージ: ${plan.storage}`}
-                      </span>
-                    </CardText>
-                  </Card>
+                  <PlanCard
+                    plan={plan}
+                    hover
+                    onClickPlan={() => { onClickPlan(plan.id); }}
+                  />
                 ))}
               </div>
             </div>

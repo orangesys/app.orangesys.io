@@ -1,0 +1,44 @@
+.whole {
+  margin-bottom: 10px;
+  cursor: pointer;
+  background-color: white;
+  text-align: center;
+}
+
+.whole-with-hover {
+  margin-bottom: 10px;
+  cursor: pointer;
+  background-color: white;
+  text-align: center;
+}
+
+.whole-with-hover:hover {
+  background-color: rgb(255, 235, 100);
+}
+
+.title {
+  font-size: 0.9rem;
+  padding: 10px;
+  border-bottom: 1px solid var(--borderColor);
+}
+
+.body {
+  padding: 20px 0 10px 0;
+}
+
+.price {
+  font-size: 1.3rem;
+  color: var(--primary2Color);
+  margin-right: 5px;
+}
+
+.attrs {
+  text-align: left;
+  margin: 20px auto 0 auto;
+  width: 160px;
+  font-size: 0.8rem;
+}
+
+.attrs > li {
+  list-style-type: none;
+}

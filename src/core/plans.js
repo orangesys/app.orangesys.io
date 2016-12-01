@@ -3,7 +3,7 @@ import { find } from 'lodash/collection';
 export const plans = [
   {
     id: 'small',
-    price: '¥50,000/月',
+    price: '50,000',
     retention: '10d',
     retentionText: '10日',
     storage: '10GB',
@@ -11,7 +11,7 @@ export const plans = [
   },
   {
     id: 'medium',
-    price: '¥300,000/月',
+    price: '300,000',
     retention: '40d',
     retentionText: '40日',
     title: 'Mediumプラン',
@@ -19,7 +19,7 @@ export const plans = [
   },
   {
     id: 'large',
-    price: '¥50,0000/月',
+    price: '500,000',
     retention: '400d',
     retentionText: '400日',
     storage: '100GB',

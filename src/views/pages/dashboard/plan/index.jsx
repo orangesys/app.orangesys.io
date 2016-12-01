@@ -26,7 +26,10 @@ const Plan = ({ planId }) => {
                     <TableRow>
                       <TableRowColumn>月額</TableRowColumn>
                       <TableRowColumn>
-                        <strong>{plan.price}</strong>
+                        <strong>
+                          <span className={styles.price}>¥{plan.price}</span>
+                           / 月 (税抜)
+                        </strong>
                       </TableRowColumn>
                     </TableRow>
                     <TableRow>
