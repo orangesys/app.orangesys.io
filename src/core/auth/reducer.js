@@ -198,6 +198,9 @@ export const authReducer = createReducer({
     state.merge({
       customerId,
       planId,
+      serverSetup: {
+        status: SERVER_SETUP_STATUS.WAIT_STARTING,
+      },
     })
   ),
   [serverSetupError]: (state, { errorCode }) => (
