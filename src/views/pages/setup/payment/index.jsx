@@ -12,8 +12,8 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Card, CardHeader, CardText, CardActions } from 'material-ui/Card';
 import LinearProgress from 'material-ui/LinearProgress';
-
 import Header from 'src/views/components/header-auth';
+import PlanCard from 'src/views/components/plan-card';
 import { Stripe } from 'src/core/stripe';
 import { findPlan, setupActions, getSetup } from 'src/core/setup';
 import ErrorSnackbar from 'src/views/components/error-snackbar';
@@ -45,28 +45,15 @@ const Payment = ({ setup, onSubmit, onMessageClose }) => {
               </div>
               <div className={styles.body}>
                 <div className={styles.plan}>
-                  <Card
-                    key={`setup-plan-${plan.id}`} className={styles['plan-item']}
-                  >
-                    <CardHeader
-                      title={plan.title}
-                      subtitle={`${plan.price}`}
-                    />
-                    <CardText>
-                      <span className={styles['plan-attr']}>
-                        {`データ保存期間: ${plan.retentionText}`}
-                      </span>
-                      <span className={styles['plan-attr']}>
-                        {`ストレージ: ${plan.storage}`}
-                      </span>
-                    </CardText>
-                    <CardActions>
+                  <PlanCard
+                    plan={plan}
+                    footer={
                       <FlatButton
                         label="プランを変更" secondary
                         onClick={() => { history.replace('/setup/plan'); }}
                       />
-                    </CardActions>
-                  </Card>
+                    }
+                  />
                 </div>
                 <div className={styles.payment}>
                   <div className={styles.message}>
