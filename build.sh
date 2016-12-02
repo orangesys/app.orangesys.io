@@ -1,9 +1,2 @@
 #!/bin/bash
-_tag=$1
-
-if [ -z "${_tag}" ]; then
-    source _VERSION   
-    _tag=${_VERSION}
-fi
-
-docker build --tag "app.orangesys.io:${_tag}"  --no-cache=true .
+docker run -it -v $(pwd):/app -w /app node:6.9.1-slim sh -c "npm install -g webpack;npm install;env $(cat .env | xargs) webpack -p --progress"

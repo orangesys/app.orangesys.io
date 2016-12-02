@@ -1,6 +1,6 @@
 machine:
-  node:
-    version: 6.9.1
+  pre:
+    - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
   timezone:
     Asia/Tokyo
   environment:
@@ -15,13 +15,11 @@ machine:
 dependencies:
   pre:
     - git tag
-  post:
-    - npm install
 
 test:
   override:
     - echo $NODEJS_ENV_DEV | base64 --decode -i > .env
-    - env $(cat .env | xargs) webpack -p --progress
+    - ./build.sh
 
 general:
   branches:
@@ -34,7 +32,7 @@ deployment:
     commands:
       - rm -rf target
       - echo $NODEJS_ENV_PROD | base64 --decode -i > .env
-      - env $(cat .env | xargs) webpack -p --progress
+      - build.sh
       - tar -zcvf ${CIRCLE_TAG}.tar.gz target
       - firebase deploy --project "$FIREBASE_PROJECT" --token "$FIREBASE_TOKEN" --non-interactive 
       - sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update
