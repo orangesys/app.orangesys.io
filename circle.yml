@@ -12,12 +12,9 @@ machine:
   services:
     - docker
 
-dependencies:
-  pre:
-    - git tag
-
 test:
   override:
+    - git tag
     - echo $NODEJS_ENV_DEV | base64 --decode -i > .env
     - ./build.sh
 
