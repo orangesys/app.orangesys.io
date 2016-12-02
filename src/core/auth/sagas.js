@@ -7,6 +7,7 @@ import { firebaseAuth, firebaseDB, firebaseErrors } from 'src/core/firebase';
 import * as authActions from './actions';
 import * as validators from './validator';
 import { fetchAuth } from './index';
+import { logException } from 'src/core/logger';
 
 
 function executeFetchAuth() {
@@ -106,7 +107,7 @@ function* startSigningUpWithGoogle() {
     }
     yield put(authActions.finishConnectingToGoogleForSignUp(currentUser));
   } catch (e) {
-    console.error(e);
+    logException(e);
   }
 }
 
@@ -140,9 +141,8 @@ function* signIn(inputs) {
     yield put(authActions.signInFulfilled(payloadForSignInFulfilled(user)));
     yield history.replace('/');
   } catch (e) {
-    console.log(e)
+    logException(e);
     const signInError = firebaseErrors[e.code] || 'ログインに失敗しました';
-    console.log("signInError:", signInError)
     yield put(authActions.signInFailed(signInError));
   }
 }
@@ -167,7 +167,7 @@ function* signInWithOAuth(provider) {
     yield put(authActions.signInFulfilled(payloadForSignInFulfilled(user)));
     yield history.replace('/');
   } catch (e) {
-    console.log(e);
+    logException(e);
     const signInError = e.code ? firebaseErrors[e.code] : 'ログインに失敗しました';
     yield put(authActions.signInFailed(signInError));
   }
@@ -178,7 +178,7 @@ function* signOut() {
     yield call([firebaseAuth, firebaseAuth.signOut]);
     yield history.replace('/sign-in');
   } catch (e) {
-    console.log(e);
+    logException(e);
   }
 }
 
