@@ -1,5 +1,16 @@
 {
   "database": {
     "rules": "firebase.rules.json"
+  },
+  "hosting": {
+    "public": "target",
+    "ignore": [
+      "firebase.json",
+      "**/node_modules/**"
+    ],
+    "rewrites": [ {
+      "source": "**",
+      "destination": "/index.html"
+    } ]
   }
 }
