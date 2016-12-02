@@ -5,6 +5,7 @@ import { hashHistory as history } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import configureStore from './core/store';
 import { initAuth } from './core/auth';
+import { logException } from 'src/core/logger';
 import Root from './views/root';
 
 const store = configureStore();
@@ -28,4 +29,4 @@ if (module.hot) {
 
 initAuth(store.dispatch)
   .then(() => render(Root))
-  .catch(error => console.error(error)); // eslint-disable-line no-console
+  .catch(error => logException(error));
