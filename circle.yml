@@ -36,7 +36,7 @@ deployment:
       - echo $NODEJS_ENV_PROD | base64 --decode -i > .env
       - env $(cat .env | xargs) webpack -p --progress
       - tar -zcvf ${CIRCLE_TAG}.tar.gz target
-      - firebase deploy --project "$FIREBASE_PROJECT" --token "$FIREBASE_TOKEN" --non-interactive 
+      - firebase deploy --project "$FIREBASE_PROJECT" --token "$FIREBASE_TOKEN" --non-interactive --only database
       - sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update
       - echo $GCLOUD_SERVICE_KEY | base64 --decode -i > ${HOME}/account-auth.json
       - sudo /opt/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/account-auth.json
