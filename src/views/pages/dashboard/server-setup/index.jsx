@@ -5,7 +5,6 @@ import { Grid, Row, Col } from 'react-flexbox-grid/lib/index';
 import Paper from 'material-ui/Paper';
 import LinearProgress from 'material-ui/LinearProgress';
 
-import Header from 'src/views/components/header-auth';
 import { getServerSetup } from 'src/core/auth';
 import {
   isProcessing,
@@ -15,7 +14,7 @@ import {
 import { setupActions } from 'src/core/setup';
 import styles from './index.css';
 
-class Server extends Component {
+class ServerSetup extends Component {
   componentWillMount() {
     this.props.setupServer(this.props.status);
   }
@@ -26,19 +25,15 @@ class Server extends Component {
     const { status, errorCode } = this.props;
     return (
       <div>
-        <Header />
         <Grid>
           <Row>
             <Col
               className={styles.navigation}
               xsOffset={1} xs={10}
-              smOffset={2} sm={8}
-              mdOffset={3} md={6}
+              smOffset={1} sm={8}
+              mdOffset={1} md={6}
             >
               <Paper className={styles.main}>
-                <div className={styles.header}>
-                  サーバ構築
-                </div>
                 <div className={styles.body}>
                   {isProcessing(status) &&
                     <div>
@@ -70,7 +65,7 @@ class Server extends Component {
   }
 }
 
-Server.propTypes = {
+ServerSetup.propTypes = {
   status: PropTypes.string.isRequired,
   errorCode: PropTypes.string,
   setupServer: PropTypes.func.isRequired,
@@ -100,4 +95,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Server);
+export default connect(mapStateToProps, mapDispatchToProps)(ServerSetup);

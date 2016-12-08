@@ -74,7 +74,7 @@ function* registerPayment({ stripeToken }) {
   const { customerId, subscriptionId } = res.data;
   savePaymentToDB({ uid, planId, customerId, subscriptionId });
   yield put(authActions.paymentFulfilled({ customerId, planId }));
-  history.replace('/setup/server');
+  history.replace('/dashboard/server-setup');
 }
 
 function* startBuildingServers() {
