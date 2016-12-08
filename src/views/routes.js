@@ -15,7 +15,7 @@ import VerificationGuide from 'src/views/pages/verification-guide';
 import Verify from 'src/views/pages/verify';
 import SetupPlan from 'src/views/pages/setup/plan';
 import SetupPayment from 'src/views/pages/setup/payment';
-import SetupServer from 'src/views/pages/setup/server';
+import ServerSetup from 'src/views/pages/dashboard/server-setup';
 import SetupComplete from 'src/views/pages/setup/complete';
 import Plan from 'src/views/pages/dashboard/plan';
 import Grafana from 'src/views/pages/dashboard/grafana';
@@ -34,26 +34,11 @@ export const paths = {
   SETUP_SERVER: '/setup/server',
   SETUP_COMPLETE: '/setup/complete',
   DASHBOARD: '/dashboard',
+  DASHBOARD_SERVER_SETUP: 'server-setup',
+  DASHBOARD_PLAN: 'plan',
+  DASHBOARD_GRAFANA: 'grafana',
+  DASHBOARD_INFLUXDB: 'influxdb',
 };
-
-// const requireAuth = getState => (
-//   (nextState, replace) => {
-//     if (!isAuthenticated(getState())) {
-//       replace(paths.SIGN_IN);
-//       return;
-//     }
-//     if (needEmailVerification(getState())) {
-//       replace(paths.VERIFICATION_GUIDE);
-//       return;
-//     }
-//     if (needSetupPlan(getState())) {
-//       replace(paths.SETUP_PLAN);
-//     }
-//     if (isNeedServerSetup(getState())) {
-//       replace(paths.SETUP_SERVER);
-//     }
-//   }
-// );
 
 const shouldVerifyEmail = getState => (
   (nextState, replace) => {
@@ -96,12 +81,8 @@ const canSetupPayment = getState => (
   }
 );
 
-const needServerSetup = getState => (
+const onEnterServerSetup = getState => (
   (nextState, replace) => {
-    if (!isAuthenticated(getState())) {
-      replace(paths.SIGN_IN);
-      return;
-    }
     if (!isNeedServerSetup(getState())) {
       replace(paths.ROOT);
     }
@@ -129,10 +110,6 @@ const checkRequirement = (getState, replace) => {
     replace(paths.SETUP_PLAN);
     return false;
   }
-  if (isNeedServerSetup(getState())) {
-    replace(paths.SETUP_SERVER);
-    return false;
-  }
   return true;
 };
 
@@ -141,13 +118,17 @@ const onEnterHome = getState => (
     if (!checkRequirement(getState, replace)) {
       return;
     }
+    if (isNeedServerSetup(getState())) {
+      replace('/dashboard/server-setup');
+      return;
+    }
     replace(paths.DASHBOARD);
   }
 );
 
 const onEnterDashboard = getState => (
   (nextState, replace) => {
-    if (!checkRequirement(getState, replace)) {
+    if (!checkRequirement(getState, replace, nextState)) {
       return;
     }
   }
@@ -196,15 +177,11 @@ export const getRoutes = getState => (
         onEnter: canSetupPayment(getState),
       },
       {
-        path: paths.SETUP_SERVER,
-        component: SetupServer,
-        onEnter: needServerSetup(getState),
-      },
-      {
         path: paths.SETUP_COMPLETE,
         component: SetupComplete,
         onEnter: !canSetupPayment(getState),
       },
+
       {
         path: paths.DASHBOARD,
         component: DashboardParent,
@@ -216,15 +193,21 @@ export const getRoutes = getState => (
             },
           },
           {
-            path: 'grafana',
+            path: paths.DASHBOARD_GRAFANA,
             component: Grafana,
           },
           {
-            path: 'influxdb',
+            path: paths.DASHBOARD_INFLUXDB,
             component: InfluxDB,
+          },
+          {
+            path: paths.DASHBOARD_SERVER_SETUP,
+            component: ServerSetup,
+            onEnter: onEnterServerSetup(getState),
           },
         ],
       },
+
       {
         path: 'ui-test',
         component: UITest,

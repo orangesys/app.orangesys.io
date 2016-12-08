@@ -35,10 +35,10 @@ function requestCustomerRegistrationOnStripe(token, planId, uid, email) {
     .catch((err) => ({ err }));
 }
 
-function requestBuildingSevers(planId) {
+function requestBuildingSevers(planId, uid) {
   const { retention } = findPlan(planId);
   const getUrl = `${orangesysApiConfig.apiEndpoint}/`;
-  const postUrl = `${orangesysApiConfig.apiEndpoint}/create?rp=${retention}`;
+  const postUrl = `${orangesysApiConfig.apiEndpoint}/create?uuid=${uid}&rp=${retention}`;
   return axios.get(getUrl, { timeout: 1000 * 5 })
     .then(() => axios.post(postUrl, { timeout: 1000 * 5 }))
     .then((res) => ({ res }))
@@ -74,13 +74,13 @@ function* registerPayment({ stripeToken }) {
   const { customerId, subscriptionId } = res.data;
   savePaymentToDB({ uid, planId, customerId, subscriptionId });
   yield put(authActions.paymentFulfilled({ customerId, planId }));
-  history.replace('/setup/server');
+  history.replace('/dashboard/server-setup');
 }
 
 function* startBuildingServers() {
   const uid = yield(select(getUid));
   const planId = yield(select(getPlanId));
-  const { res, err } = yield call(requestBuildingSevers, planId);
+  const { res, err } = yield call(requestBuildingSevers, planId, uid);
   if (err) {
     const errorCode = 'creation_request_error';
     const errorMessage = err.toString();
