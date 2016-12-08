@@ -24,6 +24,7 @@ import { findPlan } from 'src/core/plans';
 import { stripeConfig } from 'src/core/stripe';
 import { orangesysApiConfig } from 'src/core/orangesys-api';
 import { SERVER_SETUP_STATUS } from 'src/core/server_setup';
+import { logException } from 'src/core/logger'
 
 // ----------------------------------------------------------------------
 // HTTP Requests
@@ -63,6 +64,7 @@ function* registerPayment({ stripeToken }) {
   const { res, err } = yield call(
     requestCustomerRegistrationOnStripe, stripeToken, planId, uid, email);
   if (err) {
+    logException(err);
     if (!err.response) {
       yield put(setupActions.registerPaymentError());
       return;
