@@ -38,6 +38,7 @@ const Plan = ({ onClickPlan }) => (
                     plan={plan}
                     hover
                     onClickPlan={() => { onClickPlan(plan.id); }}
+                    key={`select-plan-${plan.id}`}
                   />
                 ))}
               </div>
