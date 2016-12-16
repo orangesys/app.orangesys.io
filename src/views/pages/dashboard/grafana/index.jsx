@@ -28,13 +28,13 @@ const Grafana = ({ consumerId }) => {
                     <TableRow>
                       <TableRowColumn>username</TableRowColumn>
                       <TableRowColumn>
-                        <strong>********</strong>
+                        <strong>admin</strong>
                       </TableRowColumn>
                     </TableRow>
                     <TableRow>
                       <TableRowColumn>password</TableRowColumn>
                       <TableRowColumn>
-                        <strong>********</strong>
+                        <strong>{consumerId && new Buffer(consumerId).toString('base64')}</strong>
                       </TableRowColumn>
                     </TableRow>
                   </TableBody>
@@ -46,7 +46,7 @@ const Grafana = ({ consumerId }) => {
       </Grid>
     </div>
   );
-}
+};
 
 Grafana.propTypes = {
   consumerId: PropTypes.string.isRequired,
