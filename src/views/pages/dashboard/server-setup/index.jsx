@@ -47,13 +47,17 @@ class ServerSetup extends Component {
                   }
                   {isErrored(status) &&
                     <div className={styles.error}>
-                      <p>
-                        サーバ構築時にエラーが発生しました。管理者にお問い合わせください。
-                      </p>
-                      <p>
-                        Error Code: {errorCode}
-                      </p>
+                      <div className={styles['error-text']}>
+                        <p>
+                          サーバ構築時にエラーが発生しました。
+                        </p>
+                        <p>
+                          Error Code: {errorCode}
+                        </p>
+                      </div>
+                      <a href="support@orangesys.io">support@orangesys.io</a> までお問い合わせください。
                     </div>
+
                   }
                 </div>
               </Paper>

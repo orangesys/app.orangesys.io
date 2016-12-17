@@ -21,6 +21,9 @@
 .error {
   font-size: 0.9rem;
   text-align: center;
+}
+
+.error-text {
   color: var(--errorColor);
 }
 
