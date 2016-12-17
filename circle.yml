@@ -23,10 +23,6 @@ test:
     - echo $NODEJS_ENV_DEV | base64 --decode -i > .env
     - env $(cat .env | xargs) webpack -p --progress
 
-general:
-  branches:
-    ignore:
-      - /^(?!master).*$/
 deployment:
   release:
     branch: release
