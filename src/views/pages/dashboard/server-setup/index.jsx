@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { Grid, Row, Col } from 'react-flexbox-grid/lib/index';
 import Paper from 'material-ui/Paper';
-import LinearProgress from 'material-ui/LinearProgress';
+import CircularProgress from 'material-ui/CircularProgress';
 
 import { getServerSetup } from 'src/core/auth';
 import {
@@ -40,8 +40,8 @@ class ServerSetup extends Component {
                       <p className={styles.message}>
                         現在サーバ構築中です。しばらくお待ちください。
                       </p>
-                      <div>
-                        <LinearProgress />
+                      <div className={styles.progress}>
+                        <CircularProgress size={80} thickness={5} />
                       </div>
                     </div>
                   }
