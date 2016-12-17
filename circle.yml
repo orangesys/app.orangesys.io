@@ -29,8 +29,7 @@ general:
       - /^(?!master).*$/
 deployment:
   release:
-    tag: /^v[0-9]+(\.[0-9]+)*/
-    owner: orangesys
+    branch: release
     commands:
       - rm -rf target
       - echo $NODEJS_ENV_PROD | base64 --decode -i > .env
