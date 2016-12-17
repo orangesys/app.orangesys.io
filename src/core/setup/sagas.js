@@ -6,7 +6,6 @@ import { hashHistory as history } from 'react-router';
 import {
   fetchServerSetupTime,
   savePaymentToDB,
-  saveTelegrafToDB,
   updateServerSetupStatus,
   updateServerSetupStatusToBuilding,
   updateServerSetupStatusToCompleted,
@@ -18,13 +17,15 @@ import {
   getPlanId,
   getTelegraf,
   getUid,
+  executeFetchAuth,
 } from 'src/core/auth/';
 import * as setupActions from './actions';
 import { findPlan } from 'src/core/plans';
 import { stripeConfig } from 'src/core/stripe';
 import { orangesysApiConfig } from 'src/core/orangesys-api';
 import { SERVER_SETUP_STATUS } from 'src/core/server_setup';
-import { logException } from 'src/core/logger'
+import { logException } from 'src/core/logger';
+
 
 // ----------------------------------------------------------------------
 // HTTP Requests
@@ -82,7 +83,7 @@ function* registerPayment({ stripeToken }) {
 function* startBuildingServers() {
   const uid = yield(select(getUid));
   const planId = yield(select(getPlanId));
-  const { res, err } = yield call(requestBuildingSevers, planId, uid);
+  const { err } = yield call(requestBuildingSevers, planId, uid);
   if (err) {
     const errorCode = 'creation_request_error';
     const errorMessage = err.toString();
@@ -92,10 +93,9 @@ function* startBuildingServers() {
     yield put(authActions.serverSetupError({ errorCode }));
     return;
   }
-  const telegraf = res.data;
-  saveTelegrafToDB(uid, telegraf);
   updateServerSetupStatusToBuilding(uid);
-  yield put(authActions.putTelegraf(telegraf));
+  const { user } = yield call(executeFetchAuth);  // get telegraf data
+  yield put(authActions.initAuth(user));
   yield put(setupActions.keepWaitingForServerBuild());
 }
 
