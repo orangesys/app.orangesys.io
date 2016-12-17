@@ -23,3 +23,7 @@
   text-align: center;
   color: var(--errorColor);
 }
+
+.progress {
+  text-align: center;
+}
