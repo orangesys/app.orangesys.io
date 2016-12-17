@@ -58,13 +58,3 @@ export function updateServerSetupStatusToCompleted(uid) {
   };
   firebaseDB.ref().update(updates);
 }
-
-export function saveTelegrafToDB(uid, { consumerId, token }) {
-  const key = `users/${uid}`;
-  const updates = {
-    [`${key}/telegraf/consumerId`]: consumerId,
-    [`${key}/telegraf/token`]: token,
-    [`${key}/updatedAt`]: moment().utc().format(),
-  };
-  firebaseDB.ref().update(updates);
-}

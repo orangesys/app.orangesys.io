@@ -61,6 +61,13 @@ export function fetchAuth() {
   ));
 }
 
+export function executeFetchAuth() {
+  return fetchAuth()
+    .then(user => ({ user }))
+    .catch(error => ({ error }));
+}
+
+
 export function initAuth(dispatch) {
   return fetchAuth()
     .then((user) => {
