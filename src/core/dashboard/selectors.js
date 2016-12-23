@@ -16,6 +16,9 @@ export const getCurrentPageName = (state, ownProps) => {
 
 export const getCurrentPageGroup = (state, ownProps) => {
   const pathname = getLocation(state, ownProps).pathname;
+  if (/^\/dashboard\/server-setup/.test(pathname)) {
+    return 'server-setting';
+  }
   if (/^\/dashboard\/grafana/.test(pathname)) {
     return 'grafana';
   }
