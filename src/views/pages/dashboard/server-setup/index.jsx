@@ -56,7 +56,7 @@ class ServerSetup extends Component {
                           Error Code: {errorCode}
                         </p>
                       </div>
-                      <a href={supportEmail}>{supportEmail}</a> までお問い合わせください。
+                      <a href={`mailto:${supportEmail}`}>{supportEmail}</a> までお問い合わせください。
                     </div>
                   }
                 </div>
