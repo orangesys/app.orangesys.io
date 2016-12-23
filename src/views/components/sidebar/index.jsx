@@ -5,12 +5,13 @@ import ServerIcon from 'material-ui/svg-icons/file/cloud';
 import PlanIcon from 'material-ui/svg-icons/action/class';
 import GrafanaIcon from 'material-ui/svg-icons/action/assessment';
 import InfluxDBIcon from 'material-ui/svg-icons/device/data-usage';
+import SettingsIcon from 'material-ui/svg-icons/action/settings';
 import LogoutIcon from 'material-ui/svg-icons/action/power-settings-new';
 import { hashHistory as history } from 'react-router';
 import { authActions } from 'src/core/auth/';
 import styles from './index.css';
 
-const iconStyle = { width: 48, height: 48, color: 'white' };
+const iconStyle = { width: 32, height: 32, color: 'white' };
 const groups = [
   {
     id: 'server-setup', title: 'Server', Icon: ServerIcon,
@@ -27,6 +28,10 @@ const groups = [
   {
     id: 'influxdb', title: 'InfluxDB', Icon: InfluxDBIcon,
     path: 'influxdb', hideOnSettingUp: true, hideNormally: false,
+  },
+  {
+    id: 'settings', title: 'Settings', Icon: SettingsIcon,
+    path: 'settings', hideOnSettingUp: false, hideNormally: false,
   },
 ];
 

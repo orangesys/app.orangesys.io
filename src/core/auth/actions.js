@@ -35,3 +35,4 @@ export const goToSignIn = createAction('go to sign in');
 export const paymentFulfilled = createAction('payment fulfilled');
 export const putTelegraf = createAction('put telegraf');
 export const clearMessage = createAction('clear message');
+export const updateProfile = createAction('update profile (auth)');

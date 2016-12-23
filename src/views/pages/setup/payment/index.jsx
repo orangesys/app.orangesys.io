@@ -16,7 +16,7 @@ import Header from 'src/views/components/header-auth';
 import PlanCard from 'src/views/components/plan-card';
 import { Stripe } from 'src/core/stripe';
 import { findPlan, setupActions, getSetup } from 'src/core/setup';
-import ErrorSnackbar from 'src/views/components/error-snackbar';
+import ErrorMessage from 'src/views/components/snackbar/error-message';
 import styles from './index.css';
 import visaImage from 'src/images/payment/visa-straight-32px.png';
 import mcImage from 'src/images/payment/mastercard-straight-32px.png';
@@ -30,7 +30,7 @@ const Payment = ({ setup, onSubmit, onMessageClose }) => {
   return (
     <div>
       <Header />
-      <ErrorSnackbar error={paymentRegistrationError} onClose={onMessageClose} />
+      <ErrorMessage error={paymentRegistrationError} onClose={onMessageClose} />
       <Grid>
         <Row>
           <Col

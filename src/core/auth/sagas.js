@@ -31,6 +31,8 @@ function payloadForSignInFulfilled(user) {
     email: user.email,
     planId: user.planId,
     emailVerified: user.emailVerified,
+    companyName: user.companyName,
+    fullName: user.fullName,
     customerId: user.customerId,
     providerId: user.providerId,
     serverSetup: user.serverSetup,

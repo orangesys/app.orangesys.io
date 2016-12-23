@@ -13,7 +13,7 @@ import FontIcon from 'material-ui/FontIcon';
 import LinearProgress from 'material-ui/LinearProgress';
 import Divider from 'material-ui/Divider';
 
-import ErrorSnackbar from 'src/views/components/error-snackbar';
+import ErrorMessage from 'src/views/components/snackbar/error-message';
 import { getSignIn, authActions } from 'src/core/auth';
 
 import Header from 'src/views/components/header-unauth';
@@ -27,7 +27,7 @@ const SignIn = ({ signIn, onSubmit, onGoToSignUp,
   return (
     <div>
       <Header />
-      <ErrorSnackbar error={signInError} onClose={onCloseMessage} />
+      <ErrorMessage error={signInError} onClose={onCloseMessage} />
       <Grid className={styles.wrapper}>
         <Row className={styles['navigation-wrapper']}>
           <Col
