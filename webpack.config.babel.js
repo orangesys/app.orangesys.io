@@ -24,6 +24,7 @@ const ENV_NAMES = [
   'PAYMENT_API_ENDPOINT',
   'ORANGESYS_API_ENDPOINT',
   'SENTRY_DSN',
+  'SUPPORT_EMAIL',
 ];
 
 const ENV_DEVELOPMENT = NODE_ENV === 'development';

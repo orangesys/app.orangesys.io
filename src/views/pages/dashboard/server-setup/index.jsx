@@ -12,6 +12,7 @@ import {
   SERVER_SETUP_STATUS,
 } from 'src/core/server_setup';
 import { setupActions } from 'src/core/setup';
+import { supportEmail } from 'src/core/common-info';
 import styles from './index.css';
 
 class ServerSetup extends Component {
@@ -55,9 +56,8 @@ class ServerSetup extends Component {
                           Error Code: {errorCode}
                         </p>
                       </div>
-                      <a href="support@orangesys.io">support@orangesys.io</a> までお問い合わせください。
+                      <a href={supportEmail}>{supportEmail}</a> までお問い合わせください。
                     </div>
-
                   }
                 </div>
               </Paper>
