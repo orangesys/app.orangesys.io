@@ -4,12 +4,16 @@ import { createSelector } from 'reselect';
 import { Grid, Row, Col } from 'react-flexbox-grid/lib/index';
 import Paper from 'material-ui/Paper';
 import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
 import { getPlanId } from 'src/core/auth';
 import { findPlan } from 'src/core/plans';
+import { getPlanCancel, dashboardActions } from 'src/core/dashboard';
+import { supportEmail } from 'src/core/common-info';
 
 import styles from './index.css';
 
-const Plan = ({ planId }) => {
+const Plan = ({ planId, confirmingPlanCancel, showCancelInformation, hideCancelInformation }) => {
   const plan = findPlan(planId);
   return (
     <div className={styles.whole}>
@@ -48,7 +52,30 @@ const Plan = ({ planId }) => {
                 </Table>
               </div>
             </Paper>
+            <div className={styles.actions}>
+              <FlatButton
+                label="プランの解約"
+                secondary
+                onClick={showCancelInformation}
+              />
+            </div>
           </Col>
+          {confirmingPlanCancel ?
+            <Dialog
+              title="プランの解約"
+              open={confirmingPlanCancel}
+              onRequestClose={hideCancelInformation}
+            >
+              <div className={styles['cancel-message']}>
+                プランの解約は
+                <a className={styles['support-email']} href={`mailto:${supportEmail}`}>
+                  {supportEmail}
+                </a>
+                までお問い合わせください。
+              </div>
+            </Dialog>
+            : null
+          }
         </Row>
       </Grid>
     </div>
@@ -57,11 +84,24 @@ const Plan = ({ planId }) => {
 
 Plan.propTypes = {
   planId: PropTypes.string.isRequired,
+  confirmingPlanCancel: PropTypes.bool,
+  showCancelInformation: PropTypes.func.isRequired,
+  hideCancelInformation: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createSelector(
   getPlanId,
-  (planId) => ({ planId }),
+  getPlanCancel,
+  (planId, { confirmingPlanCancel }) => ({ planId, confirmingPlanCancel }),
 );
 
-export default connect(mapStateToProps)(Plan);
+const mapDispatchToProps = (dispatch) => ({
+  showCancelInformation: () => {
+    dispatch(dashboardActions.confirmPlanCancel());
+  },
+  hideCancelInformation: () => {
+    dispatch(dashboardActions.cancelPlanCancel());
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Plan);
