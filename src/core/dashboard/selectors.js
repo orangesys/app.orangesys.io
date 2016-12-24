@@ -11,16 +11,25 @@ export const getCurrentPageName = (state, ownProps) => {
   if (/^\/dashboard\/influxdb/.test(pathname)) {
     return 'InfluxDB';
   }
+  if (/^\/dashboard\/settings/.test(pathname)) {
+    return '設定';
+  }
   return 'プラン情報';
 };
 
 export const getCurrentPageGroup = (state, ownProps) => {
   const pathname = getLocation(state, ownProps).pathname;
+  if (/^\/dashboard\/server-setup/.test(pathname)) {
+    return 'server-setting';
+  }
   if (/^\/dashboard\/grafana/.test(pathname)) {
     return 'grafana';
   }
   if (/^\/dashboard\/influxdb/.test(pathname)) {
     return 'influxdb';
+  }
+  if (/^\/dashboard\/settings/.test(pathname)) {
+    return 'settings';
   }
   return 'plan';
 };

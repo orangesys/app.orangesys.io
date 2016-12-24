@@ -1,0 +1,18 @@
+.whole {
+  padding: 30px;
+}
+
+.profile {
+  padding: 10px 40px 20px 40px;
+}
+
+.attrs {
+  list-style-type: none;
+  margin-left: 0;
+  padding-left: 0;
+  margin-bottom: 30px;
+}
+
+.progress {
+  margin-bottom: 20px;
+}

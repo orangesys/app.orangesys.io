@@ -4,56 +4,55 @@ import { connect } from 'react-redux';
 import ServerIcon from 'material-ui/svg-icons/file/cloud';
 import PlanIcon from 'material-ui/svg-icons/action/class';
 import GrafanaIcon from 'material-ui/svg-icons/action/assessment';
-// import InfluxDBIcon from 'material-ui/svg-icons/image/grain';
 import InfluxDBIcon from 'material-ui/svg-icons/device/data-usage';
+import SettingsIcon from 'material-ui/svg-icons/action/settings';
 import LogoutIcon from 'material-ui/svg-icons/action/power-settings-new';
 import { hashHistory as history } from 'react-router';
 import { authActions } from 'src/core/auth/';
 import styles from './index.css';
 
-const iconStyle = { width: 48, height: 48, color: 'white' };
+const iconStyle = { width: 32, height: 32, color: 'white' };
+const groups = [
+  {
+    id: 'server-setup', title: 'Server', Icon: ServerIcon,
+    path: 'server-setup', hideOnSettingUp: false, hideNormally: true,
+  },
+  {
+    id: 'plan', title: 'Plan', Icon: PlanIcon,
+    path: '', hideOnSettingUp: false, hideNormally: false,
+  },
+  {
+    id: 'grafana', title: 'Grafana', Icon: GrafanaIcon,
+    path: 'grafana', hideOnSettingUp: true, hideNormally: false,
+  },
+  {
+    id: 'influxdb', title: 'InfluxDB', Icon: InfluxDBIcon,
+    path: 'influxdb', hideOnSettingUp: true, hideNormally: false,
+  },
+  {
+    id: 'settings', title: 'Settings', Icon: SettingsIcon,
+    path: 'settings', hideOnSettingUp: false, hideNormally: false,
+  },
+];
 
-const Sidebar = ({ onSignOut, jumpTo, pageName, needServerSetup }) => (
+const Sidebar = ({ onSignOut, jumpTo, pageGroup, needServerSetup }) => (
   <nav className={styles.whole}>
     <div className={styles.item}>
     </div>
-    {needServerSetup ?
+    {groups.map(({ id, title, Icon, path, hideOnSettingUp, hideNormally }) => (
       <div
-        className={`${styles.item} ${pageName === 'サーバー構築' && styles['item-selected']}`}
-        onClick={() => jumpTo('server-setup')}
+        key={`sidebar-group-${id}`}
+        style={
+          (needServerSetup && hideOnSettingUp) || (!needServerSetup && hideNormally)
+          ? { display: 'none' } : {}
+        }
+        className={`${styles.item} ${pageGroup === id && styles['item-selected']}`}
+        onClick={() => jumpTo(path)}
       >
-        <ServerIcon className={styles.icon} style={iconStyle} />
-        <div className={styles.text}>Server</div>
+        <Icon className={styles.icon} style={iconStyle} />
+        <div className={styles.text}>{title}</div>
       </div>
-      : null
-    }
-    <div
-      className={`${styles.item} ${pageName === 'プラン情報' && styles['item-selected']}`}
-      onClick={() => jumpTo('')}
-    >
-      <PlanIcon className={styles.icon} style={iconStyle} />
-      <div className={styles.text}>Plan</div>
-    </div>
-    {!needServerSetup ?
-      <div
-        className={`${styles.item} ${pageName === 'Grafana' && styles['item-selected']}`}
-        onClick={() => jumpTo('grafana')}
-      >
-        <GrafanaIcon className={styles.icon} style={iconStyle} />
-        <div className={styles.text}>Grafana</div>
-      </div>
-      : null
-    }
-    {!needServerSetup ?
-      <div
-        className={`${styles.item} ${pageName === 'InfluxDB' && styles['item-selected']}`}
-        onClick={() => jumpTo('influxdb')}
-      >
-        <InfluxDBIcon className={styles.icon} style={iconStyle} />
-        <div className={styles.text}>InfluxDB</div>
-      </div>
-      : null
-    }
+    ))}
     <div className={`${styles.item}`} onClick={onSignOut}>
       <LogoutIcon className={styles.icon} style={iconStyle} />
       <div className={styles.text}>Logout</div>
@@ -64,7 +63,7 @@ const Sidebar = ({ onSignOut, jumpTo, pageName, needServerSetup }) => (
 Sidebar.propTypes = {
   onSignOut: PropTypes.func.isRequired,
   jumpTo: PropTypes.func.isRequired,
-  pageName: PropTypes.string.isRequired,
+  pageGroup: PropTypes.string.isRequired,
   needServerSetup: PropTypes.bool,
 };
 

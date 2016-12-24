@@ -4,12 +4,12 @@ import { createSelector } from 'reselect';
 
 import Sidebar from 'src/views/components/sidebar';
 import { isNeedServerSetup } from 'src/core/auth';
-import { getCurrentPageName } from 'src/core/dashboard';
+import { getCurrentPageName, getCurrentPageGroup } from 'src/core/dashboard';
 import styles from './index.css';
 
-const DashboardParent = ({ children, pageName, needServerSetup }) => (
+const DashboardParent = ({ children, pageName, pageGroup, needServerSetup }) => (
   <div className={styles.whole}>
-    <Sidebar pageName={pageName} needServerSetup={needServerSetup} />
+    <Sidebar pageGroup={pageGroup} needServerSetup={needServerSetup} />
     <div className={styles.main}>
       <header className={styles.header}>
         {pageName}
@@ -22,13 +22,15 @@ const DashboardParent = ({ children, pageName, needServerSetup }) => (
 DashboardParent.propTypes = {
   children: PropTypes.object,
   pageName: PropTypes.string,
+  pageGroup: PropTypes.string,
   needServerSetup: PropTypes.bool,
 };
 
 const mapStateToProps = createSelector(
   getCurrentPageName,
+  getCurrentPageGroup,
   isNeedServerSetup,
-  (pageName, needServerSetup) => ({ pageName, needServerSetup }),
+  (pageName, pageGroup, needServerSetup) => ({ pageName, pageGroup, needServerSetup }),
 );
 
 export default connect(mapStateToProps)(DashboardParent);
