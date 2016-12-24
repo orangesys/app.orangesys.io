@@ -95,3 +95,11 @@ export function isNeedServerSetup(state) {
   const status = getServerSetupStatus(state);
   return needServerSetup(status);
 }
+
+export function getProfile(state) {
+  const auth = getAuth(state);
+  return {
+    companyName: auth.get('companyName'),
+    fullName: auth.get('fullName'),
+  };
+}

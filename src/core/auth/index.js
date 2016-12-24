@@ -12,6 +12,7 @@ export {
   getEmailVerificationResult,
   getFieldsForPayment,
   getPlanId,
+  getProfile,
   getServerSetup,
   getServerSetupStatus,
   getSignUp,
@@ -20,6 +21,7 @@ export {
   getUid,
   needEmailVerification,
   needSetupPlan,
+  updateProfile,
 } from './selectors';
 
 export { authActions };

@@ -20,6 +20,7 @@ import SetupComplete from 'src/views/pages/setup/complete';
 import Plan from 'src/views/pages/dashboard/plan';
 import Grafana from 'src/views/pages/dashboard/grafana';
 import InfluxDB from 'src/views/pages/dashboard/influxdb';
+import Settings from 'src/views/pages/dashboard/settings';
 
 import UITest from './pages/ui-test';
 
@@ -38,6 +39,7 @@ export const paths = {
   DASHBOARD_PLAN: 'plan',
   DASHBOARD_GRAFANA: 'grafana',
   DASHBOARD_INFLUXDB: 'influxdb',
+  Settings: 'settings',
 };
 
 const shouldVerifyEmail = getState => (
@@ -205,6 +207,10 @@ export const getRoutes = getState => (
             component: ServerSetup,
             onEnter: onEnterServerSetup(getState),
           },
+          {
+            path: paths.Settings,
+            component: Settings,
+          }
         ],
       },
 
