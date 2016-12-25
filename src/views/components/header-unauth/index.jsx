@@ -10,7 +10,7 @@ const HeaderUnAuth = () => (
     <Grid>
       <Row className={styles.main}>
         <Col xs={6} sm={4} md={2} className={styles.brand}>
-          Orange Sys
+          Orangesys
         </Col>
       </Row>
     </Grid>
