@@ -13,7 +13,7 @@ import { authActions } from 'src/core/auth';
 
 const HeaderAuth = ({ onSignOut }) => (
   <AppBar
-    title="Orange Sys"
+    title="Orangesys"
     showMenuIconButton={false}
     iconElementRight={
       <IconMenu
