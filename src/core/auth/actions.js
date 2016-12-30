@@ -36,3 +36,10 @@ export const paymentFulfilled = createAction('payment fulfilled');
 export const putTelegraf = createAction('put telegraf');
 export const clearMessage = createAction('clear message');
 export const updateProfile = createAction('update profile (auth)');
+export const showPasswordReset = createAction('show password reset');
+export const cancelPasswordReset = createAction('cancel password reset');
+export const sendPasswordResetMail = createAction('send password reset mail');
+export const sendPasswordResetMailFinished = createAction('send password reset mail finished');
+export const sendPasswordResetMailValidationFailed =
+  createAction('send password reset mail validation failed');
+export const sendPasswordResetMailFailed = createAction('send password reset mail failed');

@@ -47,8 +47,14 @@ function executeEmailVerification(params) {
     .catch(error => ({ error }));
 }
 
+function doSendPasswordResetEmail(email) {
+  return firebaseAuth.sendPasswordResetEmail(email)
+    .then(result => ({ result }))
+    .catch(error => ({ error }));
+}
+
 function* signUp(inputs) {
-  const errors = validators.validateSignUp(inputs);
+  const errors = validators.validate(inputs);
   if (!errors.isEmpty()) {
     yield put(authActions.signUpValidationFailed(errors));
     return;
@@ -69,7 +75,7 @@ function* signUp(inputs) {
 }
 
 function* signUpWithGoogle(inputs) {
-  const errors = validators.validateSignUp(inputs);
+  const errors = validators.validate(inputs);
   if (!errors.isEmpty()) {
     yield put(authActions.signUpValidationFailed(errors));
     return;
@@ -81,7 +87,7 @@ function* signUpWithGoogle(inputs) {
 }
 
 function* signUpWithGithub(inputs) {
-  const errors = validators.validateSignUp(inputs);
+  const errors = validators.validate(inputs);
   if (!errors.isEmpty()) {
     yield put(authActions.signUpValidationFailed(errors));
     return;
@@ -199,6 +205,20 @@ function* verifyEmail(params) {
   yield put(authActions.verifyEmailFinished());
 }
 
+function* sendPasswordResetMail({ email }) {
+  const errors = validators.validate({ email });
+  if (!errors.isEmpty()) {
+    yield put(authActions.sendPasswordResetMailValidationFailed(errors));
+    return;
+  }
+  const { error } = yield call(doSendPasswordResetEmail, email);
+  if (error) {
+    yield put(authActions.sendPasswordResetMailFailed());
+    return;
+  }
+  yield put(authActions.sendPasswordResetMailFinished());
+}
+
 // =====================================
 //  WATCHERS
 // -------------------------------------
@@ -286,6 +306,13 @@ function* watchVerifyEmail() {
   }
 }
 
+function* watchSendPasswordResetMail() {
+  while (true) {
+    const { payload } = yield take(`${authActions.sendPasswordResetMail}`);
+    yield fork(sendPasswordResetMail, payload);
+  }
+}
+
 export const authSagas = [
   fork(watchStartSigningUpWithGoogle),
   fork(watchStartSigningUpWithGithub),
@@ -299,4 +326,5 @@ export const authSagas = [
   fork(watchEmailVerification),
   fork(watchFinishingEmailVerification),
   fork(watchVerifyEmail),
+  fork(watchSendPasswordResetMail),
 ];

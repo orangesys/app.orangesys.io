@@ -36,9 +36,11 @@ export function getTelegraf(state) {
 
 export function getEmailVerification(state) {
   const auth = getAuth(state);
+  console.log("auth:", auth)
   return {
     sendingVerificationEmail: auth.sendingVerificationEmail,
     sentVerificationEmail: auth.sentVerificationEmail,
+    passwordResetErrors: auth.passwordResetErrors,
   };
 }
 
@@ -76,6 +78,15 @@ export function getSignIn(state) {
   return {
     signingIn: auth.signingIn,
     signInError: auth.signInError,
+  };
+}
+
+export function getPasswordReset(state) {
+  const auth = getAuth(state);
+  return {
+    showingPasswordReset: auth.showingPasswordReset,
+    sendingPasswordResetMail: auth.sendingPasswordResetMail,
+    passwordResetErrors: auth.passwordResetErrors,
   };
 }
 

@@ -17,6 +17,7 @@ export {
   getServerSetupStatus,
   getSignUp,
   getSignIn,
+  getPasswordReset,
   getTelegraf,
   getUid,
   needEmailVerification,

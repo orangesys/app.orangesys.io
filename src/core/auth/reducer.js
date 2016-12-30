@@ -27,6 +27,12 @@ import {
   putTelegraf,
   serverSetupFinished,
   clearMessage,
+  showPasswordReset,
+  cancelPasswordReset,
+  sendPasswordResetMail,
+  sendPasswordResetMailValidationFailed,
+  sendPasswordResetMailFinished,
+  sendPasswordResetMailFailed,
 } from './actions';
 import * as validators from './validator';
 import { SERVER_SETUP_STATUS } from 'src/core/server_setup';
@@ -58,6 +64,11 @@ const AuthState = new Record({
   signUpProvider: 'firebase',
   telegraf: new Map(),
   uid: null,
+  showingPasswordReset: false,
+  sendingPasswordResetMail: false,
+  passwordResetErrors: new Map(),
+  errorMessage: null,
+  message: null,
 });
 
 export const authReducer = createReducer({
@@ -81,7 +92,7 @@ export const authReducer = createReducer({
   ),
   [validateSignUp]: (state, inputs) => (
     state.merge({
-      signUpFieldErrors: validators.validateSignUp(inputs),
+      signUpFieldErrors: validators.validate(inputs),
     })
   ),
   [signUpValidationFailed]: (state, signUpFieldErrors) => (
@@ -226,6 +237,42 @@ export const authReducer = createReducer({
     state.merge({
       signInError: null,
       signUpError: null,
+    })
+  ),
+  [showPasswordReset]: (state) => (
+    state.merge({ showingPasswordReset: true })
+  ),
+  [cancelPasswordReset]: (state) => (
+    state.merge({
+      showingPasswordReset: false,
+      passwordResetErrors: new Map(),
+    })
+  ),
+  [sendPasswordResetMail]: (state) => (
+    state.merge({ sendingPasswordResetMail: false })
+  ),
+  [sendPasswordResetMailFinished]: (state) => (
+    state.merge({
+      showingPasswordReset: false,
+      sendingPasswordResetMail: false,
+      passwordResetErrors: new Map(),
+    })
+  ),
+  [sendPasswordResetMailValidationFailed]: (state, errors) => (
+    state.merge({
+      passwordResetErrors: errors,
+    })
+  ),
+  [sendPasswordResetMailFailed]: (state) => (
+    state.merge({
+      errorMessage: '送信に失敗しました',
+    })
+  ),
+  [sendPasswordResetMailFinished]: (state) => (
+    state.merge({
+      message: 'パスワードを送信しました',
+      showingPasswordReset: false,
+      sendingPasswordResetMail: false,
     })
   ),
 }, new AuthState());
