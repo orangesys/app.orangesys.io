@@ -10,7 +10,7 @@ import Header from '../../components/header-unauth';
 import { getEmailVerification, authActions } from 'src/core/auth';
 import styles from './index.css';
 
-const VerificationGuide = ({ emailVerification, onSendEmail, onGoToNext }) => {
+const VerificationGuide = ({ emailVerification, onSendEmail }) => {
   const { sendingVerificationEmail, sentVerificationEmail } = emailVerification;
   return (
     <div>
@@ -53,7 +53,6 @@ const VerificationGuide = ({ emailVerification, onSendEmail, onGoToNext }) => {
 VerificationGuide.propTypes = {
   emailVerification: PropTypes.object,
   onSendEmail: PropTypes.func.isRequired,
-  onGoToNext: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createSelector(

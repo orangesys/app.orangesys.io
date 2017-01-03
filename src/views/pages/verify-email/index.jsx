@@ -1,22 +1,21 @@
+
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-import { hashHistory as history } from 'react-router';
 import { Grid, Row, Col } from 'react-flexbox-grid/lib/index';
 import Paper from 'material-ui/Paper';
 import FlatButton from 'material-ui/FlatButton';
-// import RaisedButton from 'material-ui/RaisedButton';
-// import Snackbar from 'material-ui/Snackbar';
+
 
 import Header from '../../components/header-unauth';
 import {
   authActions,
-  getEmailVerificationParams,
+  getEmailActionParams,
   getEmailVerificationResult,
 } from 'src/core/auth';
 import styles from './index.css';
 
-class Verify extends Component {
+class VerifyEmail extends Component {
   componentWillMount() {
     const { oobCode, verifyEmail } = this.props;
     verifyEmail({ oobCode });
@@ -39,7 +38,7 @@ class Verify extends Component {
                   メールアドレスの認証
                 </div>
                 <div className={styles.body}>
-                  {result === 0 && <p>認証処理中です。</p> }
+                  {result === 0 && <p>認証処理中です。</p>}
                   {result > 0 &&
                     <div>
                       <p>認証が完了しました。</p>
@@ -62,7 +61,7 @@ class Verify extends Component {
   }
 }
 
-Verify.propTypes = {
+VerifyEmail.propTypes = {
   oobCode: PropTypes.string,
   verifyEmail: PropTypes.func.isRequired,
   verifyingEmail: PropTypes.bool,
@@ -70,9 +69,9 @@ Verify.propTypes = {
 };
 
 const mapStateToProps = createSelector(
-  getEmailVerificationParams,
+  getEmailActionParams,
   getEmailVerificationResult,
-  (params, result) => ({ oobCode: params.oobCode, result }),
+  (params, result) => ({ oobCode: params.oobCode, mode: params.mode, result }),
 );
 
 const mapDispatchToProps = (dispatch) => ({
@@ -81,4 +80,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Verify);
+export default connect(mapStateToProps, mapDispatchToProps)(VerifyEmail);

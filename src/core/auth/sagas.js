@@ -47,8 +47,14 @@ function executeEmailVerification(params) {
     .catch(error => ({ error }));
 }
 
+function doSendPasswordResetEmail(email) {
+  return firebaseAuth.sendPasswordResetEmail(email)
+    .then(result => ({ result }))
+    .catch(error => ({ error }));
+}
+
 function* signUp(inputs) {
-  const errors = validators.validateSignUp(inputs);
+  const errors = validators.validate(inputs);
   if (!errors.isEmpty()) {
     yield put(authActions.signUpValidationFailed(errors));
     return;
@@ -69,7 +75,7 @@ function* signUp(inputs) {
 }
 
 function* signUpWithGoogle(inputs) {
-  const errors = validators.validateSignUp(inputs);
+  const errors = validators.validate(inputs);
   if (!errors.isEmpty()) {
     yield put(authActions.signUpValidationFailed(errors));
     return;
@@ -81,7 +87,7 @@ function* signUpWithGoogle(inputs) {
 }
 
 function* signUpWithGithub(inputs) {
-  const errors = validators.validateSignUp(inputs);
+  const errors = validators.validate(inputs);
   if (!errors.isEmpty()) {
     yield put(authActions.signUpValidationFailed(errors));
     return;
@@ -191,12 +197,55 @@ function* sendEmailVerification() {
 }
 
 function* verifyEmail(params) {
-  const { result, error } = yield call(executeEmailVerification, params);
+  const { error } = yield call(executeEmailVerification, params);
   if (error) {
     yield put(authActions.verifyEmailFailed());
     return;
   }
   yield put(authActions.verifyEmailFinished());
+}
+
+function* sendPasswordResetMail({ email }) {
+  const errors = validators.validate({ email });
+  if (!errors.isEmpty()) {
+    yield put(authActions.sendPasswordResetMailValidationFailed(errors));
+    return;
+  }
+  const { error } = yield call(doSendPasswordResetEmail, email);
+  if (error) {
+    yield put(authActions.sendPasswordResetMailFailed());
+    return;
+  }
+  yield put(authActions.sendPasswordResetMailFinished());
+}
+
+function* verifyPasswordResetCode(oobCode) {
+  const execute = (code) => (
+    firebaseAuth.verifyPasswordResetCode(code)
+      .then(email => ({ email }))
+      .catch(err => ({ err }))
+  );
+  const { email, err } = yield call(execute, oobCode);
+  if (err) {
+    yield put(authActions.verifyPasswordResetCodeFailed());
+    return;
+  }
+  yield put(authActions.verifyPasswordResetCodeFinished(email));
+}
+
+function* resetPassword({ oobCode, password }) {
+  const execute = (code, newPassword) => (
+    firebaseAuth.confirmPasswordReset(code, newPassword)
+      .then(result => ({ result }))
+      .catch(err => ({ err }))
+  );
+  const { err } = yield call(execute, oobCode, password);
+  if (err) {
+    const errors = { password: firebaseErrors[err.code] };
+    yield put(authActions.resetPasswordFailed(errors));
+    return;
+  }
+  yield put(authActions.resetPasswordFinished());
 }
 
 // =====================================
@@ -272,17 +321,31 @@ function* watchEmailVerification() {
   }
 }
 
-function* watchFinishingEmailVerification() {
-  while (true) {
-    const { payload } = yield take(`${authActions.finishEmailVerification}`);
-    yield fork(finishEmailVerification, payload);
-  }
-}
-
 function* watchVerifyEmail() {
   while (true) {
     const { payload } = yield take(`${authActions.verifyEmail}`);
     yield fork(verifyEmail, payload);
+  }
+}
+
+function* watchSendPasswordResetMail() {
+  while (true) {
+    const { payload } = yield take(`${authActions.sendPasswordResetMail}`);
+    yield fork(sendPasswordResetMail, payload);
+  }
+}
+
+function* watchVerifyOobCode() {
+  while (true) {
+    const { payload } = yield take(`${authActions.verifyPasswordResetCode}`);
+    yield fork(verifyPasswordResetCode, payload);
+  }
+}
+
+function* watchResetPassword() {
+  while (true) {
+    const { payload } = yield take(`${authActions.resetPassword}`);
+    yield fork(resetPassword, payload);
   }
 }
 
@@ -297,6 +360,8 @@ export const authSagas = [
   fork(watchSignInWithGithub),
   fork(watchSignOut),
   fork(watchEmailVerification),
-  fork(watchFinishingEmailVerification),
   fork(watchVerifyEmail),
+  fork(watchSendPasswordResetMail),
+  fork(watchVerifyOobCode),
+  fork(watchResetPassword),
 ];

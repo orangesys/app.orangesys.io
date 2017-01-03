@@ -11,8 +11,12 @@ import DashboardParent from 'src/views/pages/dashboard/parent';
 import Home from 'src/views/pages/home';
 import SignUp from 'src/views/pages/sign-up';
 import SignIn from 'src/views/pages/sign-in';
+
 import VerificationGuide from 'src/views/pages/verification-guide';
-import Verify from 'src/views/pages/verify';
+import EmailAction from 'src/views/pages/email-action';
+import VerifyEmail from 'src/views/pages/verify-email';
+import ResetPassword from 'src/views/pages/reset-password';
+
 import SetupPlan from 'src/views/pages/setup/plan';
 import SetupPayment from 'src/views/pages/setup/payment';
 import ServerSetup from 'src/views/pages/dashboard/server-setup';
@@ -29,7 +33,9 @@ export const paths = {
   SIGN_IN: '/sign-in',
   SIGN_UP: '/sign-up',
   VERIFICATION_GUIDE: '/verification-guide',
-  VERIFY: '/verify',
+  EMAIL_ACTION: '/email-action',
+  VERIFY_EMAIL: '/verify-email',
+  RESET_PASSWORD: '/reset-password',
   SETUP_PLAN: '/setup/plan',
   SETUP_PAYMENT: '/setup/payment',
   SETUP_SERVER: '/setup/server',
@@ -153,11 +159,18 @@ export const getRoutes = getState => (
         onEnter: shouldVerifyEmail(getState),
       },
       {
-        path: paths.VERIFY,
-        component: Verify,
+        path: paths.EMAIL_ACTION,
+        component: EmailAction,
+      },
+      {
+        path: paths.VERIFY_EMAIL,
+        component: VerifyEmail,
         onEnter: shouldVerifyEmail(getState),
       },
-
+      {
+        path: paths.RESET_PASSWORD,
+        component: ResetPassword,
+      },
       {
         path: paths.SIGN_UP,
         component: SignUp,
@@ -210,7 +223,7 @@ export const getRoutes = getState => (
           {
             path: paths.Settings,
             component: Settings,
-          }
+          },
         ],
       },
 
