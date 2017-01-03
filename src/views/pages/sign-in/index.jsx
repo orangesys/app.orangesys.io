@@ -13,8 +13,9 @@ import PasswordResetIcon from 'material-ui/svg-icons/content/mail';
 import LinearProgress from 'material-ui/LinearProgress';
 import Divider from 'material-ui/Divider';
 
+import Message from 'src/views/components/snackbar/message';
 import ErrorMessage from 'src/views/components/snackbar/error-message';
-import { getSignIn, getPasswordReset, authActions } from 'src/core/auth';
+import { getSignIn, getPasswordReset, getMessage, authActions } from 'src/core/auth';
 import Header from 'src/views/components/header-unauth';
 import PasswordReset from './password-reset';
 import styles from './index.css';
@@ -35,13 +36,17 @@ const SignIn = (props) => {
     onCancelPasswordReset,
     onSendPasswordResetMail,
     passwordResetErrors,
+    message,
+    errorMessage,
   } = props;
 
   const { signingIn, signInError } = signIn;
   return (
     <div>
       <Header />
+      <Message message={message} onClose={onCloseMessage} />
       <ErrorMessage error={signInError} onClose={onCloseMessage} />
+      <ErrorMessage error={errorMessage} onClose={onCloseMessage} />
       <Grid className={styles.wrapper}>
         <Row className={styles['navigation-wrapper']}>
           <Col
@@ -162,6 +167,8 @@ SignIn.propTypes = {
   onCancelPasswordReset: PropTypes.func.isRequired,
   onSendPasswordResetMail: PropTypes.func.isRequired,
   passwordResetErrors: PropTypes.object,
+  message: PropTypes.string,
+  errorMessage: PropTypes.string,
 };
 
 const getInputValues = (target) => (
@@ -172,9 +179,13 @@ const getInputValues = (target) => (
 
 const mapStateToProps = createSelector(
   getSignIn,
+  getMessage,
   getPasswordReset,
-  (signIn, { showingPasswordReset, sendingPasswordResetMail, passwordResetErrors }) => ({
-    signIn, showingPasswordReset, sendingPasswordResetMail, passwordResetErrors,
+  (signIn, { message, errorMessage }, {
+    showingPasswordReset, sendingPasswordResetMail, passwordResetErrors,
+  }) => ({
+    signIn, message, errorMessage, showingPasswordReset,
+    sendingPasswordResetMail, passwordResetErrors,
   }),
 );
 

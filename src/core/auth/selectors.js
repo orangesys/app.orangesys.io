@@ -5,6 +5,15 @@ export function getAuth(state) {
   return state.auth;
 }
 
+export function getMessage(state) {
+  const auth = getAuth(state);
+  console.log("auth.message:", auth.message)
+  return {
+    message: auth.message,
+    errorMessage: auth.errorMessage,
+  };
+}
+
 export function needEmailVerification(state) {
   return getAuth(state).needEmailVerification;
 }
@@ -36,7 +45,6 @@ export function getTelegraf(state) {
 
 export function getEmailVerification(state) {
   const auth = getAuth(state);
-  console.log("auth:", auth)
   return {
     sendingVerificationEmail: auth.sendingVerificationEmail,
     sentVerificationEmail: auth.sentVerificationEmail,
@@ -44,7 +52,7 @@ export function getEmailVerification(state) {
   };
 }
 
-export function getEmailVerificationParams(state, ownProps) {
+export function getEmailActionParams(state, ownProps) {
   const query = getLocation(state, ownProps).query;
   return {
     apiKey: query.apiKey,
@@ -56,6 +64,11 @@ export function getEmailVerificationParams(state, ownProps) {
 export function getEmailVerificationResult(state) {
   const auth = getAuth(state);
   return auth.emailVerificationResult;
+}
+
+export function getActionCodeVerificationStatus(state) {
+  const auth = getAuth(state);
+  return auth.actionCodeVerificationStatus;
 }
 
 export function isAuthenticated(state) {
@@ -87,6 +100,8 @@ export function getPasswordReset(state) {
     showingPasswordReset: auth.showingPasswordReset,
     sendingPasswordResetMail: auth.sendingPasswordResetMail,
     passwordResetErrors: auth.passwordResetErrors,
+    passwordResetStatus: auth.passwordResetStatus,
+    targetEmail: auth.targetEmail,
   };
 }
 

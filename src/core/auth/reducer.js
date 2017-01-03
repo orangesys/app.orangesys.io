@@ -21,6 +21,12 @@ import {
   emailVerificationSent,
   verifyEmailFinished,
   verifyEmailFailed,
+  verifyPasswordResetCode,
+  verifyPasswordResetCodeFailed,
+  verifyPasswordResetCodeFinished,
+  resetPassword,
+  resetPasswordFailed,
+  resetPasswordFinished,
   goToSignUp,
   // goToSignIn,
   paymentFulfilled,
@@ -42,6 +48,9 @@ const AuthState = new Record({
   customerId: null,
   email: null,
   emailVerificationResult: 0,
+  // verifying|verified|not_verified|resetting|errored|reset
+  passwordResetStatus: null,
+  targetEmail: null,
   needEmailVerification: false,
   companyName: null,
   fullName: null,
@@ -237,6 +246,8 @@ export const authReducer = createReducer({
     state.merge({
       signInError: null,
       signUpError: null,
+      message: null,
+      errorMessage: null,
     })
   ),
   [showPasswordReset]: (state) => (
@@ -251,13 +262,6 @@ export const authReducer = createReducer({
   [sendPasswordResetMail]: (state) => (
     state.merge({ sendingPasswordResetMail: false })
   ),
-  [sendPasswordResetMailFinished]: (state) => (
-    state.merge({
-      showingPasswordReset: false,
-      sendingPasswordResetMail: false,
-      passwordResetErrors: new Map(),
-    })
-  ),
   [sendPasswordResetMailValidationFailed]: (state, errors) => (
     state.merge({
       passwordResetErrors: errors,
@@ -265,14 +269,45 @@ export const authReducer = createReducer({
   ),
   [sendPasswordResetMailFailed]: (state) => (
     state.merge({
-      errorMessage: '送信に失敗しました',
+      message: 'パスワードを送信しました。メールを確認してください。',
+      showingPasswordReset: false,
+      sendingPasswordResetMail: false,
+      passwordResetErrors: new Map(),
     })
   ),
   [sendPasswordResetMailFinished]: (state) => (
     state.merge({
-      message: 'パスワードを送信しました',
+      message: 'パスワードを送信しました。メールを確認してください。',
       showingPasswordReset: false,
       sendingPasswordResetMail: false,
+      passwordResetErrors: new Map(),
+    })
+  ),
+  [verifyPasswordResetCode]: (state) => (
+    state.merge({ passwordResetStatus: 'verifying' })
+  ),
+  [verifyPasswordResetCodeFailed]: (state) => (
+    state.merge({ passwordResetStatus: 'not_verified' })
+  ),
+  [verifyPasswordResetCodeFinished]: (state, targetEmail) => (
+    state.merge({
+      passwordResetStatus: 'verified',
+      targetEmail,
+    })
+  ),
+  [resetPassword]: (state) => (
+    state.merge({ passwordResetStatus: 'resetting' })
+  ),
+  [resetPasswordFailed]: (state, errors) => (
+    state.merge({
+      passwordResetStatus: 'errored',
+      passwordResetErrors: new Map(errors),
+    })
+  ),
+  [resetPasswordFinished]: (state) => (
+    state.merge({
+      passwordResetErrors: new Map(),
+      passwordResetStatus: 'reset',
     })
   ),
 }, new AuthState());

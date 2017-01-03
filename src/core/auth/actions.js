@@ -30,6 +30,13 @@ export const emailVerificationSent = createAction('verification email sent');
 export const verifyEmail = createAction('verify email');
 export const verifyEmailFailed = createAction('verify email failed');
 export const verifyEmailFinished = createAction('verify email finished');
+export const verifyPasswordResetCode = createAction('verify password reset code');
+export const verifyPasswordResetCodeFailed = createAction('verify password reset code failed');
+export const verifyPasswordResetCodeFinished = createAction('verify password reset code finished');
+export const resetPassword = createAction('reset password');
+export const resetPasswordFailed = createAction('reset password failed');
+export const resetPasswordFinished = createAction('reset password finished');
+
 export const goToSignUp = createAction('go to sign up');
 export const goToSignIn = createAction('go to sign in');
 export const paymentFulfilled = createAction('payment fulfilled');
