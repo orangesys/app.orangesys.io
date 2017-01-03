@@ -39,10 +39,8 @@ function requestCustomerRegistrationOnStripe(token, planId, uid, email) {
 
 function requestBuildingSevers(planId, uid) {
   const { retention } = findPlan(planId);
-  const getUrl = `${orangesysApiConfig.apiEndpoint}/`;
   const postUrl = `${orangesysApiConfig.apiEndpoint}/create?uuid=${uid}&rp=${retention}`;
-  return axios.get(getUrl, { timeout: 1000 * 5 })
-    .then(() => axios.post(postUrl, { timeout: 1000 * 5 }))
+  return axios.post(postUrl, { timeout: 1000 * 5 })
     .then((res) => ({ res }))
     .catch((err) => ({ err }));
 }
@@ -87,6 +85,7 @@ function* startBuildingServers() {
   if (err) {
     const errorCode = 'creation_request_error';
     const errorMessage = err.toString();
+    logException(err);
     updateServerSetupStatus(uid, SERVER_SETUP_STATUS.ERRORED,
       { errorCode, errorMessage }
     );
@@ -102,6 +101,11 @@ function* startBuildingServers() {
 function* keepWaitingForServerBuild() {
   const uid = yield(select(getUid));
   const telegraf = yield(select(getTelegraf));
+  // debug
+  // const telegraf = {
+  //   consumerId: 'xxxxxx',
+  //   token: 'asdfasdfasdfasdf',
+  // };
   const startedAt = yield call(fetchServerSetupTime, uid);
   while (true) {
     yield call(delay, 1000 * 30);
