@@ -29,8 +29,6 @@ class EmailAction extends Component {
 EmailAction.propTypes = {
   mode: PropTypes.string,
   oobCode: PropTypes.string,
-  verifyEmail: PropTypes.func.isRequired,
-  verifyingEmail: PropTypes.bool,
 };
 
 const mapStateToProps = createSelector(
