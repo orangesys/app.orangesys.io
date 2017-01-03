@@ -1,0 +1,29 @@
+@import '../../variables.css';
+
+.wrapper {
+  margin-top: 100px;
+}
+
+.header {
+  composes: paper-header from '../../common.css';
+}
+
+.body {
+  min-height: 200px;
+  padding-top: 50px;
+  text-align: center;
+}
+
+.not-verified {
+  color: var(--errorColor);
+  font-size: 0.9rem;
+}
+
+.submit {
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.login {
+  margin-top: 40px;
+}

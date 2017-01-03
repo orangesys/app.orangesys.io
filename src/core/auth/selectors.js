@@ -5,6 +5,15 @@ export function getAuth(state) {
   return state.auth;
 }
 
+export function getMessage(state) {
+  const auth = getAuth(state);
+  console.log("auth.message:", auth.message)
+  return {
+    message: auth.message,
+    errorMessage: auth.errorMessage,
+  };
+}
+
 export function needEmailVerification(state) {
   return getAuth(state).needEmailVerification;
 }
@@ -39,10 +48,11 @@ export function getEmailVerification(state) {
   return {
     sendingVerificationEmail: auth.sendingVerificationEmail,
     sentVerificationEmail: auth.sentVerificationEmail,
+    passwordResetErrors: auth.passwordResetErrors,
   };
 }
 
-export function getEmailVerificationParams(state, ownProps) {
+export function getEmailActionParams(state, ownProps) {
   const query = getLocation(state, ownProps).query;
   return {
     apiKey: query.apiKey,
@@ -54,6 +64,11 @@ export function getEmailVerificationParams(state, ownProps) {
 export function getEmailVerificationResult(state) {
   const auth = getAuth(state);
   return auth.emailVerificationResult;
+}
+
+export function getActionCodeVerificationStatus(state) {
+  const auth = getAuth(state);
+  return auth.actionCodeVerificationStatus;
 }
 
 export function isAuthenticated(state) {
@@ -76,6 +91,17 @@ export function getSignIn(state) {
   return {
     signingIn: auth.signingIn,
     signInError: auth.signInError,
+  };
+}
+
+export function getPasswordReset(state) {
+  const auth = getAuth(state);
+  return {
+    showingPasswordReset: auth.showingPasswordReset,
+    sendingPasswordResetMail: auth.sendingPasswordResetMail,
+    passwordResetErrors: auth.passwordResetErrors,
+    passwordResetStatus: auth.passwordResetStatus,
+    targetEmail: auth.targetEmail,
   };
 }
 

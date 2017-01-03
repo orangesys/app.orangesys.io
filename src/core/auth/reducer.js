@@ -21,12 +21,24 @@ import {
   emailVerificationSent,
   verifyEmailFinished,
   verifyEmailFailed,
+  verifyPasswordResetCode,
+  verifyPasswordResetCodeFailed,
+  verifyPasswordResetCodeFinished,
+  resetPassword,
+  resetPasswordFailed,
+  resetPasswordFinished,
   goToSignUp,
   // goToSignIn,
   paymentFulfilled,
   putTelegraf,
   serverSetupFinished,
   clearMessage,
+  showPasswordReset,
+  cancelPasswordReset,
+  sendPasswordResetMail,
+  sendPasswordResetMailValidationFailed,
+  sendPasswordResetMailFinished,
+  sendPasswordResetMailFailed,
 } from './actions';
 import * as validators from './validator';
 import { SERVER_SETUP_STATUS } from 'src/core/server_setup';
@@ -36,6 +48,9 @@ const AuthState = new Record({
   customerId: null,
   email: null,
   emailVerificationResult: 0,
+  // verifying|verified|not_verified|resetting|errored|reset
+  passwordResetStatus: null,
+  targetEmail: null,
   needEmailVerification: false,
   companyName: null,
   fullName: null,
@@ -58,6 +73,11 @@ const AuthState = new Record({
   signUpProvider: 'firebase',
   telegraf: new Map(),
   uid: null,
+  showingPasswordReset: false,
+  sendingPasswordResetMail: false,
+  passwordResetErrors: new Map(),
+  errorMessage: null,
+  message: null,
 });
 
 export const authReducer = createReducer({
@@ -81,7 +101,7 @@ export const authReducer = createReducer({
   ),
   [validateSignUp]: (state, inputs) => (
     state.merge({
-      signUpFieldErrors: validators.validateSignUp(inputs),
+      signUpFieldErrors: validators.validate(inputs),
     })
   ),
   [signUpValidationFailed]: (state, signUpFieldErrors) => (
@@ -226,6 +246,68 @@ export const authReducer = createReducer({
     state.merge({
       signInError: null,
       signUpError: null,
+      message: null,
+      errorMessage: null,
+    })
+  ),
+  [showPasswordReset]: (state) => (
+    state.merge({ showingPasswordReset: true })
+  ),
+  [cancelPasswordReset]: (state) => (
+    state.merge({
+      showingPasswordReset: false,
+      passwordResetErrors: new Map(),
+    })
+  ),
+  [sendPasswordResetMail]: (state) => (
+    state.merge({ sendingPasswordResetMail: false })
+  ),
+  [sendPasswordResetMailValidationFailed]: (state, errors) => (
+    state.merge({
+      passwordResetErrors: errors,
+    })
+  ),
+  [sendPasswordResetMailFailed]: (state) => (
+    state.merge({
+      message: 'パスワードを送信しました。メールを確認してください。',
+      showingPasswordReset: false,
+      sendingPasswordResetMail: false,
+      passwordResetErrors: new Map(),
+    })
+  ),
+  [sendPasswordResetMailFinished]: (state) => (
+    state.merge({
+      message: 'パスワードを送信しました。メールを確認してください。',
+      showingPasswordReset: false,
+      sendingPasswordResetMail: false,
+      passwordResetErrors: new Map(),
+    })
+  ),
+  [verifyPasswordResetCode]: (state) => (
+    state.merge({ passwordResetStatus: 'verifying' })
+  ),
+  [verifyPasswordResetCodeFailed]: (state) => (
+    state.merge({ passwordResetStatus: 'not_verified' })
+  ),
+  [verifyPasswordResetCodeFinished]: (state, targetEmail) => (
+    state.merge({
+      passwordResetStatus: 'verified',
+      targetEmail,
+    })
+  ),
+  [resetPassword]: (state) => (
+    state.merge({ passwordResetStatus: 'resetting' })
+  ),
+  [resetPasswordFailed]: (state, errors) => (
+    state.merge({
+      passwordResetStatus: 'errored',
+      passwordResetErrors: new Map(errors),
+    })
+  ),
+  [resetPasswordFinished]: (state) => (
+    state.merge({
+      passwordResetErrors: new Map(),
+      passwordResetStatus: 'reset',
     })
   ),
 }, new AuthState());

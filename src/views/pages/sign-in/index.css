@@ -57,3 +57,8 @@
 .oauth-buttons {
   padding-top: 20px;
 }
+
+.bottom-navi {
+  margin-top: 25px;
+  /*text-align: right;*/
+}

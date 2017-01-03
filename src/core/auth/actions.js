@@ -30,9 +30,23 @@ export const emailVerificationSent = createAction('verification email sent');
 export const verifyEmail = createAction('verify email');
 export const verifyEmailFailed = createAction('verify email failed');
 export const verifyEmailFinished = createAction('verify email finished');
+export const verifyPasswordResetCode = createAction('verify password reset code');
+export const verifyPasswordResetCodeFailed = createAction('verify password reset code failed');
+export const verifyPasswordResetCodeFinished = createAction('verify password reset code finished');
+export const resetPassword = createAction('reset password');
+export const resetPasswordFailed = createAction('reset password failed');
+export const resetPasswordFinished = createAction('reset password finished');
+
 export const goToSignUp = createAction('go to sign up');
 export const goToSignIn = createAction('go to sign in');
 export const paymentFulfilled = createAction('payment fulfilled');
 export const putTelegraf = createAction('put telegraf');
 export const clearMessage = createAction('clear message');
 export const updateProfile = createAction('update profile (auth)');
+export const showPasswordReset = createAction('show password reset');
+export const cancelPasswordReset = createAction('cancel password reset');
+export const sendPasswordResetMail = createAction('send password reset mail');
+export const sendPasswordResetMailFinished = createAction('send password reset mail finished');
+export const sendPasswordResetMailValidationFailed =
+  createAction('send password reset mail validation failed');
+export const sendPasswordResetMailFailed = createAction('send password reset mail failed');
