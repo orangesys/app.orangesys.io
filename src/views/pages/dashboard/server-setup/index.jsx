@@ -19,9 +19,6 @@ class ServerSetup extends Component {
   componentWillMount() {
     this.props.setupServer(this.props.status);
   }
-  componentWillUpdate() {
-    this.props.setupServer(this.props.status);
-  }
   render() {
     const { status, errorCode } = this.props;
     return (
