@@ -1,6 +1,5 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import createLogger from 'redux-logger';
 import reducers from './reducers';
 import sagas from './sagas';
 import { isSentryConfigActive, generateRavenMiddleware } from 'src/core/sentry';
@@ -17,7 +16,6 @@ export default(initialState = {}) => {
     if (typeof devToolsExtension === 'function') {
       middlewares.push(devToolsExtension());
     }
-    middlewares.push(applyMiddleware(createLogger()));
   }
 
   const store = createStore(reducers, initialState, compose(...middlewares));
