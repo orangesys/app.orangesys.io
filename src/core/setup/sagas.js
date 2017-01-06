@@ -1,6 +1,7 @@
 import { delay } from 'redux-saga';
 import { call, fork, put, take, select } from 'redux-saga/effects';
 import axios from 'axios';
+import has from 'lodash/object';
 import moment from 'moment';
 import { hashHistory as history } from 'react-router';
 import {
@@ -47,9 +48,12 @@ function requestBuildingSevers(planId, uid) {
 
 function pingServer({ consumerId, token }) {
   const url = `https://${consumerId}.i.orangesys.io/ping?jwt=${token}`;
+  const header = 'x-influxdb-version';
   return axios.head(url, { timeout: 1000 * 5 })
-    .then((res) => ({ result: !!res.headers['x-influxdb-version'] }))
-    .catch((err) => ({ err }));
+    .then(res => ({
+      result: has(res.headers, header) || has(res.headers, header.toUpperCase()),
+    }))
+    .catch(err => ({ err }));
 }
 
 // ----------------------------------------------------------------------
