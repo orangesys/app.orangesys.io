@@ -47,7 +47,7 @@ function requestBuildingSevers(planId, uid) {
 
 function pingServer({ consumerId, token }) {
   const url = `https://${consumerId}.i.orangesys.io/ping?jwt=${token}`;
-  return axios.get(url, { timeout: 1000 * 5 })
+  return axios.head(url, { timeout: 1000 * 5 })
     .then((res) => ({ result: !!res.headers['x-influxdb-version'] }))
     .catch((err) => ({ err }));
 }
