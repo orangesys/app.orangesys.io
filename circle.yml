@@ -23,9 +23,6 @@ test:
   override:
     - echo $NODEJS_ENV_DEV | base64 --decode -i > .env
     - env $(cat .env | xargs) webpack -p --progress
-  post:
-    - |
-      curl -s -S -X POST --data-urlencode "payload={'channel': '#ops', 'text': ':circleci: coverage report: <https://$CIRCLE_BUILD_NUM-00000000-gh.circle-artifacts.com/0$CIRCLE_ARTIFACTS/coverage/index.html|open report :earth_asia: >(build $CIRCLE_BUILD_NUM)' }" $SLACK_OPS >/dev/null
 
 deployment:
   release:
@@ -35,3 +32,5 @@ deployment:
       - echo $NODEJS_ENV_PROD | base64 --decode -i > .env
       - env $(cat .env | xargs) webpack -p --progress
       - firebase deploy --project "$FIREBASE_PROJECT" --token "$FIREBASE_TOKEN" --non-interactive
+      - |
+        curl -s -S -X POST --data-urlencode "payload={'channel': '#ops', 'text': ':earth_asia: :fire: release $SHORT_HASH completed ($CIRCLE_BUILD_NUM)' }" $SLACK_OPS >/dev/null
