@@ -11,6 +11,7 @@ export const finishConnectingToGithubForSignUp =
   createAction('finish connecting to github for sign up');
 export const serverSetupError = createAction('server setup error');
 export const serverSetupFinished = createAction('server setup finished');
+export const setTelegraf = createAction('set telegraf');
 export const signUp = createAction('sign up');
 export const signUpWithGoogle = createAction('sign up with google');
 export const signUpWithGithub = createAction('sign up with github');
