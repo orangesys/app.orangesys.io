@@ -8,6 +8,7 @@ machine:
     CLOUDSDK_COMPUTE_ZONE: asia-east1-c
     CLUSTER_NAME: orangesysio
     DEBIAN_FRONTEND: noninteractive
+    SHORT_HASH: $(echo $CIRCLE_SHA1 | cut -c -7)
 
   services:
     - docker
@@ -31,3 +32,4 @@ deployment:
       - echo $NODEJS_ENV_PROD | base64 --decode -i > .env
       - env $(cat .env | xargs) webpack -p --progress
       - firebase deploy --project "$FIREBASE_PROJECT" --token "$FIREBASE_TOKEN" --non-interactive
+      - curl -X POST --data "payload={\"text\":\":fire: Release ${SHORT_HASH} Completed\"}" $SLACK_OPS
