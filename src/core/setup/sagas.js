@@ -13,7 +13,6 @@ import {
   updateServerSetupStatus,
   updateServerSetupStatusToBuilding,
   updateServerSetupStatusToCompleted,
-  setTelegraf,
 } from './database';
 import { getSelectedPlanId } from './selectors';
 import {
@@ -125,12 +124,15 @@ function* startBuildingServers() {
 }
 
 function* keepWaitingForServerBuild() {
+  let telegraf;
   const uid = yield(select(getUid));
-  const telegraf = yield call(fetchTelegraf, uid);
-  yield put(authActions.setTelegraf(telegraf));
   const startedAt = yield call(fetchServerSetupTime, uid);
   while (true) {
     yield call(delay, 1000 * 30);
+    if (!telegraf) {
+      telegraf = yield call(fetchTelegraf, uid);
+      yield put(authActions.setTelegraf(telegraf));
+    }
     const { result } = yield call(pingServer, telegraf);
     if (result) {
       updateServerSetupStatusToCompleted(uid);
