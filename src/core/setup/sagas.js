@@ -13,6 +13,7 @@ import {
   updateServerSetupStatus,
   updateServerSetupStatusToBuilding,
   updateServerSetupStatusToCompleted,
+  savePingErrors,
 } from './database';
 import { getSelectedPlanId } from './selectors';
 import {
@@ -57,17 +58,17 @@ function pingServer({ consumerId, token }) {
   if (apiDebugMode) {
     mock = new MockAdapter(axios);
     mock.onHead(url).reply(204, {}, { 'x-influxdb-version': '1.1.1' });
+    // mock.onHead(url).reply(400, { message: 'error occurred.' });
   }
   return axios.head(url, { timeout: 1000 * 5 })
     .then(res => {
       if (mock) { mock.reset(); }
-      // const headers = keysToUpperCase(res.headers);
-      // return { result: has(headers, headerName) };
-      return { result: true };
+      const headers = keysToUpperCase(res.headers);
+      return { result: has(headers, headerName) };
     })
-    .catch(err => {
+    .catch(errResponse => {
       if (mock) { mock.reset(); }
-      return { err };
+      return { errResponse };
     });
 }
 
@@ -129,12 +130,16 @@ function* keepWaitingForServerBuild() {
   const uid = yield(select(getUid));
   const startedAt = yield call(fetchServerSetupTime, uid);
   while (true) {
-    yield call(delay, 1000 * 30);
+    yield call(delay, 1000 * 10);
     if (!telegraf) {
       telegraf = yield call(fetchTelegraf, uid);
       yield put(authActions.setTelegraf(telegraf));
     }
-    const { result } = yield call(pingServer, telegraf);
+    const { result, errResponse } = yield call(pingServer, telegraf);
+    if (errResponse) {
+      console.log('pingError:', errResponse);   // eslint-disable-line no-console
+      savePingErrors(uid, errResponse);
+    }
     if (result) {
       updateServerSetupStatusToCompleted(uid);
       yield put(authActions.serverSetupFinished());
