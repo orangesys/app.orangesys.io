@@ -25,6 +25,7 @@ const ENV_NAMES = [
   'ORANGESYS_API_ENDPOINT',
   'SENTRY_DSN',
   'SUPPORT_EMAIL',
+  'API_DEBUG_MODE',
 ];
 
 const ENV_DEVELOPMENT = NODE_ENV === 'development';
