@@ -8,6 +8,7 @@ machine:
     CLOUDSDK_COMPUTE_ZONE: asia-east1-c
     CLUSTER_NAME: orangesysio
     DEBIAN_FRONTEND: noninteractive
+    SHORT_HASH: $(echo $CIRCLE_SHA1 | cut -c -7)
 
   services:
     - docker
@@ -22,6 +23,9 @@ test:
   override:
     - echo $NODEJS_ENV_DEV | base64 --decode -i > .env
     - env $(cat .env | xargs) webpack -p --progress
+  post:
+    - |
+      curl -s -S -X POST --data-urlencode "payload={'channel': '#ops', 'text': ':circleci: coverage report: <https://$CIRCLE_BUILD_NUM-00000000-gh.circle-artifacts.com/0$CIRCLE_ARTIFACTS/coverage/index.html|open report :earth_asia: >(build $CIRCLE_BUILD_NUM)' }" $SLACK_OPS >/dev/null
 
 deployment:
   release:
