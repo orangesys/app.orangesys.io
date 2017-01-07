@@ -73,3 +73,13 @@ export function updateServerSetupStatusToCompleted(uid) {
   };
   firebaseDB.ref().update(updates);
 }
+
+export function savePingErrors(uid, errReponse) {
+  const key = `users/${uid}`;
+  const now = moment().utc().format();
+  const updates = {
+    [`${key}/serverSetup/pingErrors/${now}`]: errReponse.toString(),
+    [`${key}/updatedAt`]: now,
+  };
+  firebaseDB.ref().update(updates);
+}
