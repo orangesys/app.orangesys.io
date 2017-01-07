@@ -130,7 +130,7 @@ function* keepWaitingForServerBuild() {
   const uid = yield(select(getUid));
   const startedAt = yield call(fetchServerSetupTime, uid);
   while (true) {
-    yield call(delay, 1000 * 10);
+    yield call(delay, 1000 * 30);
     if (!telegraf) {
       telegraf = yield call(fetchTelegraf, uid);
       yield put(authActions.setTelegraf(telegraf));
