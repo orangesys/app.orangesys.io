@@ -32,4 +32,3 @@ deployment:
       - echo $NODEJS_ENV_PROD | base64 --decode -i > .env
       - env $(cat .env | xargs) webpack -p --progress
       - firebase deploy --project "$FIREBASE_PROJECT" --token "$FIREBASE_TOKEN" --non-interactive
-      - curl -X POST --data "payload={\"text\":\":fire: Release ${SHORT_HASH} Completed\"}" $SLACK_OPS
