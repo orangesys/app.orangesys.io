@@ -37,6 +37,21 @@ export function fetchServerSetupTime(uid) {
     .then((snapshot) => (moment(snapshot.val())));
 }
 
+export function fetchTelegraf(uid) {
+  return firebaseDB.ref(`users/${uid}/telegraf`).once('value')
+    .then(snapshot => (snapshot.val()));
+}
+
+export function saveTelegrafToDB(uid, { consumerId, token }) {
+  const key = `users/${uid}`;
+  const updates = {
+    [`${key}/telegraf/consumerId`]: consumerId,
+    [`${key}/telegraf/token`]: token,
+    [`${key}/updatedAt`]: moment().utc().format(),
+  };
+  firebaseDB.ref().update(updates);
+}
+
 export function updateServerSetupStatusToBuilding(uid) {
   const key = `users/${uid}`;
   const now = moment().utc().format();

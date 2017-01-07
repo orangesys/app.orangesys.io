@@ -1,24 +1,26 @@
 import { delay } from 'redux-saga';
 import { call, fork, put, take, select } from 'redux-saga/effects';
 import axios from 'axios';
-import has from 'lodash/object';
+import { has, mapKeys } from 'lodash/object';
 import moment from 'moment';
 import { hashHistory as history } from 'react-router';
+import MockAdapter from 'axios-mock-adapter';
 import {
   fetchServerSetupTime,
+  fetchTelegraf,
   savePaymentToDB,
+  saveTelegrafToDB,
   updateServerSetupStatus,
   updateServerSetupStatusToBuilding,
   updateServerSetupStatusToCompleted,
+  setTelegraf,
 } from './database';
 import { getSelectedPlanId } from './selectors';
 import {
   authActions,
   getFieldsForPayment,
   getPlanId,
-  getTelegraf,
   getUid,
-  executeFetchAuth,
 } from 'src/core/auth/';
 import * as setupActions from './actions';
 import { findPlan } from 'src/core/plans';
@@ -27,6 +29,9 @@ import { orangesysApiConfig } from 'src/core/orangesys-api';
 import { SERVER_SETUP_STATUS } from 'src/core/server_setup';
 import { logException } from 'src/core/logger';
 
+const apiDebugMode = API_DEBUG_MODE === 'true'; // eslint-disable-line no-undef
+
+const keysToUpperCase = (o) => mapKeys(o, (v, k) => k.toUpperCase());
 
 // ----------------------------------------------------------------------
 // HTTP Requests
@@ -48,12 +53,22 @@ function requestBuildingSevers(planId, uid) {
 
 function pingServer({ consumerId, token }) {
   const url = `https://${consumerId}.i.orangesys.io/ping?jwt=${token}`;
-  const header = 'x-influxdb-version';
+  const headerName = 'X-INFLUXDB-VERSION';
+  let mock = null;
+  if (apiDebugMode) {
+    mock = new MockAdapter(axios);
+    mock.onHead(url).reply(200, {}, { 'X-Influxdb-Version': '1.1.1' });
+  }
   return axios.head(url, { timeout: 1000 * 5 })
-    .then(res => ({
-      result: has(res.headers, header) || has(res.headers, header.toUpperCase()),
-    }))
-    .catch(err => ({ err }));
+    .then(res => {
+      if (mock) { mock.reset(); }
+      const headers = keysToUpperCase(res.headers);
+      return { result: has(headers, headerName) };
+    })
+    .catch(err => {
+      if (mock) { mock.reset(); }
+      return { err };
+    });
 }
 
 // ----------------------------------------------------------------------
@@ -96,20 +111,23 @@ function* startBuildingServers() {
     yield put(authActions.serverSetupError({ errorCode }));
     return;
   }
+  if (apiDebugMode) {
+    console.log('apiDebugMode:', apiDebugMode); // eslint-disable-line no-console
+    saveTelegrafToDB(uid, {
+      consumerId: 'dummy1',
+      token:
+        'dummy-ciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJiMGQ1MTkzMmVkMmU0NzcwO' +
+        'WRkYTI5NjM0ZGFjYTg4OCJ9.bdNT2pqqlU8ioTw1VuZ74BeiqCQ9p6hmyeIA5P4tGbI',
+    });
+  }
   updateServerSetupStatusToBuilding(uid);
-  const { user } = yield call(executeFetchAuth);  // get telegraf data
-  yield put(authActions.initAuth(user));
   yield put(setupActions.keepWaitingForServerBuild());
 }
 
 function* keepWaitingForServerBuild() {
   const uid = yield(select(getUid));
-  const telegraf = yield(select(getTelegraf));
-  // debug
-  // const telegraf = {
-  //   consumerId: 'xxxxxx',
-  //   token: 'asdfasdfasdfasdf',
-  // };
+  const telegraf = yield call(fetchTelegraf, uid);
+  yield put(authActions.setTelegraf(telegraf));
   const startedAt = yield call(fetchServerSetupTime, uid);
   while (true) {
     yield call(delay, 1000 * 30);

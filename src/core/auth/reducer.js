@@ -13,6 +13,7 @@ import {
   signUpFailed,
   finishConnectingToGoogleForSignUp,
   finishConnectingToGithubForSignUp,
+  setTelegraf,
   signIn,
   signInFulfilled,
   signInFailed,
@@ -103,6 +104,9 @@ export const authReducer = createReducer({
     state.merge({
       signUpFieldErrors: validators.validate(inputs),
     })
+  ),
+  [setTelegraf]: (state, telegraf) => (
+    state.merge({ telegraf })
   ),
   [signUpValidationFailed]: (state, signUpFieldErrors) => (
     state.merge({
@@ -240,7 +244,9 @@ export const authReducer = createReducer({
     })
   ),
   [serverSetupFinished]: (state) => (
-    state.merge({ serverSetup: { status: SERVER_SETUP_STATUS.COMPLETED } })
+    state.merge({
+      serverSetup: { status: SERVER_SETUP_STATUS.COMPLETED },
+    })
   ),
   [clearMessage]: (state) => (
     state.merge({
