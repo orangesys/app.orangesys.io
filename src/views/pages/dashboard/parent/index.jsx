@@ -1,36 +1,63 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-
 import Sidebar from 'src/views/components/sidebar';
 import { isNeedServerSetup } from 'src/core/auth';
-import { getCurrentPageName, getCurrentPageGroup } from 'src/core/dashboard';
+import {
+  getMessages,
+  getCurrentPageName,
+  getCurrentPageGroup,
+  dashboardActions,
+} from 'src/core/dashboard';
+import Message from 'src/views/components/message-snackbar';
 import styles from './index.css';
 
-const DashboardParent = ({ children, pageName, pageGroup, needServerSetup }) => (
-  <div className={styles.whole}>
-    <Sidebar pageGroup={pageGroup} needServerSetup={needServerSetup} />
-    <div className={styles.main}>
-      <header className={styles.header}>
-        {pageName}
-      </header>
-      {children}
+const DashboardParent = (props) => {
+  const {
+    children,
+    pageName,
+    pageGroup,
+    needServerSetup,
+    message,
+    onMessageClose,
+  } = props;
+  return (
+    <div className={styles.whole}>
+      <Sidebar pageGroup={pageGroup} needServerSetup={needServerSetup} />
+      <div className={styles.main}>
+        <header className={styles.header}>
+          {pageName}
+        </header>
+        {children}
+      </div>
+      <Message message={message} onClose={onMessageClose} />
     </div>
-  </div>
-);
+  );
+};
 
 DashboardParent.propTypes = {
   children: PropTypes.object,
   pageName: PropTypes.string,
   pageGroup: PropTypes.string,
   needServerSetup: PropTypes.bool,
+  message: PropTypes.string,
+  onMessageClose: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createSelector(
   getCurrentPageName,
   getCurrentPageGroup,
   isNeedServerSetup,
-  (pageName, pageGroup, needServerSetup) => ({ pageName, pageGroup, needServerSetup }),
+  getMessages,
+  (pageName, pageGroup, needServerSetup, { message }) => ({
+    pageName, pageGroup, needServerSetup, message,
+  }),
 );
 
-export default connect(mapStateToProps)(DashboardParent);
+const mapDispatchToProps = (dispatch) => ({
+  onMessageClose: () => {
+    dispatch(dashboardActions.clearMessage());
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(DashboardParent);

@@ -41,3 +41,10 @@ export const getPlanCancel = state => {
     cancelingPlan,
   };
 };
+
+export const getMessages = state => {
+  const { message, errorMessage } = state.dashboard;
+  return {
+    message, errorMessage,
+  };
+};
