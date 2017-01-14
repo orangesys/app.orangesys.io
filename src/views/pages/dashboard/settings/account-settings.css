@@ -1,3 +1,5 @@
+@import '../../../variables.css';
+
 .whole {
   padding: 30px;
 }
@@ -13,6 +15,29 @@
   margin-bottom: 30px;
 }
 
+.email {
+  margin-bottom: 10px;
+}
+
 .progress {
   margin-bottom: 20px;
+}
+
+.providers {
+  margin-top: 30px;
+}
+
+.provider-list {
+ list-style-type: none;
+ padding-left: 10px;
+}
+
+.provider-item {
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+.label {
+  font-size: 0.8rem;
+  color: rgb(180, 180, 180);
 }

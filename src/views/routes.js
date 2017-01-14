@@ -16,6 +16,8 @@ import VerificationGuide from 'src/views/pages/verification-guide';
 import EmailAction from 'src/views/pages/email-action';
 import VerifyEmail from 'src/views/pages/verify-email';
 import ResetPassword from 'src/views/pages/reset-password';
+import RecoverEmail from 'src/views/pages/recover-email';
+
 
 import SetupPlan from 'src/views/pages/setup/plan';
 import SetupPayment from 'src/views/pages/setup/payment';
@@ -36,6 +38,7 @@ export const paths = {
   EMAIL_ACTION: '/email-action',
   VERIFY_EMAIL: '/verify-email',
   RESET_PASSWORD: '/reset-password',
+  RECOVER_EMAIL: '/recover-email',
   SETUP_PLAN: '/setup/plan',
   SETUP_PAYMENT: '/setup/payment',
   SETUP_SERVER: '/setup/server',
@@ -170,6 +173,10 @@ export const getRoutes = getState => (
       {
         path: paths.RESET_PASSWORD,
         component: ResetPassword,
+      },
+      {
+        path: paths.RECOVER_EMAIL,
+        component: RecoverEmail,
       },
       {
         path: paths.SIGN_UP,

@@ -7,3 +7,11 @@ export const validateProfile = (data) => {
   };
   return validate(rules, data);
 };
+
+export const validateEmailChange = (data) => {
+  const rules = {
+    email: 'required|email|max:255',
+    password: 'required|min:8|max:16',
+  };
+  return validate(rules, data);
+};

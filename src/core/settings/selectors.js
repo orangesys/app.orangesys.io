@@ -1,5 +1,2 @@
 
-export const getSettings = state => {
-  console.log("state.settings:", state.settings)
-  return state.settings;
-}
+export const getSettings = state => state.settings

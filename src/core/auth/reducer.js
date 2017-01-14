@@ -1,5 +1,5 @@
 import { createReducer } from 'redux-act';
-import { Record, Map } from 'immutable';
+import { Record, Map, List } from 'immutable';
 import { isEmpty } from 'lodash/lang';
 
 import {
@@ -20,6 +20,7 @@ import {
   signOut,
   emailVerification,
   emailVerificationSent,
+  emailChanged,
   verifyEmailFinished,
   verifyEmailFailed,
   verifyPasswordResetCode,
@@ -40,6 +41,9 @@ import {
   sendPasswordResetMailValidationFailed,
   sendPasswordResetMailFinished,
   sendPasswordResetMailFailed,
+  recoverEmail,
+  recoverEmailFailed,
+  recoverEmailFinished,
 } from './actions';
 import * as validators from './validator';
 import { SERVER_SETUP_STATUS } from 'src/core/server_setup';
@@ -77,6 +81,8 @@ const AuthState = new Record({
   showingPasswordReset: false,
   sendingPasswordResetMail: false,
   passwordResetErrors: new Map(),
+  recoverEmailStatus: 0,
+  providerData: new List(),
   errorMessage: null,
   message: null,
 });
@@ -95,6 +101,7 @@ export const authReducer = createReducer({
       sentVerificationEmail: false,
       serverSetup: u.serverSetup,
       telegraf: u.telegraf,
+      providerData: new List(u.providerData),
     });
   },
   [changeSignUpField]: (state, input) => (
@@ -131,6 +138,7 @@ export const authReducer = createReducer({
       uid: user.uid,
       email: user.email,
       planId: user.planId,
+      providerData: new List(user.providerData),
     })
   ),
   [finishConnectingToGoogleForSignUp]: (state, user) => (
@@ -175,6 +183,7 @@ export const authReducer = createReducer({
       serverSetup: u.serverSetup,
       signingIn: false,
       telegraf: u.telegraf,
+      providerData: new List(u.providerData),
     });
   },
   [signUpFailed]: (state, signUpError) => (
@@ -314,6 +323,23 @@ export const authReducer = createReducer({
     state.merge({
       passwordResetErrors: new Map(),
       passwordResetStatus: 'reset',
+    })
+  ),
+  [emailChanged]: (state, email) => (
+    state.merge({
+      email,
+    })
+  ),
+  [recoverEmail]: (state) => (
+    state.merge({ recoverEmailStatus: 1 })
+  ),
+  [recoverEmailFailed]: (state) => (
+    state.merge({ recoverEmailStatus: 9 })
+  ),
+  [recoverEmailFinished]: (state, { email }) => (
+    state.merge({
+      recoverEmailStatus: 2,
+      email,
     })
   ),
 }, new AuthState());

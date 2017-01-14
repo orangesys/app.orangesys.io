@@ -127,5 +127,11 @@ export function getProfile(state) {
   return {
     companyName: auth.get('companyName'),
     fullName: auth.get('fullName'),
+    email: auth.get('email'),
+    providerData: auth.get('providerData'),
   };
+}
+
+export function getRecoverEmailStatus(state) {
+  return getAuth(state).recoverEmailStatus;
 }
