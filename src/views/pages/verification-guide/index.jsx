@@ -33,7 +33,7 @@ const VerificationGuide = ({ emailVerification, onSendEmail }) => {
                 メールアドレスの認証
               </div>
               <div className={styles.body}>
-                <p>送信された認証用メールを確認してください。</p>
+                <p>送信されたメールを確認しメールアドレスの認証を行ってください。</p>
                 <div className={styles['send-mail']}>
                   <FlatButton
                     label="確認メールを再度送信"

@@ -1,12 +1,14 @@
 import firebase from 'firebase';
-import { call, fork, put, take } from 'redux-saga/effects';
+import { call, fork, put, take, select } from 'redux-saga/effects';
 import { hashHistory as history } from 'react-router';
 import moment from 'moment';
 
 import { firebaseAuth, firebaseDB, firebaseErrors } from 'src/core/firebase';
+import { updateEmail } from 'src/core/db_operations';
 import * as authActions from './actions';
 import * as validators from './validator';
 import { fetchAuth } from './index';
+import { getUid } from './selectors';
 import { logException } from 'src/core/logger';
 
 
@@ -37,6 +39,7 @@ function payloadForSignInFulfilled(user) {
     providerId: user.providerId,
     serverSetup: user.serverSetup,
     telegraf: user.telegraf,
+    providerData: user.providerData,
   };
 }
 
@@ -248,6 +251,21 @@ function* resetPassword({ oobCode, password }) {
   yield put(authActions.resetPasswordFinished());
 }
 
+function* recoverEmail({ oobCode }) {
+  try {
+    const info = yield call([firebaseAuth, firebaseAuth.checkActionCode], oobCode);
+    const restoredEmail = info.data.email;
+    yield call([firebaseAuth, firebaseAuth.applyActionCode], oobCode);
+    const uid = yield(select(getUid));
+    yield call(updateEmail, uid, restoredEmail);
+    yield put(authActions.recoverEmailFinished({ email: restoredEmail }));
+  } catch (e) {
+    logException(e);
+    yield put(authActions.recoverEmailFailed());
+  }
+}
+
+
 // =====================================
 //  WATCHERS
 // -------------------------------------
@@ -349,6 +367,13 @@ function* watchResetPassword() {
   }
 }
 
+function* watchRecoverEmail() {
+  while (true) {
+    const { payload } = yield take(`${authActions.recoverEmail}`);
+    yield fork(recoverEmail, payload);
+  }
+}
+
 export const authSagas = [
   fork(watchStartSigningUpWithGoogle),
   fork(watchStartSigningUpWithGithub),
@@ -364,4 +389,5 @@ export const authSagas = [
   fork(watchSendPasswordResetMail),
   fork(watchVerifyOobCode),
   fork(watchResetPassword),
+  fork(watchRecoverEmail),
 ];
