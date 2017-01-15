@@ -51,3 +51,7 @@ export const sendPasswordResetMailFinished = createAction('send password reset m
 export const sendPasswordResetMailValidationFailed =
   createAction('send password reset mail validation failed');
 export const sendPasswordResetMailFailed = createAction('send password reset mail failed');
+export const emailChanged = createAction('email changed');
+export const recoverEmail = createAction('recover email');
+export const recoverEmailFailed = createAction('recover email failed');
+export const recoverEmailFinished = createAction('recover email finished');

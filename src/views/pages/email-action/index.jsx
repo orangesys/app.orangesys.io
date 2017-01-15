@@ -14,6 +14,7 @@ class EmailAction extends Component {
     const pathMap = {
       verifyEmail: '/verify-email',
       resetPassword: '/reset-password',
+      recoverEmail: '/recover-email',
     };
     history.replace({ pathname: pathMap[mode], query: { oobCode } });
   }

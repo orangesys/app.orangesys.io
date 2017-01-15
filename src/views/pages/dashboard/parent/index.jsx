@@ -9,7 +9,7 @@ import {
   getCurrentPageGroup,
   dashboardActions,
 } from 'src/core/dashboard';
-import Message from 'src/views/components/message-snackbar';
+import Message from 'src/views/components/snackbar/message';
 import styles from './index.css';
 
 const DashboardParent = (props) => {
