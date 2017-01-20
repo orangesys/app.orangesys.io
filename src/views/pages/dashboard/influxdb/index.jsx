@@ -69,12 +69,6 @@ const InfluxDB = ({ consumerId, token, onCopyToken }) => {
                 </Table>
               </div>
             </Paper>
-            <Paper className={styles.install} zDepth={1}>
-              <div className={styles.header}>Telegrafインストール</div>
-              <pre className={styles.command}>
-                sudo bash -c "$(curl -sL https://raw.githubusercontent.com/orangesys/install/telegraf/install.sh)"
-              </pre>
-            </Paper>
           </Col>
         </Row>
       </Grid>
