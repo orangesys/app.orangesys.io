@@ -14,21 +14,6 @@
   padding: 10px;
 }
 
-.install {
-  margin-top: 20px;
-  font-size: 1.1rem;
-  padding: 10px;
-}
-
-.command {
-  font-size: 0.9rem;
-  padding: 15px;
-  margin-left: 20px;
-  margin-top: 30px;
-  border: 1px solid var(--borderColor);
-  background-color: rgb(255, 250, 240);
-}
-
 .body {
   padding: 15px;
 }
