@@ -2,11 +2,20 @@ import { call, fork, put, take, select } from 'redux-saga/effects';
 import firebase from 'firebase';
 import { firebaseAuth, firebaseDB } from 'src/core/firebase';
 import { Map } from 'immutable';
+import axios from 'axios';
 import { updateEmail as updateEmailOnDB } from 'src/core/db_operations';
 import * as actions from './actions';
 import { validateProfile, validateEmailChange } from './validator';
-import { getUid, authActions } from 'src/core/auth';
+import { getUid, getFieldsForPayment, authActions } from 'src/core/auth';
 import { logException } from 'src/core/logger';
+import { stripeConfig } from 'src/core/stripe';
+
+const requestChangeCreditCard = (token, customerId) => {
+  const url = `${stripeConfig.paymentApiEndpoint}/change_card`;
+  return axios.post(url, { token, customerId })
+    .then((res) => ({ res }))
+    .catch((err) => ({ err }));
+};
 
 function updateProfileOnDB(uid, { companyName, fullName }) {
   const key = `users/${uid}`;
@@ -33,6 +42,23 @@ function* updateProfile(data) {
   }
   yield put(actions.updateProfileSucceeded());
   yield put(authActions.updateProfile(data));
+}
+
+function* changeCreditCard({ stripeToken }) {
+  const { customerId } = yield(select(getFieldsForPayment));
+  const { err } = yield call(
+    requestChangeCreditCard, stripeToken, customerId);
+  if (err) {
+    logException(err);
+    if (!err.response) {
+      yield put(actions.changeCreditCardFailed());
+      return;
+    }
+    const { code } = err.response.data;
+    yield put(actions.changeCreditCardFailed(code));
+    return;
+  }
+  yield put(actions.changeCreditCardFinished());
 }
 
 function* changeEmail(data) {
@@ -101,7 +127,16 @@ function* watchChangeEmail() {
     yield fork(changeEmail, payload);
   }
 }
+
+function* watchChangeCreditCard() {
+  while (true) {
+    const { payload } = yield take(`${actions.changeCreditCard}`);
+    yield fork(changeCreditCard, { stripeToken: payload.token });
+  }
+}
+
 export const settingsSagas = [
   fork(watchUpdateProfile),
   fork(watchChangeEmail),
+  fork(watchChangeCreditCard),
 ];

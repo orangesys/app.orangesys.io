@@ -1,2 +1,2 @@
 
-export const getSettings = state => state.settings
+export const getSettings = state => state.settings;

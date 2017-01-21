@@ -98,6 +98,7 @@ export const authReducer = createReducer({
       companyName: u.companyName,
       fullName: u.fullName,
       planId: u.planId,
+      customerId: u.customerId,
       sentVerificationEmail: false,
       serverSetup: u.serverSetup,
       telegraf: u.telegraf,
@@ -138,6 +139,7 @@ export const authReducer = createReducer({
       uid: user.uid,
       email: user.email,
       planId: user.planId,
+      customerId: user.customerId,
       providerData: new List(user.providerData),
     })
   ),

@@ -7,7 +7,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 
 import LinearProgress from 'material-ui/LinearProgress';
-// import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table';
 import { Grid, Row, Col } from 'react-flexbox-grid/lib/index';
 import { getProfile } from 'src/core/auth';
 import { settingsActions, getSettings } from 'src/core/settings';
