@@ -13,12 +13,20 @@ import {
   changeEmailFinished,
   changeEmailValidationFailed,
   changeEmailFailed,
+  changeCreditCardField,
+  startChangingCreditCard,
+  changeCreditCardFailed,
+  changeCreditCardFinished,
+  stripeTokenGenerationError,
 } from './actions';
+
+import { stripeErrors } from 'src/core/stripe';
 
 
 const SettingsState = new Record({
   updatingProfile: false,
   showingEmailChange: false,
+  creditCardFields: new Map(),
   message: null,
   errorMessage: null,
   submitting: false,
@@ -89,6 +97,36 @@ export const settingsReducer = createReducer({
       submitting: false,
       errorMessage: 'メールアドレスの変更に失敗しました',
       fieldErrors: new Map(),
+    })
+  ),
+  [changeCreditCardField]: (state, { name, value }) => (
+    state.merge({
+      creditCardFields: state.creditCardFields.merge({ [name]: value }),
+    })
+  ),
+  [startChangingCreditCard]: (state) => (
+    state.merge({
+      submitting: true,
+    })
+  ),
+  [stripeTokenGenerationError]: (state, { code }) => (
+    state.merge({
+      submitting: false,
+      errorMessage: stripeErrors[code] || 'エラーが発生しました',
+    })
+  ),
+  [changeCreditCardFailed]: (state, errCode) => (
+    state.merge({
+      submitting: false,
+      errorMessage: stripeErrors[errCode] || '更新処理に失敗しました',
+    })
+  ),
+  [changeCreditCardFinished]: (state) => (
+    state.merge({
+      submitting: false,
+      errorMessage: null,
+      message: 'クレジットカード情報を更新しました',
+      creditCardFields: new Map(),
     })
   ),
 }, new SettingsState);

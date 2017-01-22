@@ -7,7 +7,6 @@ export function getAuth(state) {
 
 export function getMessage(state) {
   const auth = getAuth(state);
-  console.log("auth.message:", auth.message)
   return {
     message: auth.message,
     errorMessage: auth.errorMessage,
@@ -27,6 +26,7 @@ export function getFieldsForPayment(state) {
   return {
     uid: auth.uid,
     email: auth.email,
+    customerId: auth.customerId,
   };
 }
 
