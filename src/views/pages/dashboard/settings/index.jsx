@@ -2,10 +2,11 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { Tabs, Tab } from 'material-ui/Tabs';
-import AccountSettings from './account-settings';
 import { getSettings, settingsActions } from 'src/core/settings';
 import Message from 'src/views/components/snackbar/message';
 import ErrorMessage from 'src/views/components/snackbar/error-message';
+import AccountSettings from './account-settings';
+import Payment from './payment';
 
 import styles from './index.css';
 
@@ -15,12 +16,14 @@ const Settings = ({ message, errorMessage, onMessageClose }) => (
       <Tab label="アカウント設定" >
         <AccountSettings />
       </Tab>
-      <Tab />
+      <Tab label="支払い方法">
+        <Payment />
+      </Tab>
       <Tab />
       <Tab />
     </Tabs>
     <Message message={message} onClose={onMessageClose} />
-    <ErrorMessage message={errorMessage} onClose={onMessageClose} />
+    <ErrorMessage error={errorMessage} onClose={onMessageClose} />
   </div>
 );
 
