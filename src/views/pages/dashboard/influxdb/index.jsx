@@ -8,20 +8,14 @@ import IconButton from 'material-ui/IconButton';
 import TextField from 'material-ui/TextField';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table';
-import LinearProgress from 'material-ui/LinearProgress';
-import { getTelegraf, getPlanId } from 'src/core/auth';
-import { dashboardActions, getStorageUsage } from 'src/core/dashboard';
+import { getTelegraf } from 'src/core/auth';
+import { dashboardActions } from 'src/core/dashboard';
 import { getCSSPropertyOf } from 'src/views/utils';
-import { findPlan } from 'src/core/plans';
 
 import styles from './index.css';
 
-const InfluxDB = ({ consumerId, token, storageUsage, onCopyToken, planId }) => {
+const InfluxDB = ({ consumerId, token, onCopyToken }) => {
   const influxDBUrl = `https://${consumerId}.i.orangesys.io`;
-  const plan = findPlan(planId);
-  const storageUsagePercentage = parseInt(
-    ((storageUsage / plan.storageByte) * 100).toFixed()
-    , 10);
   return (
     <div className={styles.whole}>
       <Grid>
@@ -32,7 +26,7 @@ const InfluxDB = ({ consumerId, token, storageUsage, onCopyToken, planId }) => {
                 <Table selectable={false}>
                   <TableBody displayRowCheckbox={false}>
                     <TableRow>
-                      <TableRowColumn style={{ width: 100 }}>URL</TableRowColumn>
+                      <TableRowColumn style={{ width: 70 }}>URL</TableRowColumn>
                       <TableRowColumn>
                         <a href={influxDBUrl}>{influxDBUrl}</a>
                       </TableRowColumn>
@@ -70,24 +64,6 @@ const InfluxDB = ({ consumerId, token, storageUsage, onCopyToken, planId }) => {
 
                       </TableRowColumn>
                     </TableRow>
-                  {storageUsage !== -1 ?
-                    <TableRow>
-                      <TableRowColumn>
-                        Storage使用量
-                      </TableRowColumn>
-                      <TableRowColumn>
-                        <p>
-                          <span className={styles.usage}>
-                            {(storageUsage / 1024 / 1024 / 1024).toFixed(1)}GB
-                          </span>
-                           /
-                          <span className={styles.total}>{plan.storage}</span>
-                        </p>
-                        <LinearProgress mode="determinate" value={storageUsagePercentage} />
-                      </TableRowColumn>
-                    </TableRow>
-                    : null
-                  }
                   </TableBody>
                 </Table>
               </div>
@@ -102,17 +78,14 @@ const InfluxDB = ({ consumerId, token, storageUsage, onCopyToken, planId }) => {
 InfluxDB.propTypes = {
   consumerId: PropTypes.string.isRequired,
   token: PropTypes.string.isRequired,
-  storageUsage: PropTypes.number.isRequired,
   onCopyToken: PropTypes.func.isRequired,
   planId: PropTypes.string,
 };
 
 const mapStateToProps = createSelector(
   getTelegraf,
-  getStorageUsage,
-  getPlanId,
-  ({ consumerId, token }, storageUsage, planId) =>
-  ({ consumerId, token, storageUsage, planId }),
+  ({ consumerId, token }) =>
+  ({ consumerId, token }),
 );
 
 
