@@ -8,12 +8,14 @@ import {
   setErrorMessage,
   clearMessage,
   // cancelPlan,
+  fetchInfluxDBStorageUsageFinished,
 } from './actions';
 
 const DashboardState = new Record({
   confirmingPlanCancel: false,
   message: null,
   errorMessage: null,
+  storageUsage: -1,
 });
 
 export const dashboardReducer = createReducer({
@@ -35,5 +37,8 @@ export const dashboardReducer = createReducer({
     state.merge({
       confirmingPlanCancel: false,
     })
+  ),
+  [fetchInfluxDBStorageUsageFinished]: (state, { storageUsage }) => (
+    state.merge({ storageUsage })
   ),
 }, new DashboardState());

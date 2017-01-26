@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import Sidebar from 'src/views/components/sidebar';
@@ -12,28 +12,33 @@ import {
 import Message from 'src/views/components/snackbar/message';
 import styles from './index.css';
 
-const DashboardParent = (props) => {
-  const {
-    children,
-    pageName,
-    pageGroup,
-    needServerSetup,
-    message,
-    onMessageClose,
-  } = props;
-  return (
-    <div className={styles.whole}>
-      <Sidebar pageGroup={pageGroup} needServerSetup={needServerSetup} />
-      <div className={styles.main}>
-        <header className={styles.header}>
-          {pageName}
-        </header>
-        {children}
+class DashboardParent extends Component {
+  componentWillMount() {
+    this.props.fetchData();
+  }
+  render() {
+    const {
+      children,
+      pageName,
+      pageGroup,
+      needServerSetup,
+      message,
+      onMessageClose,
+    } = this.props;
+    return (
+      <div className={styles.whole}>
+        <Sidebar pageGroup={pageGroup} needServerSetup={needServerSetup} />
+        <div className={styles.main}>
+          <header className={styles.header}>
+            {pageName}
+          </header>
+          {children}
+        </div>
+        <Message message={message} onClose={onMessageClose} />
       </div>
-      <Message message={message} onClose={onMessageClose} />
-    </div>
-  );
-};
+    );
+  }
+}
 
 DashboardParent.propTypes = {
   children: PropTypes.object,
@@ -42,6 +47,7 @@ DashboardParent.propTypes = {
   needServerSetup: PropTypes.bool,
   message: PropTypes.string,
   onMessageClose: PropTypes.func.isRequired,
+  fetchData: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createSelector(
@@ -57,6 +63,9 @@ const mapStateToProps = createSelector(
 const mapDispatchToProps = (dispatch) => ({
   onMessageClose: () => {
     dispatch(dashboardActions.clearMessage());
+  },
+  fetchData: () => {
+    dispatch(dashboardActions.fetchInfluxDBStorageUsage());
   },
 });
 

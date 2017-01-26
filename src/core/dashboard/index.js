@@ -6,4 +6,6 @@ export {
   getCurrentPageName,
   getCurrentPageGroup,
   getPlanCancel,
+  getStorageUsage,
 } from './selectors';
+export { dashboardSagas } from './sagas';
