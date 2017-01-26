@@ -22,7 +22,6 @@ const InfluxDB = ({ consumerId, token, onCopyToken }) => {
         <Row>
           <Col md={8} sm={10} xs={12}>
             <Paper className={styles.info} zDepth={1}>
-              <div className={styles.header}>InfluxDB</div>
               <div>
                 <Table selectable={false}>
                   <TableBody displayRowCheckbox={false}>
@@ -80,11 +79,13 @@ InfluxDB.propTypes = {
   consumerId: PropTypes.string.isRequired,
   token: PropTypes.string.isRequired,
   onCopyToken: PropTypes.func.isRequired,
+  planId: PropTypes.string,
 };
 
 const mapStateToProps = createSelector(
   getTelegraf,
-  ({ consumerId, token }) => ({ consumerId, token }),
+  ({ consumerId, token }) =>
+  ({ consumerId, token }),
 );
 
 

@@ -3,18 +3,32 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { Grid, Row, Col } from 'react-flexbox-grid/lib/index';
 import Paper from 'material-ui/Paper';
+import LinearProgress from 'material-ui/LinearProgress';
 import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import { getPlanId } from 'src/core/auth';
 import { findPlan } from 'src/core/plans';
-import { getPlanCancel, dashboardActions } from 'src/core/dashboard';
+import {
+  getPlanCancel,
+  dashboardActions,
+  getStorageUsage,
+} from 'src/core/dashboard';
 import { supportEmail } from 'src/core/common-info';
 
 import styles from './index.css';
 
-const Plan = ({ planId, confirmingPlanCancel, showCancelInformation, hideCancelInformation }) => {
+const Plan = (props) => {
+  const {
+    planId,
+    storageUsage,
+    confirmingPlanCancel,
+    showCancelInformation,
+    hideCancelInformation } = props;
   const plan = findPlan(planId);
+  const storageUsageGB = (storageUsage / 1024 / 1024 / 1024).toFixed(1);
+  const storageUsagePercentage = parseInt(
+    ((storageUsage / plan.storageByte) * 100).toFixed(), 10);
   return (
     <div className={styles.whole}>
       <Grid>
@@ -28,7 +42,7 @@ const Plan = ({ planId, confirmingPlanCancel, showCancelInformation, hideCancelI
                 <Table selectable={false}>
                   <TableBody displayRowCheckbox={false}>
                     <TableRow>
-                      <TableRowColumn>月額</TableRowColumn>
+                      <TableRowColumn style={{ width: 150 }}>月額</TableRowColumn>
                       <TableRowColumn>
                         <strong>
                           <span className={styles.price}>¥{plan.price}</span>
@@ -42,12 +56,24 @@ const Plan = ({ planId, confirmingPlanCancel, showCancelInformation, hideCancelI
                         <strong>{plan.retentionText}</strong>
                       </TableRowColumn>
                     </TableRow>
+                  {storageUsage !== -1 ?
                     <TableRow>
-                      <TableRowColumn>ストレージ</TableRowColumn>
                       <TableRowColumn>
-                        <strong>{plan.storage}</strong>
+                        Storage使用量
+                      </TableRowColumn>
+                      <TableRowColumn>
+                        <p>
+                          <span className={styles.usage}>
+                            {storageUsageGB}GB
+                          </span>
+                           /
+                          <span className={styles.total}>{plan.storage}</span>
+                        </p>
+                        <LinearProgress mode="determinate" value={storageUsagePercentage} />
                       </TableRowColumn>
                     </TableRow>
+                    : null
+                  }
                   </TableBody>
                 </Table>
               </div>
@@ -84,6 +110,7 @@ const Plan = ({ planId, confirmingPlanCancel, showCancelInformation, hideCancelI
 
 Plan.propTypes = {
   planId: PropTypes.string.isRequired,
+  storageUsage: PropTypes.number,
   confirmingPlanCancel: PropTypes.bool,
   showCancelInformation: PropTypes.func.isRequired,
   hideCancelInformation: PropTypes.func.isRequired,
@@ -92,7 +119,9 @@ Plan.propTypes = {
 const mapStateToProps = createSelector(
   getPlanId,
   getPlanCancel,
-  (planId, { confirmingPlanCancel }) => ({ planId, confirmingPlanCancel }),
+  getStorageUsage,
+  (planId, { confirmingPlanCancel }, storageUsage) =>
+  ({ planId, confirmingPlanCancel, storageUsage }),
 );
 
 const mapDispatchToProps = (dispatch) => ({

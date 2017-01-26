@@ -48,3 +48,7 @@ export const getMessages = state => {
     message, errorMessage,
   };
 };
+
+export const getStorageUsage = state => (
+  state.dashboard.get('storageUsage')
+);
