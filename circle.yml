@@ -15,7 +15,7 @@ machine:
 dependencies:
   pre:
     - git tag
-  post:
+  override:
     - yarn install
 
 test:
