@@ -9,7 +9,7 @@ import { logException } from 'src/core/logger';
 const apiDebugMode = API_DEBUG_MODE === 'true'; // eslint-disable-line no-undef
 
 const requestInfluxDBStorageUsage = (uid, consumerId) => {
-  const url = `${orangesysApiConfig.apiEndpoint}/create?uuid=${uid}&consumerId=${consumerId}`;
+  const url = `${orangesysApiConfig.apiEndpoint}/storageusage?uuid=${uid}&consumerId=${consumerId}`;
   let mock = null;
   if (apiDebugMode) {
     mock = new MockAdapter(axios);
