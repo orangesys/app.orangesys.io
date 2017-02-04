@@ -2,13 +2,13 @@
 
 .help {
   color: var(--subTextColor);
-  font-size: 0.8rem;
+  font-size: var(--fontSizeS);
 }
 
 .paper-header {
   color: white;
   font-weight: 500;
-  font-size: 0.9rem;
+  font-size: var(--fontSizeM);
   height: 45px;
   line-height: 45px;
   text-align: center;
@@ -17,6 +17,6 @@
 
 .sub-text {
   color: var(--subTextColor);
-  font-size: 0.8rem;
+  font-size: var(--fontSizeS);
   text-align: center;
 }

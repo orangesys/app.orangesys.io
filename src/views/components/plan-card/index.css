@@ -19,7 +19,7 @@
 }
 
 .title {
-  font-size: 0.9rem;
+  font-size: var(--fontSizeM);
   padding: 10px;
   border-bottom: 1px solid var(--borderColor);
 }
@@ -38,7 +38,7 @@
   text-align: left;
   margin: 20px auto 0 auto;
   width: 160px;
-  font-size: 0.8rem;
+  font-size: var(--fontSizeS);
 }
 
 .attrs > li {

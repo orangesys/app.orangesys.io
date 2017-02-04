@@ -38,7 +38,7 @@ const InfluxDB = ({ consumerId, token, onCopyToken }) => {
                           <div className={styles['token-text']}>
                             <TextField
                               value={token}
-                              inputStyle={{ fontSize: '0.8rem' }}
+                              inputStyle={{ fontSize: '0.9rem' }}
                               fullWidth
                               name="token"
                               underlineShow={false}
