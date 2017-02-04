@@ -58,7 +58,6 @@ export function fetchAuth() {
       }
       fetchUser(firebaseUser.uid)
         .then((snapshot) => {
-          console.log("firebaseUser:", firebaseUser)
           const snapshotData = snapshot.val() || {};
           const user = Object.assign(
             {}, firebaseUser, snapshotData, { userDataExists: !isEmpty(snapshotData) });
