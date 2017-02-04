@@ -22,6 +22,7 @@ import {
   getPlanId,
   getUid,
 } from 'src/core/auth/';
+import { dashboardActions } from 'src/core/dashboard';
 import * as setupActions from './actions';
 import { findPlan } from 'src/core/plans';
 import { stripeConfig } from 'src/core/stripe';
@@ -144,6 +145,7 @@ function* keepWaitingForServerBuild() {
     if (result) {
       updateServerSetupStatusToCompleted(uid);
       yield put(authActions.serverSetupFinished());
+      yield put(dashboardActions.fetchInfluxDBStorageUsage());
       history.replace('/');
       return;
     }
