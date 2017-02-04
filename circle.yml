@@ -4,20 +4,20 @@ machine:
   timezone:
     Asia/Tokyo
   environment:
+    PATH: "${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
     PROJECT_NAME: orangesys
     CLOUDSDK_COMPUTE_ZONE: asia-east1-c
     CLUSTER_NAME: orangesysio
     DEBIAN_FRONTEND: noninteractive
     SHORT_HASH: $(echo $CIRCLE_SHA1 | cut -c -7)
-
   services:
     - docker
 
 dependencies:
   pre:
     - git tag
-  post:
-    - npm install
+  override:
+    - yarn install
 
 test:
   override:
