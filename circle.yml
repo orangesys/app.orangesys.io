@@ -9,7 +9,6 @@ machine:
     CLUSTER_NAME: orangesysio
     DEBIAN_FRONTEND: noninteractive
     SHORT_HASH: $(echo $CIRCLE_SHA1 | cut -c -7)
-
   services:
     - docker
 
@@ -17,7 +16,7 @@ dependencies:
   pre:
     - git tag
   post:
-    - npm install
+    - yarn install
 
 test:
   override:
