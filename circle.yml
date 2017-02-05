@@ -4,7 +4,6 @@ machine:
   timezone:
     Asia/Tokyo
   environment:
-    PATH: "${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
     PROJECT_NAME: orangesys
     CLOUDSDK_COMPUTE_ZONE: asia-east1-c
     CLUSTER_NAME: orangesysio
@@ -16,8 +15,8 @@ machine:
 dependencies:
   pre:
     - git tag
-  override:
-    - yarn install
+  post:
+    - npm install
 
 test:
   override:
