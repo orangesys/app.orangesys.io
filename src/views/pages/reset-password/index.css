@@ -16,7 +16,7 @@
 
 .not-verified {
   color: var(--errorColor);
-  font-size: 0.9rem;
+  font-size: var(--fontSizeM);
 }
 
 .submit {

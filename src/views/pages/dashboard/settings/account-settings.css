@@ -34,10 +34,10 @@
 
 .provider-item {
   margin-top: 10px;
-  font-size: 0.9rem;
+  font-size: var(--fontSizeM);
 }
 
 .label {
-  font-size: 0.8rem;
+  font-size: var(--fontSizeS);
   color: rgb(180, 180, 180);
 }
