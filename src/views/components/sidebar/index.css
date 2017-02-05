@@ -9,7 +9,7 @@
   text-align: center;
   overflow: visible;
   position: fixed;
-  box-shadow: rgba(0, 0, 0, 0.156863) 0px 3px 10px, rgba(0, 0, 0, 0.227451) 0px 3px 10px
+  box-shadow: rgba(0, 0, 0, 0.156863) 0px 3px 10px, rgba(0, 0, 0, 0.227451) 0px 3px 10px;
 }
 
 .item {
@@ -33,5 +33,5 @@
 
 .text {
   color: white;
-  font-size: 0.8rem;
+  font-size: var(--fontSizeS);
 }

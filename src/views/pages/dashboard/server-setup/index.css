@@ -13,13 +13,13 @@
 }
 
 .message {
-  font-size: 0.9rem;
+  font-size: var(--fontSizeM);
   text-align: center;
   margin-bottom: 50px;
 }
 
 .error {
-  font-size: 0.9rem;
+  font-size: var(--fontSizeM);
   text-align: center;
 }
 

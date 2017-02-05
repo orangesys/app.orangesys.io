@@ -38,90 +38,88 @@ const AccountSettings = (props) => {
   const enableToChangeEmail = !!providerData.find(p => (p.providerId === 'password'));
   return (
     <div className={styles.whole}>
-      <Grid>
-        <Row>
-          <Col md={6} sm={10} xs={12}>
-            <Paper className={styles.profile}>
-              <form onSubmit={onSubmitProfile}>
-                <ul className={styles.attrs}>
-                  <li>
-                    <TextField
-                      name="companyName"
-                      defaultValue={companyName}
-                      floatingLabelText="会社名"
-                      fullWidth
-                      errorText={fieldErrors.get('companyName')}
-                    />
-                  </li>
-                  <li>
-                    <TextField
-                      name="fullName"
-                      defaultValue={fullName}
-                      floatingLabelText="フルネーム"
-                      fullWidth
-                      errorText={fieldErrors.get('fullName')}
-                    />
-                  </li>
-                </ul>
-                {updatingProfile ?
-                  <div className={styles.progress}>
-                    <LinearProgress />
-                  </div>
-                  : null
-                }
-                <RaisedButton
-                  label="更新"
-                  type="submit"
-                  secondary
-                  disabled={updatingProfile}
-                />
-              </form>
-            </Paper>
-            <Paper className={styles.profile}>
+      <Row>
+        <Col md={6} sm={10} xs={12}>
+          <Paper className={styles.profile}>
+            <form onSubmit={onSubmitProfile}>
               <ul className={styles.attrs}>
                 <li>
                   <TextField
-                    name="email"
-                    value={email}
-                    floatingLabelText="メールアドレス"
+                    name="companyName"
+                    defaultValue={companyName}
+                    floatingLabelText="会社名"
                     fullWidth
-                    className={styles.email}
-                    underlineShow={false}
-                  />
-                  {enableToChangeEmail ?
-                    <FlatButton
-                      label="メールアドレスの変更"
-                      type="button"
-                      secondary
-                      onClick={onShowEmailChange}
-                    />
-                    : null
-                  }
-                  <ChangeEmail
-                    open={showingEmailChange}
-                    onCancel={onCancelEmailChange}
-                    onSubmit={onChangeEmail}
-                    errors={fieldErrors}
+                    errorText={fieldErrors.get('companyName')}
                   />
                 </li>
-                <li className={styles.providers}>
-                  <label className={styles.label}>ログイン方法</label>
-                  <ul className={styles['provider-list']}>
-                    {providerData.map(provider => (
-                      <li
-                        className={styles['provider-item']}
-                        key={`provider-${provider.providerId}`}
-                      >
-                        {providers[provider.providerId]}
-                      </li>
-                    ))}
-                  </ul>
+                <li>
+                  <TextField
+                    name="fullName"
+                    defaultValue={fullName}
+                    floatingLabelText="フルネーム"
+                    fullWidth
+                    errorText={fieldErrors.get('fullName')}
+                  />
                 </li>
               </ul>
-            </Paper>
-          </Col>
-        </Row>
-      </Grid>
+              {updatingProfile ?
+                <div className={styles.progress}>
+                  <LinearProgress />
+                </div>
+                : null
+              }
+              <RaisedButton
+                label="更新"
+                type="submit"
+                secondary
+                disabled={updatingProfile}
+              />
+            </form>
+          </Paper>
+          <Paper className={styles.profile}>
+            <ul className={styles.attrs}>
+              <li>
+                <TextField
+                  name="email"
+                  value={email}
+                  floatingLabelText="メールアドレス"
+                  fullWidth
+                  className={styles.email}
+                  underlineShow={false}
+                />
+                {enableToChangeEmail ?
+                  <FlatButton
+                    label="メールアドレスの変更"
+                    type="button"
+                    secondary
+                    onClick={onShowEmailChange}
+                  />
+                  : null
+                }
+                <ChangeEmail
+                  open={showingEmailChange}
+                  onCancel={onCancelEmailChange}
+                  onSubmit={onChangeEmail}
+                  errors={fieldErrors}
+                />
+              </li>
+              <li className={styles.providers}>
+                <label className={styles.label}>ログイン方法</label>
+                <ul className={styles['provider-list']}>
+                  {providerData.map(provider => (
+                    <li
+                      className={styles['provider-item']}
+                      key={`provider-${provider.providerId}`}
+                    >
+                      {providers[provider.providerId]}
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            </ul>
+          </Paper>
+        </Col>
+      </Row>
     </div>
   );
 };
