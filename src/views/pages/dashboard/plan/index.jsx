@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-import { Grid, Row, Col } from 'react-flexbox-grid/lib/index';
+import { Row, Col } from 'react-flexbox-grid/lib/index';
 import Paper from 'material-ui/Paper';
 import LinearProgress from 'material-ui/LinearProgress';
 import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table';
@@ -31,79 +31,77 @@ const Plan = (props) => {
     ((storageUsage / plan.storageByte) * 100).toFixed(), 10);
   return (
     <div className={styles.whole}>
-      <Grid>
-        <Row>
-          <Col md={8} sm={10} xs={12}>
-            <Paper className={styles.main} zDepth={1}>
-              <div className={styles.header}>
-                {plan.title}
-              </div>
-              <div>
-                <Table selectable={false}>
-                  <TableBody displayRowCheckbox={false}>
-                    <TableRow>
-                      <TableRowColumn style={{ width: 150 }}>月額</TableRowColumn>
-                      <TableRowColumn>
-                        <strong>
-                          <span className={styles.price}>¥{plan.price}</span>
-                           / 月 (税抜)
-                        </strong>
-                      </TableRowColumn>
-                    </TableRow>
-                    <TableRow>
-                      <TableRowColumn>データ保存期間</TableRowColumn>
-                      <TableRowColumn>
-                        <strong>{plan.retentionText}</strong>
-                      </TableRowColumn>
-                    </TableRow>
-                  {storageUsage !== -1 ?
-                    <TableRow>
-                      <TableRowColumn>
-                        Storage使用量
-                      </TableRowColumn>
-                      <TableRowColumn>
-                        <p>
-                          <span className={styles.usage}>
-                            {storageUsageGB}GB
-                          </span>
-                           /
-                          <span className={styles.total}>{plan.storage}</span>
-                        </p>
-                        <LinearProgress mode="determinate" value={storageUsagePercentage} />
-                      </TableRowColumn>
-                    </TableRow>
-                    : null
-                  }
-                  </TableBody>
-                </Table>
-              </div>
-            </Paper>
-            <div className={styles.actions}>
-              <FlatButton
-                label="プランの解約"
-                secondary
-                onClick={showCancelInformation}
-              />
+      <Row>
+        <Col md={8} sm={10} xs={12}>
+          <Paper className={styles.main} zDepth={1}>
+            <div className={styles.header}>
+              {plan.title}
             </div>
-          </Col>
-          {confirmingPlanCancel ?
-            <Dialog
-              title="プランの解約"
-              open={confirmingPlanCancel}
-              onRequestClose={hideCancelInformation}
-            >
-              <div className={styles['cancel-message']}>
-                プランの解約は
-                <a className={styles['support-email']} href={`mailto:${supportEmail}`}>
-                  {supportEmail}
-                </a>
-                までお問い合わせください。
-              </div>
-            </Dialog>
-            : null
-          }
-        </Row>
-      </Grid>
+            <div>
+              <Table selectable={false}>
+                <TableBody displayRowCheckbox={false}>
+                  <TableRow>
+                    <TableRowColumn style={{ width: 150 }}>月額</TableRowColumn>
+                    <TableRowColumn>
+                      <strong>
+                        <span className={styles.price}>¥{plan.price}</span>
+                         / 月 (税抜)
+                      </strong>
+                    </TableRowColumn>
+                  </TableRow>
+                  <TableRow>
+                    <TableRowColumn>データ保存期間</TableRowColumn>
+                    <TableRowColumn>
+                      <strong>{plan.retentionText}</strong>
+                    </TableRowColumn>
+                  </TableRow>
+                {storageUsage !== -1 ?
+                  <TableRow>
+                    <TableRowColumn>
+                      Storage使用量
+                    </TableRowColumn>
+                    <TableRowColumn>
+                      <p>
+                        <span className={styles.usage}>
+                          {storageUsageGB}GB
+                        </span>
+                         /
+                        <span className={styles.total}>{plan.storage}</span>
+                      </p>
+                      <LinearProgress mode="determinate" value={storageUsagePercentage} />
+                    </TableRowColumn>
+                  </TableRow>
+                  : null
+                }
+                </TableBody>
+              </Table>
+            </div>
+          </Paper>
+          <div className={styles.actions}>
+            <FlatButton
+              label="プランの解約"
+              secondary
+              onClick={showCancelInformation}
+            />
+          </div>
+        </Col>
+        {confirmingPlanCancel ?
+          <Dialog
+            title="プランの解約"
+            open={confirmingPlanCancel}
+            onRequestClose={hideCancelInformation}
+          >
+            <div className={styles['cancel-message']}>
+              プランの解約は
+              <a className={styles['support-email']} href={`mailto:${supportEmail}`}>
+                {supportEmail}
+              </a>
+              までお問い合わせください。
+            </div>
+          </Dialog>
+          : null
+        }
+      </Row>
     </div>
   );
 };
