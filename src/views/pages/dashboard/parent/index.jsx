@@ -14,7 +14,9 @@ import styles from './index.css';
 
 class DashboardParent extends Component {
   componentWillMount() {
-    this.props.fetchData();
+    if (!this.props.needServerSetup) {
+      this.props.fetchData();
+    }
   }
   render() {
     const {
