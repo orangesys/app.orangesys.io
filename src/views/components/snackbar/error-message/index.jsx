@@ -9,7 +9,7 @@ const ErrorSnackbar = ({ error, onClose }) => (
   <Snackbar
     open={!!error}
     message={error || ''}
-    autoHideDuration={5000}
+    autoHideDuration={7000}
     bodyStyle={{ backgroundColor }}
     onRequestClose={onClose}
   />

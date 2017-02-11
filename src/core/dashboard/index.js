@@ -7,5 +7,7 @@ export {
   getCurrentPageGroup,
   getPlanCancel,
   getStorageUsage,
+  getInquiry,
+  getFormInfo,
 } from './selectors';
 export { dashboardSagas } from './sagas';

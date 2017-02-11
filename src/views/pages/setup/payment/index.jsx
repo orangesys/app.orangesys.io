@@ -176,6 +176,7 @@ const mapDispatchToProps = (dispatch) => ({
         return;
       }
       const token = res.id;
+      console.log('registerPayment')
       dispatch(setupActions.registerPayment({ token }));
     });
   },
