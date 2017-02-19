@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { Row, Col } from 'react-flexbox-grid/lib/index';
 import Paper from 'material-ui/Paper';
+import CircularProgress from 'material-ui/CircularProgress';
 import LinearProgress from 'material-ui/LinearProgress';
 import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table';
 import Dialog from 'material-ui/Dialog';
@@ -55,24 +56,34 @@ const Plan = (props) => {
                       <strong>{plan.retentionText}</strong>
                     </TableRowColumn>
                   </TableRow>
-                {storageUsage !== -1 ?
                   <TableRow>
                     <TableRowColumn>
                       Storage使用量
                     </TableRowColumn>
                     <TableRowColumn>
-                      <p>
-                        <span className={styles.usage}>
-                          {storageUsageGB}GB
-                        </span>
-                         /
-                        <span className={styles.total}>{plan.storage}</span>
-                      </p>
-                      <LinearProgress mode="determinate" value={storageUsagePercentage} />
+                      {storageUsage !== -1 ?
+                        <div>
+                          <p>
+                            <span className={styles.usage}>
+                              {storageUsageGB}GB
+                            </span>
+                             /
+                            <span className={styles.total}>{plan.storage}</span>
+                          </p>
+                          <LinearProgress mode="determinate" value={storageUsagePercentage} />
+                        </div>
+                        :
+                        <div className={styles.checking}>
+                          <p className={styles['checking-text']}>使用量を確認中...</p>
+                          <CircularProgress
+                            size={18}
+                            thickness={1.5}
+                            className={styles['checking-progress']}
+                          />
+                        </div>
+                      }
                     </TableRowColumn>
                   </TableRow>
-                  : null
-                }
                 </TableBody>
               </Table>
             </div>
