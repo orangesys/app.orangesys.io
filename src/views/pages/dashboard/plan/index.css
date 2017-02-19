@@ -46,3 +46,17 @@
   margin-left: 5px;
   display: inline-block;
 }
+
+.checking {
+  display: flex;
+  flex-direction: row;
+}
+
+.checking-text {
+  composes: sub-text from '../../../common.css';
+}
+
+.checking-progress {
+  margin-top: 12px;
+  margin-left: 15px;
+}
