@@ -25,6 +25,7 @@ const ENV_NAMES = [
   'ORANGESYS_API_ENDPOINT',
   'SENTRY_DSN',
   'SUPPORT_EMAIL',
+  'GA_TRACKING_ID',
   'API_DEBUG_MODE',
 ];
 
@@ -34,6 +35,7 @@ const ENV_TEST = NODE_ENV === 'test';
 
 const HOST = process.env.HOST || 'localhost';
 const PORT = process.env.PORT || 5000;
+const GA_TRACKING_ID = process.env.GA_TRACKING_ID
 
 // =========================================================
 //  LOADERS
@@ -112,7 +114,8 @@ if (ENV_DEVELOPMENT || ENV_PRODUCTION) {
       filename: 'index.html',
       hash: false,
       inject: 'body',
-      template: './src/index.html',
+      template: './src/index.ejs',
+      gaTrackingId: GA_TRACKING_ID,
     })
   );
 }
