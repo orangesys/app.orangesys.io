@@ -17,11 +17,11 @@ dependencies:
     - git tag
   post:
     - npm install
-    - npm test
 
 test:
   override:
     - echo $NODEJS_ENV_DEV | base64 --decode -i > .env
+    - npm test
     - env $(cat .env | xargs) webpack -p --progress
 
 deployment:
