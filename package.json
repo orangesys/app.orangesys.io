@@ -11,7 +11,7 @@
     "dev": "env $(cat .env | xargs) webpack-dev-server --progress",
     "lint": "eslint -c .eslintrc.yml *.js ./src",
     "start": "npm run dev",
-    "test": "env $(cat .env | xargs) mocha",
+    "test": "env $(cat .env | xargs) NODE_PATH=. NODE_ENV=test mocha",
     "build": "webpack -p --progress"
   },
   "engines": {
