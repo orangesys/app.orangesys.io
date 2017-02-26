@@ -17,6 +17,7 @@ dependencies:
     - git tag
   post:
     - npm install
+    - npm test
 
 test:
   override:
