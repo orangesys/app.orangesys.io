@@ -63,12 +63,12 @@ function pingServer({ consumerId, token }) {
   }
   return axios.head(url, { timeout: 1000 * 5 })
     .then(res => {
-      if (mock) { mock.reset(); }
+      if (mock) { mock.restore(); }
       const headers = keysToUpperCase(res.headers);
       return { result: has(headers, headerName) };
     })
     .catch(errResponse => {
-      if (mock) { mock.reset(); }
+      if (mock) { mock.restore(); }
       return { errResponse };
     });
 }

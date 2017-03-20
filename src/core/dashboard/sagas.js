@@ -19,11 +19,11 @@ const requestInfluxDBStorageUsage = (uid, consumerId) => {
   }
   return axios.get(url, { timeout: 1000 * 5 })
     .then(({ data }) => {
-      if (mock) { mock.reset(); }
+      if (mock) { mock.restore(); }
       return { storageUsage: data.storageUsage };
     })
     .catch(err => {
-      if (mock) { mock.reset(); }
+      if (mock) { mock.restore(); }
       return { err };
     });
 };
