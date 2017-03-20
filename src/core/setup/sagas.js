@@ -38,7 +38,7 @@ const keysToUpperCase = (o) => mapKeys(o, (v, k) => k.toUpperCase());
 // HTTP Requests
 // ----------------------------------------------------------------------
 function requestCustomerRegistrationOnStripe(token, planId, uid, email) {
-  const url = `${stripeConfig.paymentApiEndpoint}/customers`;
+  const url = `${stripeConfig.paymentApiEndpoint}/customers/`;
   return axios.post(url, { token, planId, uid, email })
     .then((res) => ({ res }))
     .catch((err) => ({ err }));

@@ -12,7 +12,12 @@
     "lint": "eslint -c .eslintrc.yml *.js ./src",
     "start": "npm run dev",
     "test": "env $(cat .env | xargs) NODE_PATH=. NODE_ENV=test mocha",
-    "build": "webpack -p --progress"
+    "test:functions": "cd firebase-functions; npm install && npm test",
+    "build": "webpack -p --progress",
+    "functions:install": "cd firebase-functions; npm install",
+    "functions:test": "cd firebase-functions; npm test",
+    "functions:build": "rm -fr functions/* && babel firebase-functions/src --out-dir functions && cp -f firebase-functions/package.json functions/package.json && (cd functions/ && npm install --production)",
+    "functions:deploy": "npm run functions:build && firebase deploy --only functions"
   },
   "engines": {
     "node": ">=6.4"

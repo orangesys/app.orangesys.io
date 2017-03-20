@@ -11,7 +11,7 @@ import { logException } from 'src/core/logger';
 import { stripeConfig } from 'src/core/stripe';
 
 const requestChangeCreditCard = (token, customerId) => {
-  const url = `${stripeConfig.paymentApiEndpoint}/change_card`;
+  const url = `${stripeConfig.paymentApiEndpoint}/changeCard/`;
   return axios.post(url, { token, customerId })
     .then((res) => ({ res }))
     .catch((err) => ({ err }));
@@ -50,7 +50,7 @@ function* changeCreditCard({ stripeToken }) {
     requestChangeCreditCard, stripeToken, customerId);
   if (err) {
     logException(err);
-    if (!err.response) {
+    if (!err.response || !err.response.data) {
       yield put(actions.changeCreditCardFailed());
       return;
     }
