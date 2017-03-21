@@ -34,5 +34,7 @@ deployment:
       - env $(cat .env | xargs) webpack -p --progress
       - firebase deploy --project "$FIREBASE_PROJECT" --token "$FIREBASE_TOKEN" --non-interactive
       - firebase functions:config:set stripe.secret_key=$STRIPE_SECRET_KEY --project "$FIREBASE_PROJECT" --token "$FIREBASE_FUNCTIONS_TOKEN"
+      - npm run functions:build
+      - firebase deploy --only functions --project "$FIREBASE_PROJECT" --token "$FIREBASE_FUNCTIONS_TOKEN" --non-interactive
       - |
         curl -s -S -X POST --data-urlencode "payload={'channel': '#ops', 'text': ':earth_asia: :fire: release $CIRCLE_PROJECT_REPONAME (SHA1 $SHORT_HASH) completed (build $CIRCLE_BUILD_NUM)' }" $SLACK_OPS >/dev/null
