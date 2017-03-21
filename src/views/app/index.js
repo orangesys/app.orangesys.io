@@ -11,7 +11,7 @@ injectTapEventPlugin();
 
 class App extends Component {
   static contextTypes = {
-    router: React.PropTypes.object.isRequired,
+    router: React.PropTypes.object,
   };
   static propTypes = {
     auth: PropTypes.object,

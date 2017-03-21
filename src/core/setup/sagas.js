@@ -38,7 +38,7 @@ const keysToUpperCase = (o) => mapKeys(o, (v, k) => k.toUpperCase());
 // HTTP Requests
 // ----------------------------------------------------------------------
 function requestCustomerRegistrationOnStripe(token, planId, uid, email) {
-  const url = `${stripeConfig.paymentApiEndpoint}/customers`;
+  const url = `${stripeConfig.paymentApiEndpoint}/customers/`;
   return axios.post(url, { token, planId, uid, email })
     .then((res) => ({ res }))
     .catch((err) => ({ err }));
@@ -63,12 +63,12 @@ function pingServer({ consumerId, token }) {
   }
   return axios.head(url, { timeout: 1000 * 5 })
     .then(res => {
-      if (mock) { mock.reset(); }
+      if (mock) { mock.restore(); }
       const headers = keysToUpperCase(res.headers);
       return { result: has(headers, headerName) };
     })
     .catch(errResponse => {
-      if (mock) { mock.reset(); }
+      if (mock) { mock.restore(); }
       return { errResponse };
     });
 }

@@ -1,0 +1,5 @@
+--recursive
+--compilers js:babel-register
+--require ignore-styles
+--require jsdom-global/register
+--require ./mocha-setup.js

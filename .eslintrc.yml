@@ -18,3 +18,4 @@ settings:
 
 rules:
   no-constant-condition: 0
+  semi: [0]

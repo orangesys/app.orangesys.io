@@ -16,11 +16,13 @@ dependencies:
   pre:
     - git tag
   post:
-    - npm install
+    - npm run functions:install
 
 test:
   override:
     - echo $NODEJS_ENV_DEV | base64 --decode -i > .env
+    - npm test
+    - npm run functions:test
     - env $(cat .env | xargs) webpack -p --progress
 
 deployment:
@@ -31,5 +33,7 @@ deployment:
       - echo $NODEJS_ENV_PROD | base64 --decode -i > .env
       - env $(cat .env | xargs) webpack -p --progress
       - firebase deploy --project "$FIREBASE_PROJECT" --token "$FIREBASE_TOKEN" --non-interactive
+      - firebase functions:config:set stripe.secret_key=$STRIPE_SECRET_KEY
+      - npm run functions:deploy
       - |
         curl -s -S -X POST --data-urlencode "payload={'channel': '#ops', 'text': ':earth_asia: :fire: release $CIRCLE_PROJECT_REPONAME (SHA1 $SHORT_HASH) completed (build $CIRCLE_BUILD_NUM)' }" $SLACK_OPS >/dev/null
