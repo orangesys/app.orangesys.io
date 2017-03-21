@@ -1,0 +1,13 @@
+{
+  "presets": [
+    "es2015",
+    "es2016",
+    "es2017",
+    "babel-preset-power-assert"
+  ],
+  "plugins": [
+    "transform-flow-strip-types",
+    "transform-object-rest-spread",
+    ["babel-plugin-espower", { "embedAst": true }]
+  ]
+}

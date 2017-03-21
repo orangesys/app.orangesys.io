@@ -54,6 +54,14 @@ firebase deploy --project "$FIREBASE_PROJECT" --token "$FIREBASE_TOKEN" --non-in
 >```
 
 
+### Deploy firebase functions (Stripe Payment API)
+
+>```bash
+firebase functions:config:set stripe.secret_key="xxxxxxxxxxxxxxx"
+npm run functions:deploy
+>```
+
+
 ### Start
 
 >```bash
