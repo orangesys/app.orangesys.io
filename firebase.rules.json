@@ -54,6 +54,9 @@
           ".validate": "newData.isString() && newData.val().matches(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$/)"
         }
       }
-    }
+    },
+    "inquiries": {
+      ".write": "!data.exists()"
+    },
   }
 }

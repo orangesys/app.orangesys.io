@@ -10,6 +10,7 @@ import {
   dashboardActions,
 } from 'src/core/dashboard';
 import Message from 'src/views/components/snackbar/message';
+import ErrorMessage from 'src/views/components/snackbar/error-message';
 import styles from './index.css';
 
 class DashboardParent extends Component {
@@ -25,6 +26,7 @@ class DashboardParent extends Component {
       pageGroup,
       needServerSetup,
       message,
+      errorMessage,
       onMessageClose,
     } = this.props;
     return (
@@ -37,6 +39,7 @@ class DashboardParent extends Component {
           {children}
         </div>
         <Message message={message} onClose={onMessageClose} />
+        <ErrorMessage error={errorMessage} onClose={onMessageClose} />
       </div>
     );
   }
@@ -48,6 +51,7 @@ DashboardParent.propTypes = {
   pageGroup: PropTypes.string,
   needServerSetup: PropTypes.bool,
   message: PropTypes.string,
+  errorMessage: PropTypes.string,
   onMessageClose: PropTypes.func.isRequired,
   fetchData: PropTypes.func.isRequired,
 };
@@ -57,8 +61,8 @@ const mapStateToProps = createSelector(
   getCurrentPageGroup,
   isNeedServerSetup,
   getMessages,
-  (pageName, pageGroup, needServerSetup, { message }) => ({
-    pageName, pageGroup, needServerSetup, message,
+  (pageName, pageGroup, needServerSetup, { message, errorMessage }) => ({
+    pageName, pageGroup, needServerSetup, message, errorMessage,
   }),
 );
 

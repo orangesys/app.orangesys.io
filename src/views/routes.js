@@ -27,6 +27,7 @@ import Plan from 'src/views/pages/dashboard/plan';
 import Grafana from 'src/views/pages/dashboard/grafana';
 import InfluxDB from 'src/views/pages/dashboard/influxdb';
 import Settings from 'src/views/pages/dashboard/settings';
+import Inquiry from 'src/views/pages/dashboard/inquiry';
 
 import UITest from './pages/ui-test';
 
@@ -48,6 +49,7 @@ export const paths = {
   DASHBOARD_PLAN: 'plan',
   DASHBOARD_GRAFANA: 'grafana',
   DASHBOARD_INFLUXDB: 'influxdb',
+  DASHBOARD_INQUIRY: 'inquiry',
   Settings: 'settings',
 };
 
@@ -226,6 +228,10 @@ export const getRoutes = getState => (
             path: paths.DASHBOARD_SERVER_SETUP,
             component: ServerSetup,
             onEnter: onEnterServerSetup(getState),
+          },
+          {
+            path: paths.DASHBOARD_INQUIRY,
+            component: Inquiry,
           },
           {
             path: paths.Settings,

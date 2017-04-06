@@ -1,5 +1,5 @@
 import { createReducer } from 'redux-act';
-import { Record } from 'immutable';
+import { Record, Map } from 'immutable';
 
 import {
   confirmPlanCancel,
@@ -9,6 +9,11 @@ import {
   clearMessage,
   // cancelPlan,
   fetchInfluxDBStorageUsageFinished,
+  sendInquiry,
+  sendInquiryValidationFailed,
+  sendInquiryFailed,
+  sendInquiryFinished,
+  inqueryBodyChanged,
 } from './actions';
 
 const DashboardState = new Record({
@@ -16,6 +21,9 @@ const DashboardState = new Record({
   message: null,
   errorMessage: null,
   storageUsage: -1,
+  inquiry: new Map({ body: '' }),
+  submitting: false,
+  fieldErrors: new Map(),
 });
 
 export const dashboardReducer = createReducer({
@@ -40,5 +48,31 @@ export const dashboardReducer = createReducer({
   ),
   [fetchInfluxDBStorageUsageFinished]: (state, { storageUsage }) => (
     state.merge({ storageUsage })
+  ),
+  [inqueryBodyChanged]: (state, body) => (
+    state.merge({ inquiry: new Map({ body }) })
+  ),
+  [sendInquiry]: (state) => (
+    state.merge({ submitting: true })
+  ),
+  [sendInquiryValidationFailed]: (state, fieldErrors) => (
+    state.merge({
+      submitting: false,
+      fieldErrors,
+    })
+  ),
+  [sendInquiryFailed]: (state) => (
+    state.merge({
+      submitting: false,
+      errorMessage: '問い合わせの送信に失敗しました',
+    })
+  ),
+  [sendInquiryFinished]: (state) => (
+    state.merge({
+      submitting: false,
+      message: 'お問い合わせ内容が送信されました。運営よりご連絡させて頂きます。',
+      inquiry: new Map({ body: '' }),
+      fieldErrors: new Map(),
+    })
   ),
 }, new DashboardState());

@@ -11,6 +11,9 @@ export const getCurrentPageName = (state, ownProps) => {
   if (/^\/dashboard\/influxdb/.test(pathname)) {
     return 'InfluxDB';
   }
+  if (/^\/dashboard\/inquiry/.test(pathname)) {
+    return 'お問い合わせ';
+  }
   if (/^\/dashboard\/settings/.test(pathname)) {
     return '設定';
   }
@@ -27,6 +30,9 @@ export const getCurrentPageGroup = (state, ownProps) => {
   }
   if (/^\/dashboard\/influxdb/.test(pathname)) {
     return 'influxdb';
+  }
+  if (/^\/dashboard\/inquiry/.test(pathname)) {
+    return 'inquiery';
   }
   if (/^\/dashboard\/settings/.test(pathname)) {
     return 'settings';
@@ -49,6 +55,13 @@ export const getMessages = state => {
   };
 };
 
+export const getFormInfo = state => ({
+  fieldErrors: state.dashboard.get('fieldErrors'),
+  submitting: state.dashboard.get('submitting'),
+});
+
 export const getStorageUsage = state => (
   state.dashboard.get('storageUsage')
 );
+
+export const getInquiry = state => state.dashboard.get('inquiry');

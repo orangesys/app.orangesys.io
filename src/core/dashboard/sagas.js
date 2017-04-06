@@ -1,10 +1,14 @@
 import { call, fork, put, take, select } from 'redux-saga/effects';
 import axios from 'axios';
+import moment from 'moment';
 import MockAdapter from 'axios-mock-adapter';
 import * as actions from './actions';
 import { orangesysApiConfig } from 'src/core/orangesys-api';
 import { getTelegraf, getUid } from 'src/core/auth';
 import { logException } from 'src/core/logger';
+import { firebaseDB } from 'src/core/firebase';
+import { validateInquiry } from './validator';
+import { getInquiry } from './selectors';
 
 const apiDebugMode = API_DEBUG_MODE === 'true'; // eslint-disable-line no-undef
 
@@ -28,6 +32,19 @@ const requestInfluxDBStorageUsage = (uid, consumerId) => {
     });
 };
 
+const saveInqueryOnDB = (uid, body) => {
+  const now = moment().utc().format();
+  const key = `inquiries/${now}`;
+  const updates = {
+    [`${key}/uid`]: uid,
+    [`${key}/body`]: body,
+  };
+  return firebaseDB.ref().update(updates)
+    .then(res => ({ res }))
+    .catch(err => ({ err }));
+};
+
+
 function* fetchInfluxDBStorageUsage() {
   const { consumerId } = yield select(getTelegraf);
   const uid = yield select(getUid);
@@ -39,6 +56,26 @@ function* fetchInfluxDBStorageUsage() {
   yield put(actions.fetchInfluxDBStorageUsageFinished({ storageUsage }));
 }
 
+function* sendInquiry() {
+  const inquiry = yield select(getInquiry);
+  const body = inquiry.get('body');
+  const inputErrors = validateInquiry({ body });
+  if (!inputErrors.isEmpty()) {
+    yield put(actions.sendInquiryValidationFailed(inputErrors));
+    return;
+  }
+  const uid = yield select(getUid);
+  const { err } = yield call(saveInqueryOnDB, uid, body);
+  if (err) {
+    logException(err);
+    yield put(actions.sendInquiryFailed());
+    return;
+  }
+
+  yield put(actions.sendInquiryFinished());
+}
+
+
 function* watchFetchInfluxDBStorageUsage() {
   while (true) {
     yield take(`${actions.fetchInfluxDBStorageUsage}`);
@@ -46,6 +83,15 @@ function* watchFetchInfluxDBStorageUsage() {
   }
 }
 
+function* watchSendInquiry() {
+  while (true) {
+    yield take(`${actions.sendInquiry}`);
+    yield fork(sendInquiry);
+  }
+}
+
+
 export const dashboardSagas = [
   fork(watchFetchInfluxDBStorageUsage),
+  fork(watchSendInquiry),
 ];
