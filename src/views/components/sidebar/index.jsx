@@ -5,7 +5,7 @@ import ServerIcon from 'material-ui/svg-icons/file/cloud';
 import PlanIcon from 'material-ui/svg-icons/action/class';
 import GrafanaIcon from 'material-ui/svg-icons/action/assessment';
 import InfluxDBIcon from 'material-ui/svg-icons/device/data-usage';
-// import InquiryIcon from 'material-ui/svg-icons/communication/contact-mail';
+import InquiryIcon from 'material-ui/svg-icons/communication/contact-mail';
 import SettingsIcon from 'material-ui/svg-icons/action/settings';
 import LogoutIcon from 'material-ui/svg-icons/action/power-settings-new';
 import { hashHistory as history } from 'react-router';
@@ -34,10 +34,10 @@ const groups = [
     id: 'settings', title: 'Settings', Icon: SettingsIcon,
     path: 'settings', hideOnSettingUp: false, hideNormally: false,
   },
-  // {
-  //   id: 'inquiry', title: 'Inquiry', Icon: InquiryIcon,
-  //   path: 'inquiry', hideOnSettingUp: false, hideNormally: false,
-  // },
+  {
+    id: 'inquiry', title: 'Inquiry', Icon: InquiryIcon,
+    path: 'inquiry', hideOnSettingUp: false, hideNormally: false,
+  },
 ];
 
 const Sidebar = ({ onSignOut, jumpTo, pageGroup, needServerSetup }) => (
