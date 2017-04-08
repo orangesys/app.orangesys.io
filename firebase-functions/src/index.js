@@ -2,7 +2,7 @@ import 'babel-polyfill'
 import { https } from 'firebase-functions'
 import Express from 'express'
 import cors from 'cors'
-import * as handlers from './handlers'
+import * as httpHandlers from './http-handlers'
 
 const prepareFunction = (method, handler) => {
   const app = new Express()
@@ -17,7 +17,8 @@ const prepareFunction = (method, handler) => {
   return https.onRequest(app)
 }
 
+// http triggers
 export const hello = prepareFunction('get', (req, res) => res.send('ok'))
-export const customers = prepareFunction('post', handlers.createCustomer)
-export const changeCard = prepareFunction('post', handlers.changeCard)
-export const webhooks = prepareFunction('post', handlers.invoiceCreated)
+export const customers = prepareFunction('post', httpHandlers.createCustomer)
+export const changeCard = prepareFunction('post', httpHandlers.changeCard)
+export const webhooks = prepareFunction('post', httpHandlers.invoiceCreated)
