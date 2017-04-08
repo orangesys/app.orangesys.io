@@ -57,6 +57,6 @@
     },
     "inquiries": {
       ".write": "!data.exists()"
-    },
+    }
   }
 }
