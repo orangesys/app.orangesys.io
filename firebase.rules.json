@@ -65,7 +65,7 @@
         "body": {
           ".validate": "newData.isString() && newData.val().length <= 1000"
         }
-      },
+      }
     }
   }
 }
