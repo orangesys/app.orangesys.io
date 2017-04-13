@@ -31,6 +31,7 @@ export default class InquiryNotifier {
       Headers: { 'Reply-To': this.user.email },
     }
     const connectedMailer = this.mailer.connect(cfg.mailjetPublicKey, cfg.mailjetPrivateKey)
+    console.log('sending mail :', requestBody)
     await connectedMailer.post('send').request(requestBody)
   }
 }
