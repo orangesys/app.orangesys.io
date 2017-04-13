@@ -1,0 +1,1 @@
+export { sendInquiryNotification } from './inquiry'

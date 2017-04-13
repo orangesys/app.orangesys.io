@@ -1,10 +1,14 @@
 import 'babel-polyfill'
-import { https } from 'firebase-functions'
+import { config, https, database } from 'firebase-functions'
+import admin from 'firebase-admin'
 import Express from 'express'
 import cors from 'cors'
 import * as httpHandlers from './http-handlers'
+import * as dbHandlers from './db-handlers'
 
-const prepareFunction = (method, handler) => {
+admin.initializeApp(config().firebase)
+
+const prepareHttpFunction = (method, handler) => {
   const app = new Express()
   app.use(cors())
   app.use((req, res, next) => {
@@ -18,7 +22,12 @@ const prepareFunction = (method, handler) => {
 }
 
 // http triggers
-export const hello = prepareFunction('get', (req, res) => res.send('ok'))
-export const customers = prepareFunction('post', httpHandlers.createCustomer)
-export const changeCard = prepareFunction('post', httpHandlers.changeCard)
-export const webhooks = prepareFunction('post', httpHandlers.invoiceCreated)
+export const hello = prepareHttpFunction('get', (req, res) => res.send('ok'))
+export const customers = prepareHttpFunction('post', httpHandlers.createCustomer)
+export const changeCard = prepareHttpFunction('post', httpHandlers.changeCard)
+export const webhooks = prepareHttpFunction('post', httpHandlers.invoiceCreated)
+
+export const sendInquiryNotification =
+  database.ref('/inquiries/{id}').onWrite(async (event) => (
+    dbHandlers.sendInquiryNotification(event, admin)
+  ))
