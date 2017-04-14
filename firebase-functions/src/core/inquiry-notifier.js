@@ -12,6 +12,7 @@ export default class InquiryNotifier {
       '',
       `会社名: ${this.user.companyName}`,
       `フルネーム: ${this.user.fullName}`,
+      `メールアドレス: ${this.user.email}`,
     ].join("\n")
   }
 
