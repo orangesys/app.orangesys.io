@@ -63,7 +63,7 @@
           ".validate": "newData.isString() && newData.val() === auth.uid"
         },
         "body": {
-          ".validate": "newData.isString() && newData.val().length <= 1000"
+          ".validate": "newData.isString() && newData.val().length <= 2000"
         }
       }
     }
