@@ -34,7 +34,7 @@ export class Inquiry {
       fromName: 'OrangeSys Auto Mail',
       to: cfg.to,
     }
-    this.notifier.setInformationForMail(config, user)
+    this.notifier.setInformationForMail(notifierConfig, user)
     await this.notifier.sendMailToAdmin({ inquiryId, body })
   }
 }
