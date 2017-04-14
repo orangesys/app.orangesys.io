@@ -4,7 +4,8 @@ import InquiryNotifier from '../core/inquiry-notifier'
 import { getUserData } from '../core/user'
 
 export const sendInquiryNotification = async (event, admin) => {
-  const inquiry = new Inquiry(config(), admin, InquiryNotifier)
+  const notifier = new InquiryNotifier(mailjet)
+  const inquiry = new Inquiry(config(), admin, notifier)
   return await inquiry.sendNotification(event)
 }
 
