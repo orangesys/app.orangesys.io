@@ -1,15 +1,16 @@
 [![dependencies Status](https://david-dm.org/orangesys/app.orangesys.io.svg)](https://david-dm.org/orangesys/app.orangesys.io)
 [![CircleCI](https://circleci.com/gh/orangesys/app.orangesys.io.svg?style=svg)](https://circleci.com/gh/orangesys/app.orangesys.io)
 
+
 ### Run
 
->```
+```
 cp .env-sample .env
->```
+```
 
 ### change api key with .env
 
->```
+```
 # edit .env
 NODE_ENV=development
 FIREBASE_API_KEY=XXXXXXXXXXXXXXXXXXXXX
@@ -34,9 +35,11 @@ open 127.0.0.1:5000
 npm install
 >```
 
+
 ### Create a Firebase project
 
 https://console.firebase.google.com/
+
 
 ### login with ci use token
 >```
