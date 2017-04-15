@@ -34,6 +34,10 @@ deployment:
       - env $(cat .env | xargs) webpack -p --progress
       - firebase deploy --project "$FIREBASE_PROJECT" --token "$FIREBASE_TOKEN" --non-interactive
       - firebase functions:config:set stripe.secret_key=$STRIPE_SECRET_KEY --project "$FIREBASE_PROJECT" --token "$FIREBASE_FUNCTIONS_TOKEN"
+      - firebase functions:config:set mail.mailjet_public_key=$MAILJET_PUBLIC_KEY --project "$FIREBASE_PROJECT" --token "$FIREBASE_FUNCTIONS_TOKEN"
+      - firebase functions:config:set mail.mailjet_private_key=$MAILJET_PRIVATE_KEY --project "$FIREBASE_PROJECT" --token "$FIREBASE_FUNCTIONS_TOKEN"
+      - firebase functions:config:set mail.from=$MAILJET_SENDER_ADDRESS --project "$FIREBASE_PROJECT" --token "$FIREBASE_FUNCTIONS_TOKEN"
+      - firebase functions:config:set mail.to=$MAILJET_SENDER_ADDRESS --project "$FIREBASE_PROJECT" --token "$FIREBASE_FUNCTIONS_TOKEN"
       - npm run functions:build
       - firebase deploy --only functions --project "$FIREBASE_PROJECT" --token "$FIREBASE_FUNCTIONS_TOKEN" --non-interactive
       - |
