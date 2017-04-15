@@ -23,17 +23,11 @@ SENTRY_DSN=https://XXXXXXXX@sentry.io/YYYYYYY
 HOST=0.0.0.0
 ```
 
->```
-wercker dev --expose-ports
-open 127.0.0.1:5000
->```
-
-
 ### Install
 
->```
+```
 npm install
->```
+```
 
 
 ### Create a Firebase project
@@ -42,19 +36,19 @@ https://console.firebase.google.com/
 
 
 ### login with ci use token
->```
+```
 firebase login:ci
->```
+```
 
 ### Update database rules
 
->```
+```
 firebase deploy --project "$FIREBASE_PROJECT" --token "$FIREBASE_TOKEN" --non-interactive --only database
->```
+```
 
 ### Deploy firebase functions
 
->```
+```
 firebase functions:config:set stripe.secret_key="xxxxxxxxxxxxxxx"
 firebase functions:config:set mail.mailjet_public_key="xxxxxxxxxxxxxxx"
 firebase functions:config:set mail.mailjet_private_key="xxxxxxxxxxxxxxx"
@@ -66,6 +60,6 @@ npm run functions:deploy
 
 ### Start
 
->```
+```
 npm start
->```
+```
