@@ -1,18 +1,14 @@
 [![dependencies Status](https://david-dm.org/orangesys/app.orangesys.io.svg)](https://david-dm.org/orangesys/app.orangesys.io)
 [![CircleCI](https://circleci.com/gh/orangesys/app.orangesys.io.svg?style=svg)](https://circleci.com/gh/orangesys/app.orangesys.io)
 
-## Run Dev in local
-- Docker version > 1.10.0
-- wercker CLI
-
-## Installation
-http://devcenter.wercker.com/cli/installation/index.html
-
+### Run 
 
 >```bash
 cp .env-sample .env
 >```
+
 ### change api key with .env
+
 >```bash
 # edit .env
 NODE_ENV=development
@@ -52,7 +48,6 @@ firebase login:ci
 >```
 firebase deploy --project "$FIREBASE_PROJECT" --token "$FIREBASE_TOKEN" --non-interactive --only database
 >```
-
 
 ### Deploy firebase functions
 
