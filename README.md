@@ -1,15 +1,15 @@
 [![dependencies Status](https://david-dm.org/orangesys/app.orangesys.io.svg)](https://david-dm.org/orangesys/app.orangesys.io)
 [![CircleCI](https://circleci.com/gh/orangesys/app.orangesys.io.svg?style=svg)](https://circleci.com/gh/orangesys/app.orangesys.io)
 
-### Run 
+### Run
 
->```bash
+>```
 cp .env-sample .env
 >```
 
 ### change api key with .env
 
->```bash
+>```
 # edit .env
 NODE_ENV=development
 FIREBASE_API_KEY=XXXXXXXXXXXXXXXXXXXXX
@@ -22,7 +22,7 @@ SENTRY_DSN=https://XXXXXXXX@sentry.io/YYYYYYY
 HOST=0.0.0.0
 ```
 
->```bash
+>```
 wercker dev --expose-ports
 open 127.0.0.1:5000
 >```
@@ -30,7 +30,7 @@ open 127.0.0.1:5000
 
 ### Install
 
->```bash
+>```
 npm install
 >```
 
@@ -51,7 +51,7 @@ firebase deploy --project "$FIREBASE_PROJECT" --token "$FIREBASE_TOKEN" --non-in
 
 ### Deploy firebase functions
 
->```bash
+>```
 firebase functions:config:set stripe.secret_key="xxxxxxxxxxxxxxx"
 firebase functions:config:set mail.mailjet_public_key="xxxxxxxxxxxxxxx"
 firebase functions:config:set mail.mailjet_private_key="xxxxxxxxxxxxxxx"
@@ -63,14 +63,6 @@ npm run functions:deploy
 
 ### Start
 
->```bash
-npm start
 >```
-
-### Build a bundle in local
-
->```bash
-wercker build --direct-mount
-cd target && python -M SimpleHTTPServer
-open http://127.0.0.1:8000
+npm start
 >```
