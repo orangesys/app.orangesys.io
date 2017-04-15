@@ -15,7 +15,7 @@ class StubInvoice {
   }
 }
 
-const { invoiceCreated } = proxyquire('../../src/handlers/webhook', {
+const { invoiceCreated } = proxyquire('../../src/http-handlers/webhook', {
   'firebase-functions': {
     config: () => ({ stripe: { secrect_key: 'dummy' } })
   },

@@ -33,7 +33,7 @@ const requestInfluxDBStorageUsage = (uid, consumerId) => {
 };
 
 const saveInqueryOnDB = (uid, body) => {
-  const now = moment().utc().format();
+  const now = moment().utc().format('YYYY-MM-DDTHH:mm:ss-SSS\\Z');
   const key = `inquiries/${now}`;
   const updates = {
     [`${key}/uid`]: uid,

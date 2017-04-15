@@ -56,7 +56,16 @@
       }
     },
     "inquiries": {
-      ".write": "!data.exists()"
-    },
+      "$inquiry_id": {
+        ".write": "!data.exists() && newData.exists()",
+        ".validate": "$inquiry_id.matches(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}-\\d{3}Z$/)",
+        "uid": {
+          ".validate": "newData.isString() && newData.val() === auth.uid"
+        },
+        "body": {
+          ".validate": "newData.isString() && newData.val().length <= 2000"
+        }
+      }
+    }
   }
 }

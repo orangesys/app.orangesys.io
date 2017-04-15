@@ -54,10 +54,14 @@ firebase deploy --project "$FIREBASE_PROJECT" --token "$FIREBASE_TOKEN" --non-in
 >```
 
 
-### Deploy firebase functions (Stripe Payment API)
+### Deploy firebase functions
 
 >```bash
 firebase functions:config:set stripe.secret_key="xxxxxxxxxxxxxxx"
+firebase functions:config:set mail.mailjet_public_key="xxxxxxxxxxxxxxx"
+firebase functions:config:set mail.mailjet_private_key="xxxxxxxxxxxxxxx"
+firebase functions:config:set mail.from="noreply@example.com"
+firebase functions:config:set mail.to="system-group@example.com"
 npm run functions:deploy
 >```
 

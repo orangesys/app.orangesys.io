@@ -14,7 +14,7 @@ class StubCustomer {
   }
 }
 
-const { changeCard } = proxyquire('../../src/handlers/customer', {
+const { changeCard } = proxyquire('../../src/http-handlers/customer', {
   'firebase-functions': {
     config: () => ({ stripe: { secrect_key: 'dummy' } })
   },
