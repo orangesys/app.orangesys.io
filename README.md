@@ -2,13 +2,13 @@
 [![CircleCI](https://circleci.com/gh/orangesys/app.orangesys.io.svg?style=svg)](https://circleci.com/gh/orangesys/app.orangesys.io)
 
 
-### Run
+### Config
 
 ```
 cp .env-sample .env
 ```
 
-### change api key with .env
+### Change api key with .env
 
 ```
 # edit .env
@@ -35,7 +35,7 @@ npm install
 https://console.firebase.google.com/
 
 
-### login with ci use token
+### Login with ci use token
 ```
 firebase login:ci
 ```
@@ -55,7 +55,7 @@ firebase functions:config:set mail.mailjet_private_key="xxxxxxxxxxxxxxx"
 firebase functions:config:set mail.from="noreply@example.com"
 firebase functions:config:set mail.to="system-group@example.com"
 npm run functions:deploy
->```
+```
 
 
 ### Start
