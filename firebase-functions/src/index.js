@@ -29,5 +29,5 @@ export const webhooks = prepareHttpFunction('post', httpHandlers.invoiceCreated)
 
 export const sendInquiryNotification =
   database.ref('/inquiries/{id}').onWrite(async (event) => (
-    dbHandlers.sendInquiryNotification(event, admin)
+    dbHandlers.sendInquiryNotification(event, admin, config)
   ))

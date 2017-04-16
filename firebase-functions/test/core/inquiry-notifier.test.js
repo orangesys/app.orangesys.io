@@ -28,15 +28,14 @@ describe('InquiryNotifier', () => {
         companyName: 'Company A',
         fullName: 'Yamada Tarou',
       }
-      const notifier = new InquiryNotifier(mailer)
-      notifier.setInformationForMail(cfg, user)
+      const notifier = new InquiryNotifier(mailer, cfg)
 
       const inquiryId = 'inquiry-id'
       const body = 'inquiry message'
-      td.replace(notifier, 'generateMessageBody')
-      td.when(notifier.generateMessageBody(body))
+      td.replace(InquiryNotifier, 'generateMessageBody')
+      td.when(InquiryNotifier.generateMessageBody(user, body))
         .thenReturn(`xxxx ${body} xxxx`)
-      const result = await notifier.sendMailToAdmin({ inquiryId, body })
+      const result = await notifier.sendMailToAdmin(user, { inquiryId, body })
 
       td.verify(request({
         FromEmail: cfg.from,

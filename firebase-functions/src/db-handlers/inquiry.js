@@ -3,38 +3,43 @@ import mailjet from 'node-mailjet'
 import InquiryNotifier from '../core/inquiry-notifier'
 import { getUserData } from '../core/user'
 
-export const sendInquiryNotification = async (event, admin) => {
-  const notifier = new InquiryNotifier(mailjet)
-  const inquiry = new Inquiry(config(), admin, notifier)
+export const notifierConfig = (cfg) => (
+  {
+    mailjetPublicKey: cfg.mailjet_public_key,
+    mailjetPrivateKey: cfg.mailjet_private_key,
+    from: cfg.from,
+    fromName: 'OrangeSys Auto Mail',
+    to: cfg.to,
+  }
+)
+
+export const sendInquiryNotification = async (event, admin, config) => {
+  const cfg = config().mail
+  const notifier = new InquiryNotifier(
+    mailjet,
+    notifierConfig(cfg), getUserData)
+
+  const inquiry = new Inquiry(admin, notifier, getUserData)
   return await inquiry.sendNotification(event)
 }
 
 export class Inquiry {
-  constructor(config, admin, notifier) {
-    this.config = config
+  constructor(admin, notifier, getUserData) {
     this.admin = admin
     this.notifier = notifier
+    this.getUserData = getUserData
   }
-  async getUserData(uid) {
-    return getUserData(this.admin.database, uid)
+
+  async getUser(uid) {
+    const userData = await this.getUserData(this.admin.database, uid)
+    const userRecord = await this.admin.auth().getUser(uid)
+    return { ...userRecord, ...userData }
   }
+
   async sendNotification(event) {
     const inquiryId = event.params.id
     const { uid, body } = event.data.val()
-    const userRecord = await this.admin.auth().getUser(uid)
-    const cfg = this.config.mail
-
-    const userData = await this.getUserData(uid)
-    const user = { ...userRecord, ...userData }
-
-    const notifierConfig = {
-      mailjetPublicKey: cfg.mailjet_public_key,
-      mailjetPrivateKey: cfg.mailjet_private_key,
-      from: cfg.from,
-      fromName: 'OrangeSys Auto Mail',
-      to: cfg.to,
-    }
-    this.notifier.setInformationForMail(notifierConfig, user)
-    await this.notifier.sendMailToAdmin({ inquiryId, body })
+    const user = await this.getUser(uid)
+    await this.notifier.sendMailToAdmin(user, { inquiryId, body })
   }
 }

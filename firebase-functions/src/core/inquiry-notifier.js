@@ -1,35 +1,31 @@
 
 export default class InquiryNotifier {
-  constructor(mailer) {
+  constructor(mailer, config) {
     this.mailer = mailer
+    this.config = config
   }
-  generateMessageBody(text) {
+  static generateMessageBody(user, text) {
     return [
       '',
       '----------------------------------------------------------------------',
       text,
       '----------------------------------------------------------------------',
       '',
-      `会社名: ${this.user.companyName}`,
-      `フルネーム: ${this.user.fullName}`,
-      `メールアドレス: ${this.user.email}`,
+      `会社名: ${user.companyName}`,
+      `フルネーム: ${user.fullName}`,
+      `メールアドレス: ${user.email}`,
     ].join("\n")
   }
 
-  setInformationForMail(config, user) {
-    this.config = config
-    this.user = user
-  }
-
-  async sendMailToAdmin({ inquiryId, body }) {
+  async sendMailToAdmin(user, { inquiryId, body }) {
     const cfg = this.config
     const requestBody = {
       FromEmail: cfg.from,
       FromName: cfg.fromName,
       Subject: `[OrangeSys] お問い合わせ (${inquiryId})`,
-      'Text-part': this.generateMessageBody(body),
+      'Text-part': InquiryNotifier.generateMessageBody(user, body),
       Recipients: [{ Email: cfg.to, }],
-      Headers: { 'Reply-To': this.user.email },
+      Headers: { 'Reply-To': user.email },
     }
     const connectedMailer = this.mailer.connect(cfg.mailjetPublicKey, cfg.mailjetPrivateKey)
     console.log('sending mail :', requestBody)
