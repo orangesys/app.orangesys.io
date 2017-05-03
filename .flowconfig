@@ -1,0 +1,6 @@
+[ignore]
+.*/node_modules/config-chain/test/broken.json
+.*/node_modules/npm/test/fixtures/config/package.json
+.*/node_modules/fbjs/.*
+[options]
+unsafe.enable_getters_and_setters=true
