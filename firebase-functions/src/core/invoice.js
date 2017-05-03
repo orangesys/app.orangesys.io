@@ -1,38 +1,79 @@
+// @flow
 import stripe from 'stripe'
 import moment from 'moment'
-import { round } from 'lodash/math'
+import math from 'lodash/math'
 
-export const calculateDiscountOfProRatedCharge = (monthlyPrice, subscriptionStartedAt) => {
-  const subscriptionStartedDate = subscriptionStartedAt.date()
-  const endOfMonth = subscriptionStartedAt.endOf('month').date()
-  const serviceUsingDays = (endOfMonth - subscriptionStartedDate) + 1
-  const actualAmount = round((monthlyPrice / 30) * serviceUsingDays)
-  if (actualAmount > monthlyPrice) {
-    return 0
+export class Calculations {
+  static calculateDiscountOfProRatedCharge(
+    monthlyPrice: number, subscriptionStartedAt: moment,
+  ): number {
+    const subscriptionStartedDate = subscriptionStartedAt.date()
+    const endOfMonth = subscriptionStartedAt.endOf('month').date()
+    const serviceUsingDays = (endOfMonth - subscriptionStartedDate) + 1
+    const actualAmount = math.round((monthlyPrice / 30) * serviceUsingDays)
+    if (actualAmount > monthlyPrice) {
+      return 0
+    }
+    return monthlyPrice - actualAmount
   }
-  return monthlyPrice - actualAmount
 }
 
 export default class Invoice {
-  constructor(stripeSecretKey, data) {
-    this.stripe = stripe(stripeSecretKey)
+
+  stripe: any
+  data: Object
+  subscription: Object
+  calcs: typeof Calculations
+
+  constructor(
+    stripe: any,
+    data: Object,
+    calcs: typeof Calculations = Calculations,
+  ) {
+    this.stripe = stripe
     this.data = data
+    this.calcs =calcs
   }
-  created() {
-    if (this.isFirstSubscription()) {
-      return this.addInvoiceItemForProRatedChargeDiscount()
+
+  get subscriptionStartedAt(): moment {
+    return moment(this.subscription.created, 'X')
+  }
+
+  isFirstSubscription(): boolean {
+    const invoiceMonth = moment(this.data.date, 'X').get('month')
+    const subscriptionStartedMonth = this.subscriptionStartedAt.get('month')
+    const result = (invoiceMonth - subscriptionStartedMonth) <= 1
+    console.log(`Invoice#isFirstSubscription ` +
+      `result: ${result.toString()}, ` +
+      `invoiceMonth: ${invoiceMonth}, ` +
+      `subscriptionStartedMonth: ${subscriptionStartedMonth}`
+    )
+    return result
+  }
+
+  async onCreate(): Promise<Object> {
+    this.subscription = await this.retrieveSubscription()
+    if (!this.isFirstSubscription()) {
+      console.log('this is not a first subscription.')
+      return {}
     }
-    return Promise.resolve({})
+    return this.addInvoiceItemForProRatedChargeDiscount()
   }
-  retrieveSubscription() {
+
+  retrieveSubscription(): Promise<Object> {
     return new Promise((resolve, reject) => {
+      if (!this.data.subscription) { throw new Error('no subscription id.') }
       this.stripe.subscriptions.retrieve(this.data.subscription, (err, subscription) => {
         if (err) { reject(err); return }
+        if (!subscription) {
+          throw new Error(`subscription ${this.data.subscription} is not found.`)
+        }
         resolve(subscription)
       })
     })
   }
-  addInvoice(data) {
+
+  addInvoice(data: Object): Promise<Object> {
     return new Promise((resolve, reject) => (
       this.stripe.invoiceItems.create(data, (err, invoiceItem) => {
         if (err) { reject(err); return; }
@@ -41,27 +82,24 @@ export default class Invoice {
       })
     ))
   }
-  addInvoiceItemForProRatedChargeDiscount() {
+
+  async addInvoiceItemForProRatedChargeDiscount(): Promise<Object> {
     const { amount } = this.data.lines.data[0]
     const customerId = this.data.customer
     const invoiceId = this.data.id
-    return this.retrieveSubscription()
-      .then((subscription) => {
-        const subsriptionStartedAt = moment(subscription.created, 'X')
-        const invoiceData = {
-          customer: customerId,
-          invoice: invoiceId,
-          amount: -calculateDiscountOfProRatedCharge(amount, subsriptionStartedAt),
-          currency: 'jpy',
-          description: '初月日割分控除',
-        }
-        return this.addInvoice(invoiceData)
-      })
-  }
-  isFirstSubscription() {
-    const { date, period_start } = this.data
-    const invoiceMonth = moment(date, 'X').get('month')
-    const subscriptionStartedMonth = moment(period_start, 'X').get('month')
-    return (invoiceMonth - subscriptionStartedMonth) === 1
+
+    const discount = this.calcs.calculateDiscountOfProRatedCharge(
+      amount, this.subscriptionStartedAt)
+    console.log('discount:', discount)
+    const invoiceData = {
+      customer: customerId,
+      invoice: invoiceId,
+      amount: -discount,
+      currency: 'jpy',
+      description: '初月日割分控除',
+    }
+    console.log('invoiceData:', invoiceData)
+    const invoiceItem = await this.addInvoice(invoiceData)
+    return invoiceItem
   }
 }

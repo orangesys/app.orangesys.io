@@ -8,7 +8,7 @@ class StubInvoice {
     this.stripe = {}
     this.data = data
   }
-  created() {
+  onCreate() {
     return new Promise((resolve) => {
       resolve({ success: true })
     })
