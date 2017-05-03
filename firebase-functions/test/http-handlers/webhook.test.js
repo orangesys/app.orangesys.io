@@ -26,7 +26,7 @@ const { invoiceCreated } = proxyquire('../../src/http-handlers/webhook', {
 
 describe('invoiceCreated', async () => {
   it('works', async () => {
-    const req = { body: { data: {} } }
+    const req = { body: { data: { object: {} } } }
     const res = {
       writeHead: () => {},
       end: () => {},
