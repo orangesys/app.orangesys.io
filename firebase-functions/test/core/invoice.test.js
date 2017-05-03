@@ -1,86 +1,103 @@
+import 'babel-polyfill'
 import assert from 'power-assert'
 import moment from 'moment'
-import sinon from 'sinon'
+import td from 'testdouble'
 
-import Invoice, {
-  calculateDiscountOfProRatedCharge,
-} from '../../src/core/invoice'
+import Invoice, { Calculations } from '../../src/core/invoice'
 
-const DUMMY_TOKEN = 'asdfasfdasdfasdf'
-
-describe('calculatDiscountOfProRatedCharge', () => {
-  it('works', () => {
-    [
-      { price: 1000, date: '2016-10-01', expected: 0 },
-      { price: 1000, date: '2016-10-11', expected: 300 },
-      { price: 1000, date: '2016-10-30', expected: 933 },
-      { price: 1000, date: '2016-10-31', expected: 967 },
-      { price: 50000, date: '2016-10-01', expected: 0 },
-      { price: 50000, date: '2016-10-11', expected: 15000 },
-      { price: 50000, date: '2016-10-30', expected: 46667 },
-      { price: 50000, date: '2016-10-31', expected: 48333 },
-    ].forEach(({ price, date, expected }) => {
-      const time = moment(date).utcOffset('+09:00')
-      assert(calculateDiscountOfProRatedCharge(price, time) === expected)
+describe('Calculations', () => {
+  describe('calculatDiscountOfProRatedCharge', () => {
+    it('calculates discount', () => {
+      [
+        { price: 1000, date: '2016-10-01', expected: 0 },
+        { price: 1000, date: '2016-10-11', expected: 300 },
+        { price: 1000, date: '2016-10-30', expected: 933 },
+        { price: 1000, date: '2016-10-31', expected: 967 },
+        { price: 50000, date: '2016-10-01', expected: 0 },
+        { price: 50000, date: '2016-10-11', expected: 15000 },
+        { price: 50000, date: '2016-10-30', expected: 46667 },
+        { price: 50000, date: '2016-10-31', expected: 48333 },
+      ].forEach(({ price, date, expected }) => {
+        const time = moment(date).utcOffset('+09:00')
+        assert(Calculations.calculateDiscountOfProRatedCharge(price, time) === expected)
+      })
     })
   })
 })
 
-describe('Invoice#addInvoiceItemForProRatedChargeDiscount', () => {
-  it('add an invoice item if it is first payment', (done) => {
-    const subscriptionStartedAt = moment('2016-10-11T00:00:00+0900').format('X')
-    const eventData = {
-      customer: 'customerId1',
-      id: 'invoiceId1',
-      date: moment('2016-11-01T11:00:00+0900').format('X'),
-      lines: {
-        data: [{
-          amount: 50000,
-          plan: { id: 'planid1' },
-        }],
-      },
-      subscription: 'subscriptionId',
-    }
-    const invoice = new Invoice(DUMMY_TOKEN, eventData)
-    sinon.stub(invoice, 'retrieveSubscription').returns(Promise.resolve({
-      created: subscriptionStartedAt,
-    }))
-    invoice.addInvoice = () => (Promise.resolve({}))
-    const mock = sinon.mock(invoice)
-    const expectedArgs = {
-      customer: eventData.customer,
-      invoice: eventData.id,
-      amount: -15000,
-      currency: 'jpy',
-      description: '初月日割分控除',
-    }
-    mock.expects('addInvoice').withArgs(expectedArgs).once()
-    invoice.addInvoiceItemForProRatedChargeDiscount()
-      .then(() => {
-        assert(mock.verify())
-        done()
-      })
-      .catch(err => done(err))
-  })
-})
+describe('Invoice', () => {
 
-describe('Invoice#isFirstSubscription', () => {
-  const shouldBehaves = (date, periodStartDate, expected) => {
-    const data = {
-      date: moment(date).format('X'),
-      period_start: moment(periodStartDate).format('X'),
-    }
-    const invoice = new Invoice(DUMMY_TOKEN, data)
-    assert(invoice.isFirstSubscription() === expected)
-  }
-  it('return true if it is first subscription', () => {
-    shouldBehaves('2016-12-01T11:00:00+09:00', '2016-11-10T00:00:00+09:00', true)
-    shouldBehaves('2016-12-01T11:00:00+09:00', '2016-11-01T00:00:00+09:00', true)
-    shouldBehaves('2016-12-01T11:00:00+09:00', '2016-11-30T23:59:59+09:00', true)
+  describe('isFirstSubscription', () => {
+    it('returns true if the subscription started last month', () => {
+      const data = { date: moment('2017-04-01').unix() }
+      const invoice = new Invoice({}, data)
+      invoice.subscription = { created: moment('2017-03-15') }
+      assert(invoice.isFirstSubscription() === true)
+    })
+    it('returns false if the subscription started more than a month ago', () => {
+      const data = { date: moment('2017-05-01').unix() }
+      const invoice = new Invoice({}, data)
+      invoice.subscription = { created: moment('2017-03-15') }
+      assert(invoice.isFirstSubscription() === false)
+    })
   })
-  it('return false if it is not first subscription', () => {
-    shouldBehaves('2016-12-01T11:00:00+09:00', '2016-09-20T00:00:00+09:00', false)
-    shouldBehaves('2016-12-01T11:00:00+09:00', '2016-10-31T23:59:59+09:00', false)
-    shouldBehaves('2016-12-01T11:00:00+09:00', '2016-12-01T11:00:00+09:00', false)
+
+  describe('addInvoiceItemForProRatedChargeDiscount', () => {
+    beforeEach(td.reset)
+    it('adds an invoice item of discount', async () => {
+      const amount = 50000
+      const discount = 20000
+      const data = {
+        customer: 'dummy-customer',
+        id: 'dummy-id',
+        lines: {
+          data: [{ amount }],
+        }
+      }
+      class CalcDummy {
+        static calculateDiscountOfProRatedCharge() {
+          return discount
+        }
+      }
+      const invoice = new Invoice({}, data, CalcDummy)
+      invoice.subscription = { created: moment().unix() }
+      td.replace(invoice, 'addInvoice')
+      await invoice.addInvoiceItemForProRatedChargeDiscount()
+      td.verify(invoice.addInvoice({
+        customer: data.customer,
+        invoice: data.id,
+        amount: -discount,
+        currency: 'jpy',
+        description: '初月日割分控除',
+      }))
+    })
+  })
+
+  describe('onCreate', () => {
+    it('add an invoice if it is first subscription', async () => {
+      const invoice = new Invoice({}, {})
+      td.replace(invoice, 'retrieveSubscription')
+      td.when(invoice.retrieveSubscription())
+        .thenResolve({ created: moment().unix() })
+      td.replace(invoice, 'isFirstSubscription')
+      td.when(invoice.isFirstSubscription()).thenReturn(true)
+      td.replace(invoice, 'addInvoiceItemForProRatedChargeDiscount')
+
+      await invoice.onCreate()
+      td.verify(invoice.addInvoiceItemForProRatedChargeDiscount())
+    })
+
+    it("doesn't add an invoice if it is not first subscription", async () => {
+      const invoice = new Invoice({}, {})
+      td.replace(invoice, 'retrieveSubscription')
+      td.when(invoice.retrieveSubscription())
+        .thenResolve({ created: moment().unix() })
+      td.replace(invoice, 'isFirstSubscription')
+      td.when(invoice.isFirstSubscription()).thenReturn(false)
+      td.replace(invoice, 'addInvoiceItemForProRatedChargeDiscount')
+
+      await invoice.onCreate()
+      td.verify(invoice.addInvoiceItemForProRatedChargeDiscount(), { times: 0 })
+    })
   })
 })
