@@ -22,6 +22,7 @@ test:
   override:
     - echo $NODEJS_ENV_DEV | base64 --decode -i > .env
     - npm test
+    - npm run functions:check
     - npm run functions:test
     - env $(cat .env | xargs) webpack -p --progress
 
