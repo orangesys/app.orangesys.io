@@ -1,6 +1,4 @@
 import 'babel-polyfill'
-import assert from 'power-assert'
-import moment from 'moment'
 import td from 'testdouble'
 
 import InquiryNotifier from '../../src/core/inquiry-notifier'
@@ -35,14 +33,14 @@ describe('InquiryNotifier', () => {
       td.replace(InquiryNotifier, 'generateMessageBody')
       td.when(InquiryNotifier.generateMessageBody(user, body))
         .thenReturn(`xxxx ${body} xxxx`)
-      const result = await notifier.sendMailToAdmin(user, { inquiryId, body })
+      await notifier.sendMailToAdmin(user, { inquiryId, body })
 
       td.verify(request({
         FromEmail: cfg.from,
         FromName: cfg.fromName,
         Subject: `[OrangeSys] お問い合わせ (${inquiryId})`,
         'Text-part': `xxxx ${body} xxxx`,
-        Recipients: [{ Email: cfg.to, }],
+        Recipients: [{ Email: cfg.to }],
         Headers: { 'Reply-To': user.email },
       }))
     })

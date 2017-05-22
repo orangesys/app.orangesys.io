@@ -24,7 +24,7 @@ export default class Customer {
       const data = { source: this.token }
       this.stripe.customers.update(customerId, data, (err, customer) => {
         if (err) { reject(err); return }
-        resolve(customer);
+        resolve(customer)
       })
     })
   }

@@ -1,5 +1,5 @@
+/* eslint-disable class-methods-use-this */
 import 'babel-polyfill'
-import assert from 'power-assert'
 import proxyquire from 'proxyquire'
 import td from 'testdouble'
 
@@ -17,12 +17,12 @@ class StubInvoice {
 
 const { invoiceCreated } = proxyquire('../../src/http-handlers/webhook', {
   'firebase-functions': {
-    config: () => ({ stripe: { secrect_key: 'dummy' } })
+    config: () => ({ stripe: { secrect_key: 'dummy' } }),
   },
   '../core/invoice': {
     default: StubInvoice,
   },
-});
+})
 
 describe('invoiceCreated', async () => {
   it('works', async () => {

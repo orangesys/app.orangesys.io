@@ -16,12 +16,12 @@ class StubCustomer {
 
 const { changeCard } = proxyquire('../../src/http-handlers/customer', {
   'firebase-functions': {
-    config: () => ({ stripe: { secrect_key: 'dummy' } })
+    config: () => ({ stripe: { secrect_key: 'dummy' } }),
   },
   '../core/customer': {
     default: StubCustomer,
   },
-});
+})
 
 describe('changeCard', () => {
   it('returns 200 if succeeded', () => {

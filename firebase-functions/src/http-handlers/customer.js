@@ -1,6 +1,5 @@
 // @flow
 /* eslint-disable no-console */
-import cors from 'cors'
 import { config } from 'firebase-functions'
 import Customer from '../core/customer'
 

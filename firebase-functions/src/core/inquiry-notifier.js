@@ -14,7 +14,7 @@ export default class InquiryNotifier {
       `会社名: ${user.companyName}`,
       `フルネーム: ${user.fullName}`,
       `メールアドレス: ${user.email}`,
-    ].join("\n")
+    ].join('\n')
   }
 
   async sendMailToAdmin(user, { inquiryId, body }) {
@@ -24,7 +24,7 @@ export default class InquiryNotifier {
       FromName: cfg.fromName,
       Subject: `[OrangeSys] お問い合わせ (${inquiryId})`,
       'Text-part': InquiryNotifier.generateMessageBody(user, body),
-      Recipients: [{ Email: cfg.to, }],
+      Recipients: [{ Email: cfg.to }],
       Headers: { 'Reply-To': user.email },
     }
     const connectedMailer = this.mailer.connect(cfg.mailjetPublicKey, cfg.mailjetPrivateKey)
