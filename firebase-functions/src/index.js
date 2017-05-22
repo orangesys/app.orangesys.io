@@ -1,32 +1,41 @@
+// @flow
+
 import 'babel-polyfill'
 import { config, https, database } from 'firebase-functions'
 import admin from 'firebase-admin'
 import Express from 'express'
-import cors from 'cors'
+import { default as _cors } from 'cors'
+import promisify from 'es6-promisify'
 import * as httpHandlers from './http-handlers'
 import * as dbHandlers from './db-handlers'
 
 admin.initializeApp(config().firebase)
+const cors = promisify(_cors())
 
-const prepareHttpFunction = (method, handler) => {
-  const app = new Express()
-  app.use(cors())
-  app.use((req, res, next) => {
+type Handler = (req: Object, res: Object) => null;
+type Method = 'get' | 'post' | 'put' | 'delete' | 'options';
+
+const prepareHttpFunction = (method: Method, handler: Handler): Function => {
+  return async (req, res) => {
+    await cors(req, res)
     console.log(
       `method: ${req.method}, url: ${req.originalUrl}, params: %j, body: %j`,
       req.params, req.body)
-    next()
-  })
-  app[method]('*', handler)
-  return https.onRequest(app)
+    if (req.method.toLowerCase() !== method) {
+      res.status(400).send(`http method ${req.method} is not supported.`)
+      return
+    }
+    return handler(req, res)
+  }
 }
 
 // http triggers
-export const hello = prepareHttpFunction('get', (req, res) => res.send('ok'))
-export const customers = prepareHttpFunction('post', httpHandlers.createCustomer)
-export const changeCard = prepareHttpFunction('post', httpHandlers.changeCard)
-export const webhooks = prepareHttpFunction('post', httpHandlers.invoiceCreated)
+export const hello = https.onRequest(prepareHttpFunction('get', (req, res) => res.send('ok') ))
+export const customers = https.onRequest(prepareHttpFunction('post', httpHandlers.createCustomer))
+export const changeCard = https.onRequest(prepareHttpFunction('post', httpHandlers.changeCard))
+export const webhooks = https.onRequest(prepareHttpFunction('post', httpHandlers.invoiceCreated))
 
+// db triggers
 export const sendInquiryNotification =
   database.ref('/inquiries/{id}').onWrite(async (event) => (
     dbHandlers.sendInquiryNotification(event, admin, config)
