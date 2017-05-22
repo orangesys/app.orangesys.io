@@ -28,9 +28,9 @@ describe('trialEndTimestamp', () => {
 
 describe('Invoice#changeCard', () => {
   it('works', () => {
-    const customerId = 'cus_9xrGGO2fLQyQ4D';
-    const dummyToken = 'dummyToken';
-    const customer = new Customer(dummySecretKey, dummyToken);
+    const customerId = 'cus_9xrGGO2fLQyQ4D'
+    const dummyToken = 'dummyToken'
+    const customer = new Customer(dummySecretKey, dummyToken)
     // stub
     customer.stripe = {
       customers: {

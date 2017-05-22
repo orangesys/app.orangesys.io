@@ -1,10 +1,11 @@
+// @flow
 import { config } from 'firebase-functions'
 import stripe from 'stripe'
 import Invoice from '../core/invoice'
 
 const STRIPE_SECRET_KEY = config().stripe.secret_key
 
-export const invoiceCreated = async (req, res) => {
+export const invoiceCreated = async (req: any, res: any) => {
   const { body: { data } } = req
   const { body } = req
   if (!body.data || !body.data.object) {
@@ -23,7 +24,6 @@ export const invoiceCreated = async (req, res) => {
     res.writeHead(500)
     console.error(err)
     res.end(err.toString())
-    return
   }
 }
 
@@ -31,7 +31,7 @@ const mappings = {
   'invoice.created': invoiceCreated,
 }
 
-export const handle = (req, res) => {
+export const handle = (req: any, res: any) => {
   const { body } = req
   console.log('webhook: %j', body)
   if (!body) {

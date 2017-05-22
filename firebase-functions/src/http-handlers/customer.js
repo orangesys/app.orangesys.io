@@ -1,11 +1,11 @@
+// @flow
 /* eslint-disable no-console */
-import cors from 'cors'
 import { config } from 'firebase-functions'
 import Customer from '../core/customer'
 
 const STRIPE_SECRET_KEY = config().stripe.secret_key
 
-export const createCustomer = (req, res) => {
+export const createCustomer = async (req: Object, res: Object) => {
   const { body } = req
   if (!body) {
     res.status(400).send('body is empty.')
@@ -16,31 +16,25 @@ export const createCustomer = (req, res) => {
     res.status(400).end('params are missing (token, planId, uid, email).')
     return
   }
-  const customer = new Customer(STRIPE_SECRET_KEY, token)
-  let customerData = null
-  customer
-    .create({ email, uid })
-    .then((result) => {
-      customerData = result
-      return customer.subscribe(customerData, planId)
-    })
-    .then((subscription) => {
-      const data = {
-        customerId: customerData.id,
-        subscriptionId: subscription.id,
-      }
-      res.end(JSON.stringify(data))
-      console.log('response data:', data)
-    })
-    .catch((err) => {
-      res.writeHead(400, { 'Content-Type': 'text/json' })
-      const errorData = err.raw
-      console.error('error:', errorData, 'body:', body) // eslint-disable-line no-console
-      res.end(JSON.stringify(errorData))
-    })
+  try {
+    const customer = new Customer(STRIPE_SECRET_KEY, token)
+    const customerData = await customer.create({ email, uid })
+    const subscription = await customer.subscribe(customerData, planId)
+    const data = {
+      customerId: customerData.id,
+      subscriptionId: subscription.id,
+    }
+    res.end(JSON.stringify(data))
+    console.log('response data:', data)
+  } catch (err) {
+    res.writeHead(400, { 'Content-Type': 'text/json' })
+    const errorData = err.raw || err
+    console.error('error:', errorData, 'body:', body)
+    res.end(JSON.stringify(errorData))
+  }
 }
 
-export const changeCard = (req, res) => {
+export const changeCard = async (req: Object, res: Object) => {
   const { body } = req
   if (!body) {
     res.writeHead(400)
@@ -54,14 +48,13 @@ export const changeCard = (req, res) => {
     return
   }
   const customer = new Customer(STRIPE_SECRET_KEY, token)
-  customer.changeCard(customerId)
-    .then(() => {
-      res.end('ok')
-    })
-    .catch((err) => {
-      res.writeHead(400, { 'Content-Type': 'text/json' })
-      const errorData = err.raw
-      console.error('error:', errorData, 'body:', body) // eslint-disable-line no-console
-      res.end(JSON.stringify(errorData))
-    })
+  try {
+    await customer.changeCard(customerId)
+    res.end('ok')
+  } catch (err) {
+    res.writeHead(400, { 'Content-Type': 'text/json' })
+    const errorData = err.raw || err
+    console.error('error:', errorData, 'body:', body)
+    res.end(JSON.stringify(errorData))
+  }
 }

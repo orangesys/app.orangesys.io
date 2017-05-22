@@ -1,7 +1,7 @@
 import 'babel-polyfill'
 import assert from 'power-assert'
 import td from 'testdouble'
-import { Inquiry, sendInquiryNotification } from '../../src/db-handlers/inquiry'
+import { Inquiry } from '../../src/db-handlers/inquiry'
 import InquiryNotifier from '../../src/core/inquiry-notifier'
 
 describe('Inquiry', () => {
@@ -58,7 +58,7 @@ describe('Inquiry', () => {
         params: { id: inquiryId },
         data: { val: () => ({ uid, body }) },
       }
-      const result = await inquiry.sendNotification(event)
+      await inquiry.sendNotification(event)
 
       td.verify(notifier.sendMailToAdmin(dummyUser, { inquiryId, body }))
     })

@@ -1,5 +1,4 @@
 // @flow
-import stripe from 'stripe'
 import moment from 'moment'
 import math from 'lodash/math'
 
@@ -32,7 +31,7 @@ export default class Invoice {
   ) {
     this.stripe = stripe
     this.data = data
-    this.calcs =calcs
+    this.calcs = calcs
   }
 
   get subscriptionStartedAt(): moment {
@@ -43,10 +42,10 @@ export default class Invoice {
     const invoiceMonth = moment(this.data.date, 'X').get('month')
     const subscriptionStartedMonth = this.subscriptionStartedAt.get('month')
     const result = (invoiceMonth - subscriptionStartedMonth) <= 1
-    console.log(`Invoice#isFirstSubscription ` +
+    console.log('Invoice#isFirstSubscription ' +
       `result: ${result.toString()}, ` +
       `invoiceMonth: ${invoiceMonth}, ` +
-      `subscriptionStartedMonth: ${subscriptionStartedMonth}`
+      `subscriptionStartedMonth: ${subscriptionStartedMonth}`,
     )
     return result
   }
@@ -76,7 +75,7 @@ export default class Invoice {
   addInvoice(data: Object): Promise<Object> {
     return new Promise((resolve, reject) => (
       this.stripe.invoiceItems.create(data, (err, invoiceItem) => {
-        if (err) { reject(err); return; }
+        if (err) { reject(err); return }
         console.log('An invoice item has been added. invoice: %j', invoiceItem)
         resolve(invoiceItem)
       })

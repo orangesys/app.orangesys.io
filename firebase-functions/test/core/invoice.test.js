@@ -26,7 +26,6 @@ describe('Calculations', () => {
 })
 
 describe('Invoice', () => {
-
   describe('isFirstSubscription', () => {
     it('returns true if the subscription started last month', () => {
       const data = { date: moment('2017-04-01').unix() }
@@ -52,7 +51,7 @@ describe('Invoice', () => {
         id: 'dummy-id',
         lines: {
           data: [{ amount }],
-        }
+        },
       }
       class CalcDummy {
         static calculateDiscountOfProRatedCharge() {
