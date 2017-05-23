@@ -21,6 +21,11 @@ PAYMENT_API_ENDPOINT=https://PAYMENT_API_ENDPOINT
 ORANGESYS_API_ENDPOINT=https://ORANGESYS_API_ENDPOINT
 SENTRY_DSN=https://XXXXXXXX@sentry.io/YYYYYYY
 HOST=0.0.0.0
+
+# these variables are necessary if you run integration tests for firebase functions
+STRIPE_TEST_SECRET_KEY=XXXXXXXXXXXXXXXXXXXXX
+STRIPE_TEST_CUSTOMER_ID=xxxxxxx
+STRIPE_TEST_PLAN_ID=xxxxxx
 ```
 
 ### Install
@@ -29,6 +34,17 @@ HOST=0.0.0.0
 npm install
 ```
 
+### Test
+
+```
+npm test
+```
+
+### Test firebase functions
+
+```
+npm run functions:test
+```
 
 ### Create a Firebase project
 

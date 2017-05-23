@@ -1,6 +1,7 @@
 /* eslint-disable import/imports-first, class-methods-use-this */
 import assert from 'power-assert'
 import proxyquire from 'proxyquire'
+import td from 'testdouble'
 
 class StubCustomer {
   constructor(_, token) {
@@ -14,7 +15,7 @@ class StubCustomer {
   }
 }
 
-const { changeCard } = proxyquire('../../src/http-handlers/customer', {
+const { changeCard } = proxyquire('../../../src/http-handlers/customer', {
   'firebase-functions': {
     config: () => ({ stripe: { secrect_key: 'dummy' } }),
   },
@@ -24,22 +25,14 @@ const { changeCard } = proxyquire('../../src/http-handlers/customer', {
 })
 
 describe('changeCard', () => {
-  it('returns 200 if succeeded', () => {
+  it('returns 200 if succeeded', async () => {
     const token = 'dummy-token'
     const customerId = 'cus_9xrGGO2fLQyQ4D'
-    const req = {
-      body: { token, customerId },
-    }
-    return new Promise((resolve) => {
-      const res = {
-        end: (str) => {
-          assert(str === 'ok')
-          resolve()
-        },
-        writeHead: () => {},
-      }
-      changeCard(req, res)
-    })
+    const req = { body: { token, customerId } }
+    const res = td.object({ end: () => {} })
+    const config = { stripe: { secret_key: 'dummy' } }
+    await changeCard(req, res, config)
+    td.verify(res.end('ok'))
   })
   it('returns 400 if params are missing', () => {
     const token = 'dummy-token'

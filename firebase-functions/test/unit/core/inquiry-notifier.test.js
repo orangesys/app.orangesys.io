@@ -1,7 +1,7 @@
 import 'babel-polyfill'
 import td from 'testdouble'
 
-import InquiryNotifier from '../../src/core/inquiry-notifier'
+import InquiryNotifier from '../../../src/core/inquiry-notifier'
 
 describe('InquiryNotifier', () => {
   describe('sendMailToAdmin posts a mail sending request', () => {

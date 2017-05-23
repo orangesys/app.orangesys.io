@@ -12,7 +12,7 @@ import * as dbHandlers from './db-handlers'
 admin.initializeApp(config().firebase)
 const cors = promisify(_cors())
 
-type Handler = (req: Object, res: Object) => Promise<void>| Function;
+type Handler = (req: Object, res: Object, config: Object) => Promise<*>;
 type Method = 'get' | 'post' | 'put' | 'delete' | 'options';
 
 const prepareHttpFunction = (method: Method, handler: Handler): Function => async (req, res) => {
@@ -24,7 +24,7 @@ const prepareHttpFunction = (method: Method, handler: Handler): Function => asyn
     res.status(400).send(`http method ${req.method} is not supported.`)
     return
   }
-  handler(req, res)
+  handler(req, res, config())
 }
 
 // http triggers

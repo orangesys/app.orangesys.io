@@ -1,11 +1,14 @@
 // @flow
 /* eslint-disable no-console */
-import { config } from 'firebase-functions'
 import Customer from '../core/customer'
 
-const STRIPE_SECRET_KEY = config().stripe.secret_key
+type Config = {
+  stripe: {
+    secret_key: string,
+  }
+}
 
-export const createCustomer = async (req: Object, res: Object) => {
+export const createCustomer = async (req: Object, res: Object, config: Config) => {
   const { body } = req
   if (!body) {
     res.status(400).send('body is empty.')
@@ -17,7 +20,8 @@ export const createCustomer = async (req: Object, res: Object) => {
     return
   }
   try {
-    const customer = new Customer(STRIPE_SECRET_KEY, token)
+    const stripeSecretKey = config.stripe.secret_key
+    const customer = new Customer(stripeSecretKey, token)
     const customerData = await customer.create({ email, uid })
     const subscription = await customer.subscribe(customerData, planId)
     const data = {
@@ -34,7 +38,7 @@ export const createCustomer = async (req: Object, res: Object) => {
   }
 }
 
-export const changeCard = async (req: Object, res: Object) => {
+export const changeCard = async (req: Object, res: Object, config: Config) => {
   const { body } = req
   if (!body) {
     res.writeHead(400)
@@ -47,7 +51,8 @@ export const changeCard = async (req: Object, res: Object) => {
     res.end('params are missing (token, customerId).')
     return
   }
-  const customer = new Customer(STRIPE_SECRET_KEY, token)
+  const stripeSecretKey = config.stripe.secret_key
+  const customer = new Customer(stripeSecretKey, token)
   try {
     await customer.changeCard(customerId)
     res.end('ok')
