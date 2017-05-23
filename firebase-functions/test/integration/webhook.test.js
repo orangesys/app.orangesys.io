@@ -124,7 +124,7 @@ class StripeTestDataManager {
 
 }
 
-describe('invoice.created', () => {
+describe('invoiceCreated', () => {
   let testDataManager = null
   let baseData = null
   beforeEach(async () => {
@@ -164,7 +164,6 @@ describe('invoice.created', () => {
     const res = { end: () => {}, writeHead: () => {} }
     const config = { stripe: { secret_key: STRIPE_TEST_SECRET_KEY } }
     const result = await invoiceCreated(req, res, config)
-    console.log('added invoice:', result)
     assert(result.id != null)
     assert(result.object === 'invoiceitem')
     assert(result.amount <= 0)
