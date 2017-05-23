@@ -1,37 +1,45 @@
 // @flow
-import { config } from 'firebase-functions'
 import stripe from 'stripe'
 import Invoice from '../core/invoice'
 
-const STRIPE_SECRET_KEY = config().stripe.secret_key
+type Config = {
+  stripe: {
+    secret_key: string,
+  }
+}
 
-export const invoiceCreated = async (req: any, res: any) => {
+export const invoiceCreated = async (
+  req: any, res: any, config: Config,
+) => {
   const { body: { data } } = req
   const { body } = req
+  console.log('invoiceCreated. body:', body)
   if (!body.data || !body.data.object) {
     const errMessage = 'request body data is wrong'
     console.error(errMessage)
     res.writeHead(400)
     res.end(errMessage)
-    return
+    return null
   }
+  const stripeSecretKey = config.stripe.secret_key
   try {
-    const invoice = new Invoice(stripe(STRIPE_SECRET_KEY), data.object)
+    const invoice = new Invoice(stripe(stripeSecretKey), data.object)
     const result = await invoice.onCreate()
-    console.log('response:', result)
     res.end(JSON.stringify(result))
+    return result
   } catch (err) {
     res.writeHead(500)
     console.error(err)
     res.end(err.toString())
   }
+  return null
 }
 
 const mappings = {
   'invoice.created': invoiceCreated,
 }
 
-export const handle = (req: any, res: any) => {
+export const handle = (req: any, res: any, config: Config) => {
   const { body } = req
   console.log('webhook: %j', body)
   if (!body) {
@@ -47,5 +55,5 @@ export const handle = (req: any, res: any) => {
     res.end()
     return
   }
-  handleEvent(req, res)
+  handleEvent(req, res, config)
 }
