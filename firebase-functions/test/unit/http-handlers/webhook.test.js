@@ -15,10 +15,7 @@ class StubInvoice {
   }
 }
 
-const { invoiceCreated } = proxyquire('../../src/http-handlers/webhook', {
-  'firebase-functions': {
-    config: () => ({ stripe: { secrect_key: 'dummy' } }),
-  },
+const { invoiceCreated } = proxyquire('../../../src/http-handlers/webhook', {
   '../core/invoice': {
     default: StubInvoice,
   },
@@ -27,12 +24,12 @@ const { invoiceCreated } = proxyquire('../../src/http-handlers/webhook', {
 describe('invoiceCreated', async () => {
   it('works', async () => {
     const req = { body: { data: { object: {} } } }
-    const res = {
+    const res = td.object({
       writeHead: () => {},
       end: () => {},
-    }
-    td.replace(res, 'end')
-    await invoiceCreated(req, res)
+    })
+    const config = { stripe: { secret_key: 'dummy' } }
+    await invoiceCreated(req, res, config)
     td.verify(res.end(JSON.stringify({ success: true })))
   })
 })

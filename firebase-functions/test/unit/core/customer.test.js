@@ -1,6 +1,6 @@
 import assert from 'power-assert'
 import moment from 'moment'
-import Customer, { trialEndTimestamp } from '../../src/core/customer'
+import Customer, { trialEndTimestamp } from '../../../src/core/customer'
 
 const dummySecretKey = 'xxxxxxxxx'
 

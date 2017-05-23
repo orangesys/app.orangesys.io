@@ -1,8 +1,8 @@
 import 'babel-polyfill'
 import assert from 'power-assert'
 import td from 'testdouble'
-import { Inquiry } from '../../src/db-handlers/inquiry'
-import InquiryNotifier from '../../src/core/inquiry-notifier'
+import { Inquiry } from '../../../src/db-handlers/inquiry'
+import InquiryNotifier from '../../../src/core/inquiry-notifier'
 
 describe('Inquiry', () => {
   describe('getUser', () => {

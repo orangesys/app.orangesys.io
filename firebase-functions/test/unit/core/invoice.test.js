@@ -3,7 +3,7 @@ import assert from 'power-assert'
 import moment from 'moment'
 import td from 'testdouble'
 
-import Invoice, { Calculations } from '../../src/core/invoice'
+import Invoice, { Calculations } from '../../../src/core/invoice'
 
 describe('Calculations', () => {
   describe('calculatDiscountOfProRatedCharge', () => {
