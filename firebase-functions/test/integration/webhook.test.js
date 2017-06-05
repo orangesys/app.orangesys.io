@@ -2,7 +2,7 @@ import 'babel-polyfill'
 import assert from 'power-assert'
 import stripe from 'stripe'
 import moment from 'moment'
-import { invoiceCreated } from '../../src/http-handlers'
+import { handle } from '../../src/http-handlers'
 
 const STRIPE_TEST_SECRET_KEY = process.env.STRIPE_TEST_SECRET_KEY
 const STRIPE_TEST_CUSTOMER_ID = process.env.STRIPE_TEST_CUSTOMER_ID
@@ -125,6 +125,10 @@ class StripeTestDataManager {
 }
 
 describe('invoiceCreated', () => {
+  const config = {
+    stripe: { secret_key: STRIPE_TEST_SECRET_KEY },
+    webhook: { stripe_invoice: 'https://dummy-webhook-url.com' },
+  }
   let testDataManager = null
   let baseData = null
   beforeEach(async () => {
@@ -138,6 +142,7 @@ describe('invoiceCreated', () => {
     await testDataManager.createInvoice()
 
     baseData = {
+      type: 'invoice.created',
       data: {
         object: {
           id: testDataManager.invoice.id,
@@ -162,8 +167,7 @@ describe('invoiceCreated', () => {
     const eventData = baseData
     const req = { body: eventData }
     const res = { end: () => {}, writeHead: () => {} }
-    const config = { stripe: { secret_key: STRIPE_TEST_SECRET_KEY } }
-    const result = await invoiceCreated(req, res, config)
+    const result = await handle(req, res, config)
     assert(result.id != null)
     assert(result.object === 'invoiceitem')
     assert(result.amount <= 0)
@@ -182,9 +186,8 @@ describe('invoiceCreated', () => {
     }
     const req = { body: eventData }
     const res = { end: () => {}, writeHead: () => {} }
-    const config = { stripe: { secret_key: STRIPE_TEST_SECRET_KEY } }
-    const result = await invoiceCreated(req, res, config)
-    assert.deepEqual(result, {})
+    const result = await handle(req, res, config)
+    assert.deepEqual(result, null)
   })
 
   afterEach(async () => {

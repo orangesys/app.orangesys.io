@@ -70,6 +70,7 @@ firebase functions:config:set mail.mailjet_public_key="xxxxxxxxxxxxxxx"
 firebase functions:config:set mail.mailjet_private_key="xxxxxxxxxxxxxxx"
 firebase functions:config:set mail.from="noreply@example.com"
 firebase functions:config:set mail.to="system-group@example.com"
+firebase functions:config:set webhook.stripe_invoice="https://xxxxxxxxxxxx"
 npm run functions:deploy
 ```
 

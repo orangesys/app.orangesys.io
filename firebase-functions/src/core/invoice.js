@@ -26,11 +26,9 @@ export default class Invoice {
 
   constructor(
     stripe: any,
-    data: Object,
     calcs: typeof Calculations = Calculations,
   ) {
     this.stripe = stripe
-    this.data = data
     this.calcs = calcs
   }
 
@@ -39,6 +37,7 @@ export default class Invoice {
   }
 
   isFirstSubscription(): boolean {
+    if (this.data == null) { throw new Error('data is not set') }
     const invoiceMonth = moment(this.data.date, 'X').get('month')
     const subscriptionStartedMonth = this.subscriptionStartedAt.get('month')
     const result = (invoiceMonth - subscriptionStartedMonth) <= 1
@@ -50,7 +49,8 @@ export default class Invoice {
     return result
   }
 
-  async onCreate(): Promise<Object> {
+  async onCreate(data: Object): Promise<Object> {
+    this.data = data
     this.subscription = await this.retrieveSubscription()
     if (!this.isFirstSubscription()) {
       console.log('this is not a first subscription.')

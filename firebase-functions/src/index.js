@@ -31,7 +31,7 @@ const prepareHttpFunction = (method: Method, handler: Handler): Function => asyn
 export const hello = https.onRequest(prepareHttpFunction('get', (req, res) => res.send('ok')))
 export const customers = https.onRequest(prepareHttpFunction('post', httpHandlers.createCustomer))
 export const changeCard = https.onRequest(prepareHttpFunction('post', httpHandlers.changeCard))
-export const webhooks = https.onRequest(prepareHttpFunction('post', httpHandlers.invoiceCreated))
+export const webhooks = https.onRequest(prepareHttpFunction('post', httpHandlers.handle))
 
 // db triggers
 export const sendInquiryNotification =
