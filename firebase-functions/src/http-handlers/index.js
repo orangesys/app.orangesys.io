@@ -5,5 +5,6 @@ export {
 } from './customer'
 
 export {
+  handle,
   invoiceCreated,
 } from './webhook'

@@ -1,10 +1,10 @@
-import stripe from 'stripe'
+// @flow
 import moment from 'moment'
 
 const TAX_PERCENT = 8
 const getCurrentTime = () => moment().utcOffset('+09:00')
 
-export const trialEndTimestamp = (currentTime = getCurrentTime()) => (
+export const trialEndTimestamp = (currentTime: moment = getCurrentTime()) => (
   currentTime.utcOffset('+09:00')
     .add(1, 'month')
     .set('date', 1)
@@ -15,11 +15,21 @@ export const trialEndTimestamp = (currentTime = getCurrentTime()) => (
 )
 
 export default class Customer {
-  constructor(stripeSecretKey, token) {
-    this.stripe = stripe(stripeSecretKey)
+  stripe: any
+  token: string
+  constructor(stripe: any, token: string) {
+    this.stripe = stripe
     this.token = token
   }
-  changeCard(customerId) {
+  retrieve(customerId: string): Promise<Object> {
+    return new Promise((resolve, reject) => {
+      this.stripe.customers.retrieve(customerId, (err, customer) => {
+        if (err) { reject(err); return }
+        resolve(customer)
+      })
+    })
+  }
+  changeCard(customerId: string): Promise<Object> {
     return new Promise((resolve, reject) => {
       const data = { source: this.token }
       this.stripe.customers.update(customerId, data, (err, customer) => {
@@ -28,7 +38,7 @@ export default class Customer {
       })
     })
   }
-  create({ email, uid }) {
+  create({ email, uid }: { email: string, uid: string }): Promise<Object> {
     return new Promise((resolve, reject) => {
       this.stripe.customers.create({
         source: this.token,
@@ -42,7 +52,7 @@ export default class Customer {
       })
     })
   }
-  subscribe(customer, planId) {
+  subscribe(customer: Object, planId: string): Promise<Object> {
     return new Promise((resolve, reject) => {
       this.stripe.subscriptions.create({
         customer: customer.id,

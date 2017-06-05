@@ -28,14 +28,14 @@ describe('Calculations', () => {
 describe('Invoice', () => {
   describe('isFirstSubscription', () => {
     it('returns true if the subscription started last month', () => {
-      const data = { date: moment('2017-04-01').unix() }
-      const invoice = new Invoice({}, data)
+      const invoice = new Invoice({})
+      invoice.data = { date: moment('2017-04-01').unix() }
       invoice.subscription = { created: moment('2017-03-15') }
       assert(invoice.isFirstSubscription() === true)
     })
     it('returns false if the subscription started more than a month ago', () => {
-      const data = { date: moment('2017-05-01').unix() }
-      const invoice = new Invoice({}, data)
+      const invoice = new Invoice({})
+      invoice.data = { date: moment('2017-05-01').unix() }
       invoice.subscription = { created: moment('2017-03-15') }
       assert(invoice.isFirstSubscription() === false)
     })
@@ -58,8 +58,9 @@ describe('Invoice', () => {
           return discount
         }
       }
-      const invoice = new Invoice({}, data, CalcDummy)
+      const invoice = new Invoice({}, CalcDummy)
       invoice.subscription = { created: moment().unix() }
+      invoice.data = data
       td.replace(invoice, 'addInvoice')
       await invoice.addInvoiceItemForProRatedChargeDiscount()
       td.verify(invoice.addInvoice({
@@ -74,7 +75,7 @@ describe('Invoice', () => {
 
   describe('onCreate', () => {
     it('add an invoice if it is first subscription', async () => {
-      const invoice = new Invoice({}, {})
+      const invoice = new Invoice({})
       td.replace(invoice, 'retrieveSubscription')
       td.when(invoice.retrieveSubscription())
         .thenResolve({ created: moment().unix() })
@@ -82,12 +83,12 @@ describe('Invoice', () => {
       td.when(invoice.isFirstSubscription()).thenReturn(true)
       td.replace(invoice, 'addInvoiceItemForProRatedChargeDiscount')
 
-      await invoice.onCreate()
+      await invoice.onCreate({ thisIs: 'data' })
       td.verify(invoice.addInvoiceItemForProRatedChargeDiscount())
     })
 
     it("doesn't add an invoice if it is not first subscription", async () => {
-      const invoice = new Invoice({}, {})
+      const invoice = new Invoice({})
       td.replace(invoice, 'retrieveSubscription')
       td.when(invoice.retrieveSubscription())
         .thenResolve({ created: moment().unix() })
@@ -95,7 +96,7 @@ describe('Invoice', () => {
       td.when(invoice.isFirstSubscription()).thenReturn(false)
       td.replace(invoice, 'addInvoiceItemForProRatedChargeDiscount')
 
-      await invoice.onCreate()
+      await invoice.onCreate({ thisIs: 'data' })
       td.verify(invoice.addInvoiceItemForProRatedChargeDiscount(), { times: 0 })
     })
   })

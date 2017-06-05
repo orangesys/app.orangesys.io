@@ -1,4 +1,6 @@
+import 'babel-polyfill'
 import assert from 'power-assert'
+import td from 'testdouble'
 import moment from 'moment'
 import Customer, { trialEndTimestamp } from '../../../src/core/customer'
 
@@ -26,7 +28,22 @@ describe('trialEndTimestamp', () => {
   })
 })
 
-describe('Invoice#changeCard', () => {
+describe('Customer#retrieve', () => {
+  it('calls stripe.customers.retrieve with customerId', async () => {
+    const customerId = 'customer-id1'
+    const retrieve = td.function()
+    const customerData = { thisIs: 'customer data' }
+    td.when(retrieve(customerId)).thenCallback(null, customerData)
+    const stripe = td.object({ customers: { retrieve } })
+
+    const customer = new Customer(stripe, 'dummy-token')
+    const result = await customer.retrieve(customerId)
+
+    assert.deepEqual(result, customerData)
+  })
+})
+
+describe('Customer#changeCard', () => {
   it('works', () => {
     const customerId = 'cus_9xrGGO2fLQyQ4D'
     const dummyToken = 'dummyToken'

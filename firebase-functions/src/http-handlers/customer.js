@@ -1,5 +1,6 @@
 // @flow
 /* eslint-disable no-console */
+import stripe from 'stripe'
 import Customer from '../core/customer'
 
 type Config = {
@@ -20,8 +21,8 @@ export const createCustomer = async (req: Object, res: Object, config: Config) =
     return
   }
   try {
-    const stripeSecretKey = config.stripe.secret_key
-    const customer = new Customer(stripeSecretKey, token)
+    const stripeInstance = stripe(config.stripe.secret_key)
+    const customer = new Customer(stripeInstance, token)
     const customerData = await customer.create({ email, uid })
     const subscription = await customer.subscribe(customerData, planId)
     const data = {
@@ -51,8 +52,8 @@ export const changeCard = async (req: Object, res: Object, config: Config) => {
     res.end('params are missing (token, customerId).')
     return
   }
-  const stripeSecretKey = config.stripe.secret_key
-  const customer = new Customer(stripeSecretKey, token)
+  const stripeInstance = stripe(config.stripe.secret_key)
+  const customer = new Customer(stripeInstance, token)
   try {
     await customer.changeCard(customerId)
     res.end('ok')
