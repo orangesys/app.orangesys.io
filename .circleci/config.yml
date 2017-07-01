@@ -10,7 +10,7 @@ jobs:
           CLUSTER_NAME: orangesysio
           DEBIAN_FRONTEND: noninteractive
           SHORT_HASH: $(echo $CIRCLE_SHA1 | cut -c -7)
-          PATH: "$(npm bin):$PATH"
+          PATH: "node_modules/.bin:$PATH"
     steps:
       - checkout
       - restore_cache:
