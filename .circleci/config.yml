@@ -16,7 +16,7 @@ jobs:
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
           name: install app.orangesys.io
-          command: npm install
+          command: npm install --silent
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
@@ -26,10 +26,18 @@ jobs:
           command: |
             echo $NODEJS_ENV_DEV | base64 --decode -i > .env
             npm test
-            npm run functions:install
-            npm run functions:check
-            npm run functions:test
-            env $(cat .env | xargs) webpack -p --progress
+      - run:
+          name: install app.orangesys.io functions
+          command: npm run functions:install
+      - run:
+          name: check functions
+          command: npm run functions:check
+      - run:
+          name: test functions
+          command: npm run functions:test
+      - run:
+          name: test webpack
+          command: env $(cat .env | xargs) webpack -p --progress
       - deploy:
           name: release to firebase
           command: |
