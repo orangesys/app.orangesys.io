@@ -12,8 +12,14 @@ jobs:
           SHORT_HASH: $(echo $CIRCLE_SHA1 | cut -c -7)
     steps:
       - checkout
-      - npm install
-      - npm run functions:install
+      - run:
+          name: update-npm
+          command: 'sudo npm install -g npm@latest'
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: install app.orangesys.io
+          command: npm install
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
