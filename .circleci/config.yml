@@ -4,12 +4,6 @@ jobs:
     working_directory: ~/app.orangesys.io
     docker:
       - image: circleci/node:6
-        environment:
-          PROJECT_NAME: orangesys
-          CLOUDSDK_COMPUTE_ZONE: asia-east1-c
-          CLUSTER_NAME: orangesysio
-          DEBIAN_FRONTEND: noninteractive
-          SHORT_HASH: $(echo $CIRCLE_SHA1 | cut -c -7)
     steps:
       - checkout
       - restore_cache:
@@ -26,9 +20,15 @@ jobs:
           command: |
             echo $NODEJS_ENV_DEV | base64 --decode -i > .env
             npm test
+      - restore_cache:
+          key: dependency-cache-{{ checksum "firebase-functions/package.json" }}
       - run:
           name: install app.orangesys.io functions
           command: npm run functions:install
+      - save_cache:
+          key: dependency-cache-{{ checksum "firebase-functions/package.json" }}
+          paths:
+            - ./firebase-functions/node_modules
       - run:
           name: check functions
           command: npm run functions:check
@@ -42,24 +42,51 @@ jobs:
             env $(cat .env | xargs) webpack -p --progress
 
   deploy:
-    name: release to firebase
-    command: |
-      export PATH="$(npm bin):$PATH"
-      if [ "${CIRCLE_BRANCH}" == "release" ]; then
-        rm -rf target
-        echo $NODEJS_ENV_PROD | base64 --decode -i > .env
-        env $(cat .env | xargs) webpack -p --progress
-        firebase deploy --project "$FIREBASE_PROJECT" --token "$FIREBASE_TOKEN" --non-interactive
-        firebase functions:config:set stripe.secret_key=$STRIPE_SECRET_KEY --project "$FIREBASE_PROJECT" --token "$FIREBASE_FUNCTIONS_TOKEN"
-        firebase functions:config:set mail.mailjet_public_key=$MAILJET_PUBLIC_KEY --project "$FIREBASE_PROJECT" --token "$FIREBASE_FUNCTIONS_TOKEN"
-        firebase functions:config:set mail.mailjet_private_key=$MAILJET_PRIVATE_KEY --project "$FIREBASE_PROJECT" --token "$FIREBASE_FUNCTIONS_TOKEN"
-        firebase functions:config:set mail.from=$MAILJET_SENDER_ADDRESS --project "$FIREBASE_PROJECT" --token "$FIREBASE_FUNCTIONS_TOKEN"
-        firebase functions:config:set mail.to=$MAILJET_SENDER_ADDRESS --project "$FIREBASE_PROJECT" --token "$FIREBASE_FUNCTIONS_TOKEN"
-        firebase functions:config:set webhook.stripe_invoice=$WEBHOOK_STRIPE_INVOICE --project "$FIREBASE_PROJECT" --token "$FIREBASE_FUNCTIONS_TOKEN"
-        npm run functions:build
-        firebase deploy --only functions --project "$FIREBASE_PROJECT" --token "$FIREBASE_FUNCTIONS_TOKEN" --non-interactive
-        curl -s -S -X POST --data-urlencode "payload={'channel': '#ops', 'text': ':earth_asia: :fire: release $CIRCLE_PROJECT_REPONAME (SHA1 $SHORT_HASH) completed (build $CIRCLE_BUILD_NUM)' }" $SLACK_OPS >/dev/null
-      fi
+    working_directory: ~/app.orangesys.io
+    docker:
+      - image: circleci/node:6
+        environment:
+          PROJECT_NAME: orangesys
+          CLOUDSDK_COMPUTE_ZONE: asia-east1-c
+          CLUSTER_NAME: orangesysio
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: install app.orangesys.io
+          command: npm install --silent
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - restore_cache:
+          key: dependency-cache-{{ checksum "firebase-functions/package.json" }}
+      - run:
+          name: install app.orangesys.io functions
+          command: npm run functions:install
+      - save_cache:
+          key: dependency-cache-{{ checksum "firebase-functions/package.json" }}
+          paths:
+            - ./firebase-functions/node_modules
+      - run:
+          name: build with production
+          command: |
+            export PATH="$(npm bin):$PATH"
+            if [ "${CIRCLE_BRANCH}" == "release" ]; then
+              echo $NODEJS_ENV_PROD | base64 --decode -i > .env
+              env $(cat .env | xargs) webpack -p --progress
+              firebase deploy --project "$FIREBASE_PROJECT" --token "$FIREBASE_TOKEN" --non-interactive
+              firebase functions:config:set stripe.secret_key=$STRIPE_SECRET_KEY --project "$FIREBASE_PROJECT" --token "$FIREBASE_FUNCTIONS_TOKEN"
+              firebase functions:config:set mail.mailjet_public_key=$MAILJET_PUBLIC_KEY --project "$FIREBASE_PROJECT" --token "$FIREBASE_FUNCTIONS_TOKEN"
+              firebase functions:config:set mail.mailjet_private_key=$MAILJET_PRIVATE_KEY --project "$FIREBASE_PROJECT" --token "$FIREBASE_FUNCTIONS_TOKEN"
+              firebase functions:config:set mail.from=$MAILJET_SENDER_ADDRESS --project "$FIREBASE_PROJECT" --token "$FIREBASE_FUNCTIONS_TOKEN"
+              firebase functions:config:set mail.to=$MAILJET_SENDER_ADDRESS --project "$FIREBASE_PROJECT" --token "$FIREBASE_FUNCTIONS_TOKEN"
+              firebase functions:config:set webhook.stripe_invoice=$WEBHOOK_STRIPE_INVOICE --project "$FIREBASE_PROJECT" --token "$FIREBASE_FUNCTIONS_TOKEN"
+              npm run functions:build
+              firebase deploy --only functions --project "$FIREBASE_PROJECT" --token "$FIREBASE_FUNCTIONS_TOKEN" --non-interactive
+              curl -s -S -X POST --data-urlencode "payload={'channel': '#ops', 'text': ':earth_asia: :fire: release $CIRCLE_PROJECT_REPONAME (SHA1 $SHORT_HASH) completed (build $CIRCLE_BUILD_NUM)' }" $SLACK_OPS >/dev/null
+            fi
 
 workflows:
   version: 2
