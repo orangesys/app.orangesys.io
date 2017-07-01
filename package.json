@@ -14,7 +14,7 @@
     "test": "env $(cat .env | xargs) NODE_PATH=. NODE_ENV=test mocha",
     "test:functions": "cd firebase-functions; npm install && npm test",
     "build": "webpack -p --progress",
-    "functions:install": "cd firebase-functions; npm install",
+    "functions:install": "cd firebase-functions; npm install --silent",
     "functions:check": "cd firebase-functions; npm run check",
     "functions:test": "cd firebase-functions; npm test",
     "functions:build": "rm -fr functions/* && babel firebase-functions/src --out-dir functions && cp -f firebase-functions/package.json functions/package.json && (cd functions/ && npm install --production)",
