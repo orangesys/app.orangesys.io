@@ -8,9 +8,10 @@ jobs:
     steps:
       - checkout
       - persist_to_workspace:
-        root: .
-        paths:
-          - .
+          root: .
+          paths:
+            - .
+
   build_dependencies:
     docker:
       - image: circleci/node:6
