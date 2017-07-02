@@ -2,7 +2,7 @@ version: 2.0
 
 jobs:
   checkout_code:
-    working_directory: ~/app.orangesys.io
+    working_directory: ~/tmp
     docker:
       - image: circleci/node:6
     steps:
