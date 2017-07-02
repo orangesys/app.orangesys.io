@@ -6,7 +6,8 @@ jobs:
     docker:
       - image: circleci/node:6
     steps:
-      - mkdir app.orangesys.io
+      - run:
+         command: mkdir app.orangesys.io
       - checkout
       - persist_to_workspace:
           root: .
