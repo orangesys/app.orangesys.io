@@ -2,9 +2,9 @@ version: 2.0
 
 jobs:
   checkout_code:
+    working_directory: ~/app.orangesys.io
     docker:
       - image: circleci/node:6
-    working_directory: ~/app.orangesys.io
     steps:
       - checkout
       - persist_to_workspace:
