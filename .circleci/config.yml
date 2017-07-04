@@ -10,7 +10,7 @@ jobs:
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
           name: install app.orangesys.io
-          command: npm install --silent
+          command: yarn
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
