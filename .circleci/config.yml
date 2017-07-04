@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/app.orangesys.io
     docker:
-      - image: node:6.10.0
+      - image: circleci/node:6
     steps:
       - checkout
       - restore_cache:
@@ -44,7 +44,7 @@ jobs:
   deploy:
     working_directory: ~/app.orangesys.io
     docker:
-      - image: node:6.10.0
+      - image: circleci/node:6
         environment:
           PROJECT_NAME: orangesys
           CLOUDSDK_COMPUTE_ZONE: asia-east1-c
