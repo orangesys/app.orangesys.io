@@ -15,9 +15,9 @@ jobs:
     steps:
       - checkout
       - persist_to_workspace:
-          root: .
+          root: app.orangesys.io
           paths:
-            - .
+            - app.orangesys.io
 
   build_dependencies:
     <<: *DEFAULT
