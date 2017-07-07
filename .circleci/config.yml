@@ -87,12 +87,13 @@ jobs:
     steps:
       - *attach_workspace
       - run: |
-          ls -lash /tmp/workspace/app
-          echo -e "\n"
-          ls -lash /tmp/workspace/app/node_modules
-          echo -e "\n"
-          ls -lash /tmp/workspace/app/firebase-functions
-          echo -e "\n"
+          echo -e "ls -lash /tmp/workspace/app\n"
+          ls -lh /tmp/workspace/app
+          echo -e "ls -lh /tmp/workspace/app/node_modules\n"
+          ls -lh /tmp/workspace/app/node_modules
+          echo -e "ls -lh /tmp/workspace/app/firebase-functions\n"
+          ls -lh /tmp/workspace/app/firebase-functions
+          echo -e "ls -lh /tmp/workspace/app/firebase-functions/node_modules\n"
           ls -lh /tmp/workspace/app/firebase-functions/node_modules
       - *load_code
       - run:
