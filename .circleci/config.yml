@@ -54,6 +54,7 @@ jobs:
 
   build_dependencies:
     <<: *container_config
+    steps:
       - *attach_workspace
       - *load_code
       - restore_cache:
