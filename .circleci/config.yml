@@ -62,13 +62,13 @@ jobs:
       - run:
           name: download dependencies
           command: |
-            ls;ls firebase-functions
             if [ ! -d node_modules -o ! -d firebase-functions/node_modules ]; then
               set -exu
               yarn
               cd firebase-functions
               yarn
             fi
+            ls /tmp/workspace/app
       - save_cache:
           <<: *js_cache_key
           paths:
