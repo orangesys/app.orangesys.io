@@ -20,9 +20,9 @@ jobs:
           ls -aslh ~
           ls -aslh ~/app.orangesys.io
       - persist_to_workspace:
-          root: /home/circleci
+          root: .
           paths:
-            - .
+            - app.orangesys.io
 
   build_dependencies:
     <<: *DEFAULT
@@ -48,9 +48,11 @@ jobs:
           paths:
             - ./firebase-functions/node_modules
       - persist_to_workspace:
+          root: ~/app.orangesys.io
           paths:
             - node_modules
       - persist_to_workspace:
+          root: ~/app.orangesys.io
           paths:
             - firebase-functions/node_modules
 
