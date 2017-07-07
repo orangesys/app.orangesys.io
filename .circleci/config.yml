@@ -91,8 +91,9 @@ jobs:
           echo -e "\n"
           ls -lash /tmp/workspace/app/node_modules
           echo -e "\n"
-          ls -lash /tmp/workspace/app/firebase-functions/node_modules
+          ls -lash /tmp/workspace/app/firebase-functions
           echo -e "\n"
+          ls -lh /tmp/workspace/app/firebase-functions/node_modules
       - *load_code
       - run:
           name: test app.orangesys.io
