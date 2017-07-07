@@ -20,9 +20,9 @@ jobs:
           ls -aslh ~
           ls -aslh ~/app.orangesys.io
       - persist_to_workspace:
-          root: .
+          root: /home/circleci/app.orangesys.io
           paths:
-            - .
+            - /home/circleci/app.orangesys.io
 
   build_dependencies:
     <<: *DEFAULT
