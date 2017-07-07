@@ -1,10 +1,17 @@
+defaults: &DEFAULT
+  working_directory: ~/app.orangesys.io
+  docker:
+    - image: circleci/node:6
+      environment:
+        PROJECT_NAME: orangesys
+        CLOUDSDK_COMPUTE_ZONE: asia-east1-c
+        CLUSTER_NAME: orangesysio
+
 version: 2.0
 
 jobs:
   checkout_code:
-    working_directory: ~/app.orangesys.io
-    docker:
-      - image: circleci/node:6
+    <<: *DEFAULT
     steps:
       - checkout
       - persist_to_workspace:
@@ -12,9 +19,7 @@ jobs:
             - .
 
   build_dependencies:
-    docker:
-      - image: circleci/node:6
-    working_directory: ~/app.orangesys.io
+    <<: *DEFAULT
     steps:
       - attach_workspace:
           at: ~/app.orangesys.io
@@ -44,9 +49,7 @@ jobs:
             - firebase-functions/node_modules
 
   npm_test:
-    docker:
-      - image: circleci/node:6
-    working_directory: ~/app.orangesys.io
+    <<: *DEFAULT
     steps:
       - attach_workspace:
           at: ~/app.orangesys.io
@@ -72,13 +75,7 @@ jobs:
             env $(cat .env | xargs) webpack -p --progress
 
   deploy:
-    working_directory: ~/app.orangesys.io
-    docker:
-      - image: circleci/node:6
-        environment:
-          PROJECT_NAME: orangesys
-          CLOUDSDK_COMPUTE_ZONE: asia-east1-c
-          CLUSTER_NAME: orangesysio
+    <<: *DEFAULT
     steps:
       - attach_workspace:
           at: ~/app.orangesys.io
