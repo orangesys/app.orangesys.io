@@ -29,6 +29,11 @@ jobs:
     steps:
       - attach_workspace:
           at: /home/circleci/app.orangesys.io
+      - run: |
+          echo $PWD
+          ls -aslh .
+          ls -aslh ~
+          ls -aslh ~/app.orangesys.io
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - restore_cache:
