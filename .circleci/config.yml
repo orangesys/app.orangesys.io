@@ -31,12 +31,12 @@ references:
   restore_app_node_modules: &restore_app_node_modules
     run:
       name: Restore app npm dependencies from workspace
-      command: mv /tmp/workspace/node_modules ./
+      command: mv /tmp/workspace/app/node_modules ./
 
   restore_firebase_node_modules: &restore_firebase_node_modules
     run:
       name: Restore firebase npm dependencies from workspace
-      command: mv /tmp/workspace/firebase-functions/node_modules firebase-functions/
+      command: mv /tmp/workspace/app/firebase-functions/node_modules firebase-functions/
 
 jobs:
   checkout_code:
