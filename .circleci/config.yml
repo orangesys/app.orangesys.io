@@ -77,6 +77,13 @@ jobs:
           command: |
             mv node_modules /tmp/workspace/app/
             mv firebase-functions/node_modules /tmp/workspace/app/firebase-functions/
+      - run: |
+          echo "ls /tmp/workspace/app/node_modules"
+          ls /tmp/workspace/app/node_modules
+          echo "ls /tmp/workspace/app/firebase-functions"
+          ls /tmp/workspace/app/firebase-functions
+          echo "ls /tmp/workspace/app/firebase-functions/node_modules"
+          ls /tmp/workspace/app/firebase-functions/node_modules
       - persist_to_workspace:
           root: *workspace_root
           paths:
