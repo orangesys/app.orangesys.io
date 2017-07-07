@@ -22,13 +22,14 @@ jobs:
       - persist_to_workspace:
           root: /home/circleci
           paths:
-            - .
+            - app.orangesys.io
 
   build_dependencies:
     <<: *DEFAULT
     steps:
       - attach_workspace:
-          at: .
+          root: /home/circleci
+          at: app.orangesys.io
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - restore_cache:
