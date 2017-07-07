@@ -61,11 +61,18 @@ jobs:
           ls -aslh ~
           ls -aslh ~/app.orangesys.io
       - attach_workspace:
-          at: /home/circleci
-      - attach_workspace:
           at: /home/circleci/app.orangesys.io
       - attach_workspace:
-          at: /home/circleci/app.orangesys.io/firebase-functions
+          at: /home/circleci/app.orangesys.io/node_modules
+      - attach_workspace:
+          at: /home/circleci/app.orangesys.io/firebase-functions/node_modules
+      - run: |
+          echo $PWD
+          ls -aslh .
+          ls -aslh ~
+          ls -aslh ~/app.orangesys.io
+          ls -aslh ~/app.orangesys.io/node_modules
+          ls -aslh ~/app.orangesys.io/firebase-functions/node_modules
       - run:
           name: test app.orangesys.io
           command: |
