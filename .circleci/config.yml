@@ -80,17 +80,19 @@ jobs:
       - persist_to_workspace:
           root: *workspace_root
           paths:
-            - app/node_modules
-            - app/firebase-functions/node_modules
+            - app
 
   npm_test:
     <<: *container_config
     steps:
       - *attach_workspace
       - run: |
-          ls /tmp/workspace/app
-          ls /tmp/workspace/app/node_modules
-          ls /tmp/workspace/app/firebase-functions/node_modules
+          ls -lash /tmp/workspace/app
+          echo -e "\n"
+          ls -lash /tmp/workspace/app/node_modules
+          echo -e "\n"
+          ls -lash /tmp/workspace/app/firebase-functions/node_modules
+          echo -e "\n"
       - *load_code
       - run:
           name: test app.orangesys.io
