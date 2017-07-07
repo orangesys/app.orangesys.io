@@ -28,7 +28,7 @@ jobs:
     <<: *DEFAULT
     steps:
       - attach_workspace:
-          at: /home/circleci/app.orangesys.io
+          at: /home/circleci
       - run: |
           echo $PWD
           ls -aslh .
