@@ -61,7 +61,7 @@ jobs:
           ls -aslh ~
           ls -aslh ~/app.orangesys.io
       - attach_workspace:
-          at: /home/circleci/app.orangesys.io
+          at: /home/circleci
       - attach_workspace:
           at: /home/circleci/app.orangesys.io/node_modules
       - attach_workspace:
