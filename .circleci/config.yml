@@ -70,8 +70,8 @@ jobs:
       - save_cache:
           <<: *js_cache_key
           paths:
-            - /root/app/node_modules
-            - /root/app/firebase-functions/node_modules
+            - node_modules
+            - firebase-functions/node_modules
       - run:
           name: Move dependencies to workspace
           command: |
