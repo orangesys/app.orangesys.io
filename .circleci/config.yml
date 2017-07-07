@@ -15,10 +15,10 @@ jobs:
     steps:
       - checkout
       - run: |
-        echo $PWD
-        ls -aslh .
-        ls -aslh ~
-        ls -aslh ~/app.orangesys.io
+          echo $PWD
+          ls -aslh .
+          ls -aslh ~
+          ls -aslh ~/app.orangesys.io
       - persist_to_workspace:
           root: .
           paths:
