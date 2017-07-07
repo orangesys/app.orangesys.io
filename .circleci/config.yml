@@ -14,10 +14,15 @@ jobs:
     <<: *DEFAULT
     steps:
       - checkout
+      - run: |
+        echo $PWD
+        ls -aslh .
+        ls -aslh ~
+        ls -aslh ~/app.orangesys.io
       - persist_to_workspace:
-          root: app.orangesys.io
+          root: .
           paths:
-            - app.orangesys.io
+            - .
 
   build_dependencies:
     <<: *DEFAULT
