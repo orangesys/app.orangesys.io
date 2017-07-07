@@ -28,16 +28,6 @@ references:
   js_cache_key: &js_cache_key
     key: dependency-npm-{{ checksum "package.json" }}-{{ checksum "firebase-functions/package.json" }}
 
-  restore_app_node_modules: &restore_app_node_modules
-    run:
-      name: Restore app npm dependencies from workspace
-      command: mv /tmp/workspace/app/node_modules ./
-
-  restore_firebase_node_modules: &restore_firebase_node_modules
-    run:
-      name: Restore firebase npm dependencies from workspace
-      command: mv /tmp/workspace/app/firebase-functions/node_modules firebase-functions/
-
 jobs:
   checkout_code:
     <<: *container_config
@@ -114,8 +104,6 @@ jobs:
     steps:
       - *attach_workspace
       - *load_code
-      - *restore_app_node_modules
-      - *restore_firebase_node_modules
       - run:
           name: build with production
           command: |
