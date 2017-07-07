@@ -27,6 +27,7 @@ jobs:
   build_dependencies:
     <<: *DEFAULT
     steps:
+      - run: rm -rf /home/circleci/app.orangesys.io
       - attach_workspace:
           at: /home/circleci
       - run: |
