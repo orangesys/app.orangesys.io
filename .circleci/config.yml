@@ -14,11 +14,6 @@ jobs:
     <<: *DEFAULT
     steps:
       - checkout
-      - run: |
-          echo $PWD
-          ls -aslh .
-          ls -aslh ~
-          ls -aslh ~/app.orangesys.io
       - persist_to_workspace:
           root: /home/circleci
           paths:
@@ -30,11 +25,6 @@ jobs:
       - run: rm -rf /home/circleci/app.orangesys.io
       - attach_workspace:
           at: /home/circleci
-      - run: |
-          echo $PWD
-          ls -aslh .
-          ls -aslh ~
-          ls -aslh ~/app.orangesys.io
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - restore_cache:
@@ -65,12 +55,17 @@ jobs:
   npm_test:
     <<: *DEFAULT
     steps:
+      - run: |
+          echo $PWD
+          ls -aslh .
+          ls -aslh ~
+          ls -aslh ~/app.orangesys.io
       - attach_workspace:
-          at: ~/app.orangesys.io
+          at: /home/circleci
       - attach_workspace:
-          at: ~/app.orangesys.io/node_modules
+          at: /home/circleci/app.orangesys.io
       - attach_workspace:
-          at: ~/app.orangesys.io/firebase-functions/node_modules
+          at: /home/circleci/app.orangesys.io/firebase-functions
       - run:
           name: test app.orangesys.io
           command: |
