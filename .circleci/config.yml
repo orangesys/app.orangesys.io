@@ -65,7 +65,7 @@ jobs:
             if [ ! -d node_modules -o ! -d firebase-functions/node_modules ]; then
               set -exu
               yarn
-              npm run functions:install
+              cd firebase-functions ; yarn
             fi
       - save_cache:
           <<: *js_cache_key
