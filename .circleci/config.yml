@@ -4,7 +4,7 @@ references:
 
   container_config: &container_config
     docker:
-      - image: circleci/node:6
+      - image: node:6.10.0
         environment:
           PROJECT_NAME: orangesys
           CLOUDSDK_COMPUTE_ZONE: asia-east1-c
@@ -64,7 +64,7 @@ jobs:
           command: |
             if [ ! -d node_modules -o ! -d firebase-functions/node_modules ]; then
               set -exu
-              npm install --silent
+              yarn
               npm run functions:install
             fi
       - save_cache:
@@ -72,17 +72,16 @@ jobs:
           paths:
             - /root/app/node_modules
             - /root/app/firebase-functions/node_modules
-
       - run:
           name: Move dependencies to workspace
           command: |
-            mv node_modules /tmp/workspace/
-            mv firebase-functions/node_modules /tmp/workspace/firebase-functions/
+            mv node_modules /tmp/workspace/app/
+            mv firebase-functions/node_modules /tmp/workspace/app/firebase-functions/
       - persist_to_workspace:
           root: *workspace_root
           paths:
-            - node_modules
-            - firebase-functions/node_modules
+            - app/node_modules
+            - app/firebase-functions/node_modules
 
   npm_test:
     <<: *container_config
