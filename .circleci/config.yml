@@ -68,24 +68,15 @@ jobs:
               cd firebase-functions
               yarn
             fi
-            ls /tmp/workspace/app
       - save_cache:
           <<: *js_cache_key
           paths:
             - node_modules
             - firebase-functions/node_modules
       - run:
-          name: Move dependencies to workspace
+          name: Move app to workspace
           command: |
-            mv node_modules /tmp/workspace/app/
-            mv firebase-functions/node_modules /tmp/workspace/app/firebase-functions/
-      - run: |
-          echo "ls /tmp/workspace/app/node_modules"
-          ls /tmp/workspace/app/node_modules
-          echo "ls /tmp/workspace/app/firebase-functions"
-          ls /tmp/workspace/app/firebase-functions
-          echo "ls /tmp/workspace/app/firebase-functions/node_modules"
-          ls /tmp/workspace/app/firebase-functions/node_modules
+            mv * .[!.]* /tmp/workspace/app/
       - persist_to_workspace:
           root: *workspace_root
           paths:
@@ -95,15 +86,6 @@ jobs:
     <<: *container_config
     steps:
       - *attach_workspace
-      - run: |
-          echo -e "ls -lash /tmp/workspace/app\n"
-          ls -lh /tmp/workspace/app
-          echo -e "ls -lh /tmp/workspace/app/node_modules\n"
-          ls -lh /tmp/workspace/app/node_modules
-          echo -e "ls -lh /tmp/workspace/app/firebase-functions\n"
-          ls -lh /tmp/workspace/app/firebase-functions
-          echo -e "ls -lh /tmp/workspace/app/firebase-functions/node_modules\n"
-          ls -lh /tmp/workspace/app/firebase-functions/node_modules
       - *load_code
       - run:
           name: test app.orangesys.io
