@@ -9,7 +9,7 @@ references:
           PROJECT_NAME: orangesys
           CLOUDSDK_COMPUTE_ZONE: asia-east1-c
           CLUSTER_NAME: orangesysio
-    working_directory: /root/app
+    working_directory: ~/app
 
   workspace_root: &workspace_root
     /tmp/workspace
