@@ -28,8 +28,7 @@ jobs:
     <<: *DEFAULT
     steps:
       - attach_workspace:
-          root: /home/circleci
-          at: app.orangesys.io
+          at: .
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - restore_cache:
