@@ -27,8 +27,6 @@ jobs:
   build_dependencies:
     <<: *DEFAULT
     steps:
-      - attach_workspace:
-          at: ~/app.orangesys.io
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - restore_cache:
