@@ -87,9 +87,11 @@ jobs:
     <<: *container_config
     steps:
       - *attach_workspace
+      - run: |
+          ls /tmp/workspace/app
+          ls /tmp/workspace/app/node_modules
+          ls /tmp/workspace/app/firebase-functions/node_modules
       - *load_code
-      - *restore_app_node_modules
-      - *restore_firebase_node_modules
       - run:
           name: test app.orangesys.io
           command: |
