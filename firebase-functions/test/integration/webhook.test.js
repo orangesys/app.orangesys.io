@@ -2,6 +2,7 @@ import 'babel-polyfill'
 import assert from 'power-assert'
 import stripe from 'stripe'
 import moment from 'moment'
+import td from 'testdouble'
 import { handle } from '../../src/http-handlers'
 
 const STRIPE_TEST_SECRET_KEY = process.env.STRIPE_TEST_SECRET_KEY
@@ -188,6 +189,22 @@ describe('invoiceCreated', () => {
     const res = { end: () => {}, writeHead: () => {} }
     const result = await handle(req, res, config)
     assert.deepEqual(result, null)
+  })
+
+  it('returns 204 if stripe request failure', async () => {
+    const eventData = {
+      type: 'invoice.created',
+      data: {
+        object: {
+          ...baseData.data.object,
+          subscription: 'wrong-subscription-id',
+        },
+      },
+    }
+    const req = { body: eventData }
+    const res = td.object(['end', 'writeHead'])
+    await handle(req, res, config)
+    td.verify(res.writeHead(204))
   })
 
   afterEach(async () => {
