@@ -25,13 +25,18 @@ references:
         mv /tmp/workspace/app/* /tmp/workspace/app/.[!.]* .
 
   js_cache_key: &js_cache_key
-    key: dependency-npm-{{ checksum "package.json" }}-{{ checksum "firebase-functions/package.json" }}
+    key: dependency-npm-{{ checksum "yarn.lock" }}-{{ checksum "firebase-functions/yarn.lock" }}
 
 jobs:
   checkout_code:
     <<: *container_config
     steps:
       - checkout
+      - run:
+          name: git submodule from app.cloudfunctions
+          command: |
+            git submodule sync --recursive
+            git submodule update --recursive --init
       - run:
           command: |
             mkdir -p /tmp/workspace/app
