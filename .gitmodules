@@ -1,0 +1,3 @@
+[submodule "firebase-functions"]
+	path = firebase-functions
+	url = git@github.com:orangesys/app.cloudfunctions.git
