@@ -25,8 +25,15 @@ export default async (
   try {
     result = await invoice.onCreate(data.object)
   } catch (err) {
-    res.writeHead(500)
     console.error(err)
+    if (
+      err.type === 'StripeInvalidRequestError' &&
+      err.message && /^No such (customer|subscription)/.test(err.message)
+    ) {
+      res.writeHead(204)
+      return null
+    }
+    res.writeHead(500)
     res.end(err.toString())
     return null
   }
