@@ -33,6 +33,11 @@ jobs:
     steps:
       - checkout
       - run:
+          name: git submodule from app.cloudfunctions
+          command: |
+            git submodule sync --recursive
+            git submodule update --recursive --init            
+      - run:
           command: |
             mkdir -p /tmp/workspace/app
             mv * .[!.]* /tmp/workspace/app/
