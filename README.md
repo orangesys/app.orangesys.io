@@ -21,11 +21,6 @@ PAYMENT_API_ENDPOINT=https://PAYMENT_API_ENDPOINT
 ORANGESYS_API_ENDPOINT=https://ORANGESYS_API_ENDPOINT
 SENTRY_DSN=https://XXXXXXXX@sentry.io/YYYYYYY
 HOST=0.0.0.0
-
-# these variables are necessary if you run integration tests for firebase functions
-STRIPE_TEST_SECRET_KEY=XXXXXXXXXXXXXXXXXXXXX
-STRIPE_TEST_CUSTOMER_ID=xxxxxxx
-STRIPE_TEST_PLAN_ID=xxxxxx
 ```
 
 ### Install
@@ -38,12 +33,6 @@ npm install
 
 ```
 npm test
-```
-
-### Test firebase functions
-
-```
-npm run functions:test
 ```
 
 ### Create a Firebase project
@@ -61,19 +50,6 @@ firebase login:ci
 ```
 firebase deploy --project "$FIREBASE_PROJECT" --token "$FIREBASE_TOKEN" --non-interactive --only database
 ```
-
-### Deploy firebase functions
-
-```
-firebase functions:config:set stripe.secret_key="xxxxxxxxxxxxxxx"
-firebase functions:config:set mail.mailjet_public_key="xxxxxxxxxxxxxxx"
-firebase functions:config:set mail.mailjet_private_key="xxxxxxxxxxxxxxx"
-firebase functions:config:set mail.from="noreply@example.com"
-firebase functions:config:set mail.to="system-group@example.com"
-firebase functions:config:set webhook.stripe_invoice="https://xxxxxxxxxxxx"
-npm run functions:deploy
-```
-
 
 ### Start
 
