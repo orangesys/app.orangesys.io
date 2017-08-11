@@ -1,0 +1,18 @@
+@import '../../../variables.css';
+
+.whole {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.title {
+  border-bottom: 1px solid var(--colorBorder);
+  background-color: var(--colorPrimary2);
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: var(--colorWhite);
+  font-size: var(--fontSizeM);
+}

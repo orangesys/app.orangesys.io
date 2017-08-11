@@ -1,0 +1,37 @@
+@import '../../media.css';
+
+@media (--pc-viewport) {
+  .layout-offset-left {
+    width: 5%;
+  }
+  .layout-main {
+    width: 60%;
+  }
+  .layout-offset-right: {
+    width: 35%;
+  }
+}
+
+@media (--tablet-viewport) {
+  .layout-offset-left {
+    width: 5%;
+  }
+  .layout-main {
+    width: 70%;
+  }
+  .layout-offset-right: {
+    width: 25%;
+  }
+}
+
+@media (--sp-viewport) {
+  .layout-offset-left {
+    width: 4%;
+  }
+  .layout-main {
+    width: 92%;
+  }
+  .layout-offset-right: {
+    width: 4%;
+  }
+}

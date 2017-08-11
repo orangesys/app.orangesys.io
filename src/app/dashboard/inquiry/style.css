@@ -1,0 +1,20 @@
+@import '../../../variables.css';
+@import '../../../css_modules/layout/left.css';
+
+.whole {
+  margin-top: 50px;
+  display: flex;
+}
+
+.paper {
+  padding: 20px;
+}
+
+.hint {
+  color: var(--colorSubText);
+  font-size: var(--fontSizeS);
+}
+
+.action {
+  margin-top: 20px;
+}

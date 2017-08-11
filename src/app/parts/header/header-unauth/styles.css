@@ -1,0 +1,41 @@
+@import '../../../../variables.css';
+@import '../../../../media.css';
+
+.whole {
+}
+
+.bar {
+  display: flex;
+  height: 4px;
+  background: linear-gradient(90deg,
+    var(--colorPrimary1) 0%,
+    var(--colorPrimary2) 10%,
+    var(--colorAccent1) 20%,
+    var(--colorAccent2) 30%,
+    var(--colorPrimary1) 40%,
+    var(--colorPrimary2) 50%,
+    var(--colorAccent1) 60%,
+    var(--colorAccent2) 70%,
+    var(--colorPrimary1) 80%,
+    var(--colorPrimary2) 90%,
+    var(--colorAccent1) 100%
+  );
+}
+
+.main {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.title {
+  font-size: 1.6rem;
+  color: var(--colorPrimary1);
+  margin-left: 12px;
+  padding-bottom: 4px;
+  font-family: 'Hind', sans-serif;
+}

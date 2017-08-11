@@ -1,0 +1,58 @@
+@import '../../../variables.css';
+
+.whole {
+  display: relative;
+  /*display: flex;*/
+  width: 86px;
+  min-height: 800px;
+  /*height: 100%;*/
+  flex-direction: column;
+  background-color: var(--colorVeryDark);
+  padding-top: 31px;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.item {
+  color: var(--colorWhite);
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  font-size: var(--fontSizeXS);
+  cursor: pointer;
+  height: 80px;
+  width: 86px;
+}
+
+.item:hover {
+  color: var(--colorAccent2);
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.active {
+  color: var(--colorAccent2);
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.logout {
+  width: 86px;
+  margin-top: 80px;
+}
+
+.logout-if-no-menu {
+  width: 86px;
+  position: absolute;
+  bottom: 20px;
+  justify-content: center;
+}

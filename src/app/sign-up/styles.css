@@ -1,0 +1,58 @@
+@import '../../variables.css';
+@import '../../css_modules/layout/center.css';
+
+.whole {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+}
+
+.navigation {
+  height: 70px;
+  text-align: right;
+}
+
+.main {
+  padding: 25px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.control {
+  margin-top: 10px;
+}
+
+.progress {
+  margin-bottom: 10px;
+}
+
+.register {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.external {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: strech;
+}
+
+.external-label {
+  text-align: center;
+  font-size: var(--fontSizeS);
+}
+
+.external-actions {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+}
+
+.external-sign-up {
+  flex: 1;
+  padding: 10px;
+}
