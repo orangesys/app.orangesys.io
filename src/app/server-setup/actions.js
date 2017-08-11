@@ -1,8 +1,8 @@
 // @flow
 import moment from 'moment'
-import { delay } from 'awaiting'
 import { User, UserService, UserRepository, OrangesysApi, SERVER_SETUP_STATUS } from '../../core'
 import { logException } from '../../lib/logger'
+import { delay } from '../../lib/utils'
 import { ACTION_TYPES as USER_ACTION_TYPES } from '../common/user'
 
 export const SET_ERROR = 'server-setup/set-error'

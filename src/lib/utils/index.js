@@ -2,5 +2,6 @@
 
 import * as route from './route'
 import * as error from './error'
+import delay from './delay'
 
-export { route, error }
+export { delay, route, error }

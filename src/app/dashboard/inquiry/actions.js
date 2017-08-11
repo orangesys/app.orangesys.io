@@ -1,8 +1,8 @@
 // @flow
-import { delay } from 'awaiting'
 import { InquiryRepository } from '../../../core'
 import { ACTION_TYPES as MESSAGE_ACTION_TYPES } from '../../common/message'
 import { ACTION_TYPES as ERROR_ACTION_TYPES } from '../../common/error'
+import { delay } from '../../../lib/utils'
 
 export const SEND: string = 'inquiery/send'
 export const SEND_FINISH: string = 'sign-in/send-finish'
