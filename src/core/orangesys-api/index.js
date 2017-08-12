@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
-export const orangesysApiConfig = {
-  apiEndpoint: ORANGESYS_API_ENDPOINT,
-};
+// @flow
+export { default as Client } from './client'
+export { default as config } from './config'

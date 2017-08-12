@@ -1,19 +1,22 @@
-const path = require('path');
-const autoprefixer = require('autoprefixer');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const webpack = require('webpack');
-const WebpackMd5Hash = require('webpack-md5-hash');
+/* eslint-disable no-use-before-define, no-undef, global-require */
+const path = require('path')
+const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+// const postcssCustomProperties = require('postcss-custom-properties')
+// const cssVariables = require('./src/css-variables').default
+require('react-hot-loader/patch')
 
-const customSeletors = require('postcss-custom-selectors');
-const customProperties = require('postcss-custom-properties');
-const customMedia = require('postcss-custom-media');
-const apply = require('postcss-apply');
-const atImport = require('postcss-import');
+const postcss = {
+  autoprefixer: require('autoprefixer'),
+  customSelectors: require('postcss-custom-selectors'),
+  customProperties: require('postcss-custom-properties'),
+  customMedia: require('postcss-custom-media'),
+  apply: require('postcss-apply'),
+  import: require('postcss-import'),
+}
 
-// =========================================================
-//  ENVIRONMENT VARS
-// ---------------------------------------------------------
-const NODE_ENV = process.env.NODE_ENV;
+const DefinePlugin = webpack.DefinePlugin
+
 const ENV_NAMES = [
   'NODE_ENV',
   'FIREBASE_API_KEY',
@@ -27,196 +30,88 @@ const ENV_NAMES = [
   'SUPPORT_EMAIL',
   'GA_TRACKING_ID',
   'API_DEBUG_MODE',
-];
+]
 
-const ENV_DEVELOPMENT = NODE_ENV === 'development';
-const ENV_PRODUCTION = NODE_ENV === 'production';
-const ENV_TEST = NODE_ENV === 'test';
-
-const HOST = process.env.HOST || 'localhost';
-const PORT = process.env.PORT || 5000;
-const GA_TRACKING_ID = process.env.GA_TRACKING_ID
-
-// =========================================================
-//  LOADERS
-// ---------------------------------------------------------
-const loaders = {
-  js: {
-    test: /\.jsx?$/,
-    exclude: [/node_modules/],
-    loader: 'babel',
+module.exports = {
+  entry: [
+    'babel-polyfill',
+    'react-hot-loader/patch',
+    './src/index.js',
+  ],
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js',
   },
-  css: {
-    test: /.css$/,
-    exclude: [/node_modules/],
-    loaders: ['style', 'css?modules', 'postcss'],
+  devtool: 'source-map',
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    compress: false,
+    port: 4000,
   },
-  cssFlexboxGrid: {
-    test: /.css$/,
-    include: /flexboxgrid/,
-    loader: 'style!css?modules',
+  resolve: {
+    extensions: ['.js', '.jsx'],
+    modules: ['node_modules'],
   },
-  file: {
-    test: /\.(jpg|png)$/,
-    exclude: /node_modules/,
-    loader: 'url?limit=25000',
-  },
-};
-
-// =========================================================
-//  CONFIG
-//---------------------------------------------------------
-const config = {};
-module.exports = config;
-
-
-config.resolve = {
-  extensions: ['', '.js', '.jsx'],
-  modulesDirectories: ['node_modules'],
-  root: path.resolve('.'),
-};
-
-const definitions = {};
-ENV_NAMES.forEach((name) => {
-  definitions[name] = JSON.stringify(process.env[name]);
-});
-
-config.plugins = [
-  new webpack.DefinePlugin(definitions),
-];
-
-config.postcss = [
-  autoprefixer({ browsers: ['last 3 versions'] }),
-  atImport,
-  customProperties,
-  customSeletors,
-  customMedia,
-  apply,
-];
-
-// =====================================
-//  DEVELOPMENT or PRODUCTION
-// -------------------------------------
-if (ENV_DEVELOPMENT || ENV_PRODUCTION) {
-  config.entry = {
-    main: ['./src/main.js'],
-  };
-
-  config.output = {
-    filename: '[name].js',
-    path: path.resolve('./target'),
-    publicPath: '/',
-  };
-
-  config.plugins.push(
+  plugins: [
     new HtmlWebpackPlugin({
-      chunkSortMode: 'dependency',
       filename: 'index.html',
+      template: './index.ejs',
+      chunkSortMode: 'dependency',
       hash: false,
       inject: 'body',
-      template: './src/index.ejs',
-      gaTrackingId: GA_TRACKING_ID,
-    })
-  );
-}
-
-// =====================================
-//  DEVELOPMENT
-// -------------------------------------
-if (ENV_DEVELOPMENT) {
-  config.devtool = 'cheap-module-source-map';
-
-  config.entry.main.unshift(
-    `webpack-dev-server/client?http://${HOST}:${PORT}`,
-    'webpack/hot/only-dev-server',
-    'react-hot-loader/patch',
-    'babel-polyfill'
-  );
-
-  config.module = {
-    loaders: [
-      loaders.js,
-      loaders.css,
-      loaders.cssFlexboxGrid,
-      loaders.file,
-    ],
-  };
-
-  config.plugins.push(
-    new webpack.HotModuleReplacementPlugin()
-  );
-
-  config.devServer = {
-    contentBase: './src',
-    historyApiFallback: true,
-    host: HOST,
-    hot: true,
-    port: PORT,
-    publicPath: config.output.publicPath,
-    stats: {
-      cached: true,
-      cachedAssets: true,
-      chunks: true,
-      chunkModules: false,
-      colors: true,
-      hash: false,
-      reasons: true,
-      timings: true,
-      version: false,
-    },
-  };
-}
-
-
-// =====================================
-//  PRODUCTION
-//-------------------------------------
-if (ENV_PRODUCTION) {
-  config.devtool = 'source-map';
-
-  // config.entry.vendor = './src/vendor.js';
-
-  config.output.filename = '[name].[chunkhash].js';
-
-  config.module = {
-    loaders: [
-      loaders.js,
-      loaders.css,
-      loaders.cssFlexboxGrid,
-      loaders.file,
-    ],
-  };
-
-  config.plugins.push(
-    new WebpackMd5Hash(),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      minChunks: Infinity,
+      gaTrackingId: process.env.GA_TRACKING_ID,
     }),
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      mangle: true,
-      compress: {
-        dead_code: true, // eslint-disable-line camelcase
-        screw_ie8: true, // eslint-disable-line camelcase
-        unused: true,
-        warnings: false,
-        drop_console: true,
+    new DefinePlugin(envDefinitions()),
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.jsx?$/,
+        include: [path.resolve(__dirname, 'src')],
+        loader: 'babel-loader',
       },
-    })
-  );
+      {
+        test: /\.css$/,
+        exclude: [/node_modules/, /variables\.css$/],
+        use: [
+          { loader: 'style-loader' },
+          { loader: 'css-loader?modules' },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins() {
+                return [
+                  postcss.autoprefixer,
+                  postcss.import,
+                  postcss.customProperties(),
+                  postcss.customProperties,
+                  postcss.customSelectors,
+                  postcss.customMedia,
+                  postcss.apply,
+                ]
+              },
+            },
+          },
+        ],
+      },
+      {
+        test: /variables\.css$/,
+        loader: 'css-variables-loader',
+      },
+      {
+        test: /\.(jpg|png)$/,
+        exclude: /node_modules/,
+        loader: 'url-loader?limit=25000',
+      },
+    ],
+  },
 }
 
-// =====================================
-//  TEST
-// -------------------------------------
-if (ENV_TEST) {
-  config.devtool = 'inline-source-map';
 
-  config.module = {
-    loaders: [
-      loaders.js,
-      loaders.css,
-    ],
-  };
+function envDefinitions() {
+  return ENV_NAMES.reduce((result, current) => (
+    Object.assign({}, result, {
+      [current]: JSON.stringify(process.env[current]),
+    })
+  ), {})
 }

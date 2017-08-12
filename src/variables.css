@@ -1,0 +1,22 @@
+:root {
+  --colorPrimary1: #F3522C;
+  --colorPrimary2: #FD8551;
+  --colorPrimary3: #E0E0E0;
+  --colorAccent1: #F9A825;
+  --colorAccent2: #FEE563;
+  --colorAccent3: #E0E0E0;
+  --colorFullBlack: rgb(0, 0, 1);
+  --colorDarkBlack: rgb(30, 30, 30);
+  --colorDarkGray: rgb(150, 150, 150);
+  --colorSubText: #828282;
+  --colorError: rgb(200, 0, 0);
+  --colorErrorSoft: rgb(250, 100, 100);
+  --colorBorder: #E0E0E0;
+  --colorWhite: rgb(255, 255, 255);
+  --colorVeryDark: #323232;
+  --fontSizeXS: 0.65rem;
+  --fontSizeS: 0.8rem;
+  --fontSizeM: 0.9rem;
+  --fontSizeL: 1rem;
+  --fontSizeXL: 1.1rem;
+}

@@ -39,7 +39,7 @@
             ".validate": "newData.isString() && newData.val().matches(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$/)"
           },
           "status": {
-            ".validate": "newData.isString() && newData.val().matches(/wait_starting|building|completed|errored/)"
+            ".validate": "newData.isString() && newData.val().matches(/wait_starting|not-started|building|completed|errored/)"
           }
         },
         "telegraf": {

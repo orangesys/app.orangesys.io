@@ -1,4 +1,8 @@
-export default {
+// @flow
+
+export type StripeErrors = { [key: string]: string }
+
+const STRIPE_ERRORS: StripeErrors = {
   abort: 'ネットワークエラーが発生しました。ネットワーク設定をご確認の上再度お試しください',
   invalid_request_error: 'クレジットカード情報が正しくありません',
   incorrect_number: 'クレジットカード番号が正しくありません',
@@ -11,4 +15,6 @@ export default {
   card_declined: '指定のクレジットカードは有効ではありません',
   missing: 'クレジットカード情報が正しくありません',
   processing_error: '登録時にエラーが発生しました',
-};
+}
+
+export default STRIPE_ERRORS

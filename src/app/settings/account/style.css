@@ -1,0 +1,33 @@
+@import '../../../variables.css';
+@import '../../../css_modules/layout/left-small.css';
+
+.whole {
+  margin-top: 50px;
+  display: flex;
+}
+
+.paper {
+  padding: 20px;
+}
+
+.attrs {
+  list-style-type: none;
+  margin-left: 0;
+  padding-left: 0;
+  margin-bottom: 30px;
+}
+
+.provider-list {
+ list-style-type: none;
+ padding-left: 10px;
+}
+
+.provider-item {
+  margin-top: 10px;
+  font-size: var(--fontSizeL);
+}
+
+.label {
+  font-size: var(--fontSizeS);
+  color: var(--colorDarkGray);
+}

@@ -1,5 +1,6 @@
-import config from './config';
+// @flow
+import config from './config'
 
-const { Stripe } = window;
-Stripe.setPublishableKey(config.publishableKey);
-export default Stripe;
+const { Stripe } = window
+Stripe.setPublishableKey(config.publishableKey)
+export default Stripe

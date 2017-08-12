@@ -1,5 +1,4 @@
 --recursive
---compilers js:babel-register
+--compilers js:babel-core/register
+--require ./test/setup.js
 --require ignore-styles
---require jsdom-global/register
---require ./mocha-setup.js
