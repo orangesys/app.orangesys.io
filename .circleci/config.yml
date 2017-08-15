@@ -48,11 +48,6 @@ jobs:
           paths:
             - node_modules
       - run:
-          name: Install libelf1 to container with flow-bin 0.41.0
-          command: |
-            apt-get update -y && \
-            apt-get install -y ocaml libelf1
-      - run:
           name: test app.orangesys.io
           command: |
             echo $NODEJS_ENV_DEV | base64 --decode -i > .env
