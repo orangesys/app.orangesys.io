@@ -117,7 +117,7 @@ export default class PlanPage extends Component<void, Props, State> {
                              /
                             <span className={styles.total}>10 GB</span>
                           </p>
-                          <LinearProgress mode="determinate" value={30} />
+                          <LinearProgress mode="determinate" value={this.storageUsagePercentage} />
                         </div>
                         :
                         <div className={styles.checking}>
