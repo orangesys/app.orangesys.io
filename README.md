@@ -1,19 +1,33 @@
 [![dependencies Status](https://david-dm.org/orangesys/app.orangesys.io.svg)](https://david-dm.org/orangesys/app.orangesys.io)
 [![CircleCI](https://circleci.com/gh/orangesys/app.orangesys.io.svg?style=svg)](https://circleci.com/gh/orangesys/app.orangesys.io)
 
-## Dep
+# development
 
-node version need 7.10.1
+## install nvm & node
 
-### Config
-
+```bash
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
 ```
+
+```bash
+nvm install 7.10.1
+nvm alias default 7.10.1
+```
+
+```bash
+npm install yarn -g
+export PATH=$(npm bin):$PATH
+```
+
+## Config
+
+``` bash
 cp .env-sample .env
 ```
 
-### Change api key with .env
+## Change api key with .env
 
-```
+``` bash
 # edit .env
 NODE_ENV=development
 FIREBASE_API_KEY=XXXXXXXXXXXXXXXXXXXXX
@@ -26,36 +40,36 @@ SENTRY_DSN=https://XXXXXXXX@sentry.io/YYYYYYY
 HOST=0.0.0.0
 ```
 
-### Install
+## Install
 
-```
-npm install
+```bash
+yarn
 ```
 
-### Test
+## Test
 
-```
+```bash
 npm test
 ```
 
-### Create a Firebase project
+## Create a Firebase project
 
-https://console.firebase.google.com/
+For more information, see <https://console.firebase.google.com>
 
+## Login with ci use token
 
-### Login with ci use token
-```
+```bash
 firebase login:ci
 ```
 
-### Update database rules
+## Update database rules
 
-```
+```bash
 firebase deploy --project "$FIREBASE_PROJECT" --token "$FIREBASE_TOKEN" --non-interactive --only database
 ```
 
-### Start
+## Start
 
-```
+```bash
 npm start
 ```
