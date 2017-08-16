@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import ServerIcon from 'material-ui/svg-icons/file/cloud'
 import PlanIcon from 'material-ui/svg-icons/action/work'
 import GrafanaIcon from 'material-ui/svg-icons/action/assessment'
-import InfluxDBIcon from 'material-ui/svg-icons/device/data-usage'
+import TSDBIcon from 'material-ui/svg-icons/device/data-usage'
 import InquiryIcon from 'material-ui/svg-icons/communication/contact-mail'
 import SettingsIcon from 'material-ui/svg-icons/action/settings'
 import LogoutIcon from 'material-ui/svg-icons/action/power-settings-new'
@@ -33,7 +33,7 @@ const MENU_DATA: Array<Menu> = [
   { id: 'server', text: 'Server', icon: ServerIcon, path: '/server-settings' },
   { id: 'plan', text: 'Plan', icon: PlanIcon, path: '/plan' },
   { id: 'graph', text: 'Graph', icon: GrafanaIcon, path: '/graph' },
-  { id: 'db', text: 'InfluxDB', icon: InfluxDBIcon, path: '/db' },
+  { id: 'db', text: 'TSDB', icon: TSDBIcon, path: '/db' },
   { id: 'settings', text: 'Settings', icon: SettingsIcon, path: '/settings' },
   { id: 'inquiry', text: 'Inquiry', icon: InquiryIcon, path: '/inquiry' },
 ]

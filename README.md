@@ -1,7 +1,7 @@
 [![dependencies Status](https://david-dm.org/orangesys/app.orangesys.io.svg)](https://david-dm.org/orangesys/app.orangesys.io)
 [![CircleCI](https://circleci.com/gh/orangesys/app.orangesys.io.svg?style=svg)](https://circleci.com/gh/orangesys/app.orangesys.io)
 
-# development
+# Development
 
 ## install nvm & node
 
@@ -68,8 +68,8 @@ firebase login:ci
 firebase deploy --project "$FIREBASE_PROJECT" --token "$FIREBASE_TOKEN" --non-interactive --only database
 ```
 
-## Start
+## Start in deployment
 
 ```bash
-npm start
+npm run dev
 ```
