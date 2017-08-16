@@ -147,7 +147,7 @@ router.add('/graph', {
 })
 
 router.add('/db', {
-  title: 'InfluxDB',
+  title: 'TSDB',
   TargetComponent: DB,
   accessible: accessibleOnNormalPage,
   redirectPathIfDenied: redirectPathIfDeniedOnNormalPage,
