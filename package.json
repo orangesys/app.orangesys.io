@@ -91,6 +91,7 @@
     "redux-raven-middleware": "^1.2.0",
     "redux-watch": "^1.1.1",
     "route-parser": "^0.0.5",
-    "validatorjs": "^3.11.0"
+    "validatorjs": "^3.11.0",
+    "yarn": "^0.27.5"
   }
 }
