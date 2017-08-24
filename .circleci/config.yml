@@ -41,7 +41,7 @@ jobs:
           command: |
             if [ ! -d node_modules ]; then
               set -exu
-              yarn
+              yarn --pure-lockfile --no-progress
             fi
       - save_cache:
           <<: *js_cache_key
