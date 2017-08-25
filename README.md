@@ -10,8 +10,8 @@ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | b
 ```
 
 ```bash
-nvm install 7.10.1
-nvm alias default 7.10.1
+nvm install 8.4.0
+nvm alias default 8.4.0
 ```
 
 ```bash
