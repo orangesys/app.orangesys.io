@@ -115,7 +115,7 @@ export default class PlanPage extends Component<void, Props, State> {
                               {this.storageUsageGB} GB
                             </span>
                              /
-                            <span className={styles.total}>10 GB</span>
+                            <span className={styles.total}>{this.plan.storage}</span>
                           </p>
                           <LinearProgress mode="determinate" value={this.storageUsagePercentage} />
                         </div>
