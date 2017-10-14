@@ -1,3 +1,4 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/ec60a4042fdd49ce9a1038a500ba92a3)](https://www.codacy.com/app/orangesys/app.orangesys.io?utm_source=github.com&utm_medium=referral&utm_content=orangesys/app.orangesys.io&utm_campaign=badger)
 [![dependencies Status](https://david-dm.org/orangesys/app.orangesys.io.svg)](https://david-dm.org/orangesys/app.orangesys.io)
 [![CircleCI](https://circleci.com/gh/orangesys/app.orangesys.io.svg?style=svg)](https://circleci.com/gh/orangesys/app.orangesys.io)
 
