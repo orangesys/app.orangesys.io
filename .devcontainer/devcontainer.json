@@ -1,0 +1,36 @@
+// See https://aka.ms/vscode-remote/devcontainer.json for format details.
+{
+	"name": "Node.js (latest LTS) & TypeScript",
+	"dockerFile": "Dockerfile",
+
+	// Uncomment the next line if you want to publish any ports.
+	"appPort": [
+    "8080:8080",   // dev server
+    "9005:9005",   // to authenticate Firebase CLI
+  ],
+
+	// Uncomment the next line if you want to add in default container specific settings.json values
+	"settings":  {
+    "terminal.integrated.shell.linux": "/bin/bash",
+    "workbench.colorTheme": "Aurelia Dark+",
+  },
+
+	// Uncomment the next line to run commands after the container is created.
+	"postCreateCommand": "npm install",
+
+	"extensions": [
+    "dbaeumer.vscode-eslint",
+    "eamodio.gitlens",
+    "aureliaeffect.aurelia",
+    "wmaurer.change-case",
+    "streetsidesoftware.code-spell-checker",
+    "pranaygp.vscode-css-peek",
+    "editorconfig.editorconfig",
+    "oderwat.indent-rainbow",
+    "orta.vscode-jest",
+    "christian-kohler.path-intellisense",
+    "esbenp.prettier-vscode",
+    "johnpapa.pwa-tools",
+    "toba.vsfire",
+	]
+}
