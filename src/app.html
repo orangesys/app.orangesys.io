@@ -1,6 +1,15 @@
 <template>
+  <require from="@fortawesome/fontawesome-free/css/all.min.css"></require>
   <require from="firebaseui/dist/firebaseui.css"></require>
 
+  <require from="./styles.scss"></require>
+
+  <header>
+    <button if.bind="auth.isSignedIn" click.delegate="signOut()" class="mdc-button mdc-button--outlined">
+      <i class="fas sign-out-alt"></i>
+      Sign Out
+    </button>
+  </header>
 
   <main>
     <router-view></router-view>

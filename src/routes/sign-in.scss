@@ -1,0 +1,68 @@
+@import "styles.scss";
+
+article#sign-in {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto auto;
+  grid-row-gap: 16px;
+  width: 60%;
+  margin: 0 auto;
+  justify-items: center;
+
+  a#toggle-sign-in {
+    justify-self: end;
+
+    button {
+      color: $orange-text-color;
+      font-size: 16px;
+    }
+  }
+
+  #sign-in-card {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 24px 1fr 24px;
+    grid-template-rows: auto auto 1fr 1fr;
+    align-items: center;
+
+    header {
+      grid-column: 1 / -1;
+      color: white;
+      background-color: $orange-bg-color;
+      text-align: center;
+      padding: 10px 0;
+      font-size: .9rem;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    form#user-info {
+      grid-column: 2;
+      margin: 36px 0;
+      display: grid;
+      grid-row-gap: 16px;
+
+      .form {
+        width: 100%;
+      }
+    }
+
+    button[form=user-info] {
+      grid-column: 2;
+      height: 36px;
+      margin: 0;
+      border-radius: 2px;
+      color: white;
+      background-color: $button-color;
+    }
+
+    sns-sign-in {
+      grid-column: 2;
+    }
+  }
+
+  #password-reset {
+    justify-self: start;
+    color: $orange-text-color;
+    font-size: 16px;
+  }
+}

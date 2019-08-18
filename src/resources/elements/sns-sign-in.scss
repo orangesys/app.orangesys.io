@@ -1,0 +1,22 @@
+#sns-sign-in {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+
+  p {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    justify-self: center;
+    margin: 0;
+  }
+
+  #sns-auth-container {
+    grid-column: 1 / -1;
+    grid-row: 2;
+
+    // ul.firebaseui-idp-list {
+    //   display: grid;
+    //   grid-template-columns: auto auto;
+    // }
+  }
+}
