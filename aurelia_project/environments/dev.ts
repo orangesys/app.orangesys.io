@@ -10,4 +10,7 @@ export default {
     messagingSenderId: '138054495234',
     appId: '1:138054495234:web:ae5d7450d38d4cb9',
   },
+  emailVerification: {
+    redirectDomain: `http://localhost:8080`,
+  },
 }

@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "orangesys-21d3f"
+    "stage": "dev-app-orangesys",
+    "prod": "orangesys-21d3f"
   }
 }
