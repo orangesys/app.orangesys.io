@@ -1,0 +1,53 @@
+<template>
+  <require from="./sign-in.scss"></require>
+  <require from="../resources/elements/sns-sign-in"></require>
+
+  <article id="sign-in">
+    <a href="sign-up" id="toggle-sign-in">
+      <button class="mdc-button">
+        <i class="fas fa-user"></i>
+        新規アカウント登録へ
+      </button>
+    </a>
+
+    <div id="sign-in-card" class="mdc-card">
+      <header>ログイン</header>
+
+      <form id="user-info">
+        <div class="form mdc-text-field mdc-text-field--outlined">
+          <input type="text" value.bind="email" id="email-field" class="mdc-text-field__input">
+          <div class="mdc-notched-outline">
+            <div class="mdc-notched-outline__leading"></div>
+            <div class="mdc-notched-outline__notch">
+              <label for="email-field" class="mdc-floating-label">メールアドレス</label>
+            </div>
+            <div class="mdc-notched-outline__trailing"></div>
+          </div>
+        </div>
+
+        <div class="form mdc-text-field mdc-text-field--outlined">
+          <input type="password" value.bind="password" id="password-field" required autocomplete class="mdc-text-field__input">
+          <div class="mdc-notched-outline">
+            <div class="mdc-notched-outline__leading"></div>
+            <div class="mdc-notched-outline__notch">
+              <label for="password-field" class="mdc-floating-label">パスワード</label>
+            </div>
+            <div class="mdc-notched-outline__trailing"></div>
+          </div>
+        </div>
+      </form>
+
+      <button type="submit" form="user-info" click.delegate="save()" class="mdc-button">
+        メールアドレスでログイン
+      </button>
+
+      <sns-sign-in action="ログイン"></sns-sign-in>
+    </div>
+
+
+    <button id="password-reset" class="mdc-button">
+      <i class="fas fa-envelope"></i>
+      パスワード再設定
+    </button>
+  </article>
+</template>

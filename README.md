@@ -1,78 +1,68 @@
-# app.ornagesys.io
+<h1 align="center">Welcome to orangesys.io 👋</h1>
+<p>
+  <img alt="Version" src="https://img.shields.io/badge/version-0.2.1-blue.svg?cacheSeconds=2592000" />
+  <img src="https://img.shields.io/badge/node-%3E%3D8.9.0-blue.svg" />
+  <a href="https://github.com/orangesys/app.orangesys.io#readme">
+    <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" target="_blank" />
+  </a>
+  <a href="https://github.com/orangesys/app.orangesys.io/graphs/commit-activity">
+    <img alt="Maintenance" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" target="_blank" />
+  </a>
+  <a href="https://github.com/orangesys/app.orangesys.io/blob/master/LICENSE">
+    <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" target="_blank" />
+  </a>
+</p>
 
 [![CircleCI](https://circleci.com/gh/orangesys/app.orangesys.io.svg?style=svg)](https://circleci.com/gh/orangesys/app.orangesys.io)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/ec60a4042fdd49ce9a1038a500ba92a3)](https://www.codacy.com/app/orangesys/app.orangesys.io?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=orangesys/app.orangesys.io&amp;utm_campaign=Badge_Grade)
 [![dependencies Status](https://david-dm.org/orangesys/app.orangesys.io.svg)](https://david-dm.org/orangesys/app.orangesys.io)
 
-## Deployment env
+> Orangesys Web Application
 
-## install nvm & node
 
-```bash
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
-```
+### 🏠 [Homepage](https://app.orangesys.io)
 
-```bash
-nvm install 8.4.0
-nvm alias default 8.4.0
-```
+## Prerequisites
 
-```bash
-npm install yarn -g
-export PATH=$(npm bin):$PATH
-```
-
-## Config
-
-``` bash
-cp .env-sample .env
-```
-
-## Change api key with .env
-
-``` bash
-# edit .env
-NODE_ENV=development
-FIREBASE_API_KEY=XXXXXXXXXXXXXXXXXXXXX
-FIREBASE_AUTH_DOMAIN=orangesys-21d3f.firebaseapp.com
-FIREBASE_DATABASE_URL=https://orangesys-21d3f.firebaseio.com
-FIREBASE_STORAGE_BUCKET=orangesys-21d3f.appspot.com
-PAYMENT_API_ENDPOINT=https://PAYMENT_API_ENDPOINT
-ORANGESYS_API_ENDPOINT=https://ORANGESYS_API_ENDPOINT
-SENTRY_DSN=https://XXXXXXXX@sentry.io/YYYYYYY
-HOST=0.0.0.0
-```
+You need to install [VS Code Remote Development](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack) extension to develop and deploy to Firebase hosting. For more information, see the official document below.
+> https://code.visualstudio.com/docs/remote/remote-overview
 
 ## Install
 
-```bash
-yarn
+```sh
+npm install
 ```
 
-## Test
+## Usage
 
-```bash
-npm test
+```sh
+npm run start
 ```
 
-## Create a Firebase project
+## Run tests
 
-For more information, see <https://console.firebase.google.com>
-
-## Login with ci use token
-
-```bash
-firebase login:ci
+```sh
+npm run test
 ```
 
-## Update database rules
+## Deploy
 
-```bash
-firebase deploy --project "$FIREBASE_PROJECT" --token "$FIREBASE_TOKEN" --non-interactive --only database
+```sh
+# deploy on STAGING env
+npm run deploy
 ```
 
-## Start in deployment
+## Author
 
-```bash
-npm run dev
-```
+* Github: [@orangesys](https://github.com/orangesys)
+
+## Show your support
+
+Give a ⭐️ if this project helped you!
+
+## 📝 License
+
+This project is [MIT](https://github.com/orangesys/app.orangesys.io/blob/master/LICENSE) licensed.
+
+***
+_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_

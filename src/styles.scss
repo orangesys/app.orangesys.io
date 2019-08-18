@@ -1,0 +1,26 @@
+// @import "@material/button/mdc-button";
+// @import "@material/elevation/mdc-elevation";
+// @import "@material/feature-targeting/functions";
+
+// button {
+//   @include mdc-button-ink-color(teal);
+// }
+
+$orange-text-color: #F9A825;
+$orange-bg-color: #FD8551;
+$button-color: #F2522C;
+
+html {
+  font-family: "Roboto";
+}
+
+$mdc-theme-primary: #9c27b0;
+.mdc-button {
+  color: $mdc-theme-primary;
+  background-color: $mdc-theme-primary;
+}
+
+a {
+  color: var(--mdc-theme-on-surface);
+  text-decoration: none;
+}

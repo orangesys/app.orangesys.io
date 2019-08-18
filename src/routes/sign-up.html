@@ -1,0 +1,74 @@
+<template>
+  <require from="./sign-in.scss"></require>
+  <require from="../resources/elements/sns-sign-in"></require>
+
+  <article id="sign-in">
+    <a href="sign-in" if.bind="!auth.isSignedIn" id="toggle-sign-in">
+      <button class="mdc-button">
+        <i class="fas fa-sign-in-alt"></i>
+        既にアカウントをお持ちの方
+      </button>
+    </a>
+
+    <p if.bind="auth.isSignedIn">登録を完了させてください</p>
+
+    <div id="sign-in-card" class="mdc-card">
+      <header>新規ユーザー登録</header>
+
+      <form id="user-info">
+        <p class="error-message">${errorMessage}</p>
+
+        <div class="form mdc-text-field mdc-text-field--outlined">
+          <input type="text" value.bind="company" id="company-field" required autofocus class="mdc-text-field__input">
+          <div class="mdc-notched-outline">
+            <div class="mdc-notched-outline__leading"></div>
+            <div class="mdc-notched-outline__notch">
+              <label for="company-field" class="mdc-floating-label">会社名</label>
+            </div>
+            <div class="mdc-notched-outline__trailing"></div>
+          </div>
+        </div>
+
+        <div class="form mdc-text-field mdc-text-field--outlined">
+          <input type="text" value.bind="fullName" id="fullName-field" required class="mdc-text-field__input">
+          <div class="mdc-notched-outline">
+            <div class="mdc-notched-outline__leading"></div>
+            <div class="mdc-notched-outline__notch">
+              <label for="fullName-field" class="mdc-floating-label">名前（フルネーム）</label>
+            </div>
+            <div class="mdc-notched-outline__trailing"></div>
+          </div>
+        </div>
+
+        <div class="form mdc-text-field mdc-text-field--outlined">
+          <input type="email" value.bind="email" id="email-field" required class="mdc-text-field__input">
+          <div class="mdc-notched-outline">
+            <div class="mdc-notched-outline__leading"></div>
+            <div class="mdc-notched-outline__notch">
+              <label for="email-field" class="mdc-floating-label">メールアドレス</label>
+            </div>
+            <div class="mdc-notched-outline__trailing"></div>
+          </div>
+        </div>
+
+        <div if.bind="isEmailSignUp" class="form mdc-text-field mdc-text-field--outlined">
+          <input type="password" value.bind="password" id="password-field" required autocomplete class="mdc-text-field__input">
+          <div class="mdc-notched-outline">
+            <div class="mdc-notched-outline__leading"></div>
+            <div class="mdc-notched-outline__notch">
+              <label for="password-field" class="mdc-floating-label">パスワード</label>
+            </div>
+            <div class="mdc-notched-outline__trailing"></div>
+          </div>
+        </div>
+      </form>
+
+      <button type="submit" form="user-info" click.delegate="save()" disabled.bind="!canSave" class="mdc-button mdc-button--raised">
+        ${signUpType}で登録
+      </button>
+
+      <sns-sign-in action="登録"></sns-sign-in>
+    </div>
+
+  </article>
+</template>
