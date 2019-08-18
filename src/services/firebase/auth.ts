@@ -3,7 +3,13 @@ import { autoinject } from 'aurelia-framework'
 import { getLogger } from 'aurelia-logging'
 import { User } from 'entities/user'
 import { EventType } from 'event-type'
+import environment from 'environment'
 import { FirestoreService } from './firestore'
+
+export interface AuthError {
+  code: string
+  message: string
+}
 
 @autoinject
 export class AuthService {
@@ -36,5 +42,13 @@ export class AuthService {
     this.isVerified = !!this.user
 
     this.publishAuthStateChanged(user)
+  }
+
+  async sendEmailVerification(): Promise<void> {
+    const actionConfig: firebase.auth.ActionCodeSettings = {
+      url: `${environment.emailVerification.redirectDomain}/setup/plan`,
+      handleCodeInApp: false,
+    }
+    return this.auth.currentUser.sendEmailVerification(actionConfig)
   }
 }

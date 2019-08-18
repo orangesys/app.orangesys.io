@@ -17,6 +17,7 @@ export const registerDependencies = (c: Container): void => {
   c.registerInstance(FirestoreService, store)
 
   const auth = firebaseApp.auth()
+  auth.useDeviceLanguage()
   const ui = new firebaseui.auth.AuthUI(auth)
   const ea = new EventAggregator()
   c.registerInstance(EventAggregator, ea)

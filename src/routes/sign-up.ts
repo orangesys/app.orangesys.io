@@ -20,14 +20,16 @@ export class SignUp {
   private readonly logger = getLogger(SignUp.name)
 
   signUpType = SignUpType.EMAIL
-  private uid: string
-  private email: string
-  private password: string
-  private company: string
-  private fullName: string
+  uid: string
+  email: string
+  password: string
+  company: string
+  fullName: string
 
-  private controller: ValidationController
-  private authStateChangedSubsc: Subscription
+  errorMessage = ''
+
+  controller: ValidationController
+  authStateChangedSubsc: Subscription
 
   constructor(
     private auth: AuthService,
@@ -94,19 +96,21 @@ export class SignUp {
 
   async save(): Promise<void> {
     if (!this.canSave) {
-      alert('error')
       return
     }
 
     if (this.signUpType === SignUpType.EMAIL) {
-      if (!this.auth.isSignedIn) {
-        try {
-          const userCred = await this.auth.auth.createUserWithEmailAndPassword(this.email, this.password)
-          this.logger.debug('user created:', userCred)
-          this.uid = userCred.user.uid
-        } catch (err) {
-          this.logger.error(`failed to create user with email:`, err)
-        }
+      try {
+        const userCred = await this.createUser()
+        this.uid = userCred.user.uid
+      } catch (err) {
+        this.logger.error(`failed to create user with email:`, err.message)
+        return
+      }
+      try {
+        this.auth.sendEmailVerification()
+      } catch (err) {
+        this.logger.error(`failed to send email verification:`, err)
       }
     } else {
       const user = this.auth.auth.currentUser
@@ -125,6 +129,12 @@ export class SignUp {
     }
 
     this.router.navigateToRoute('setup-plan')
+  }
+
+  async createUser(): Promise<firebase.auth.UserCredential> {
+    const userCred = await this.auth.auth.createUserWithEmailAndPassword(this.email, this.password)
+    this.logger.debug('user created:', userCred)
+    return userCred
   }
 
   public switchSnsSignUp = async (user: firebase.User): Promise<void> => {

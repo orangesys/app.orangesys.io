@@ -41,7 +41,8 @@ export class App {
     this.router = router
   }
 
-  signOut(): Promise<void> {
-    return this.auth.auth.signOut()
+  async signOut(): Promise<void> {
+    await this.auth.auth.signOut()
+    this.router.navigateToRoute('sign-in')
   }
 }

@@ -37,9 +37,14 @@ article#sign-in {
 
     form#user-info {
       grid-column: 2;
+
       margin: 36px 0;
       display: grid;
       grid-row-gap: 16px;
+
+      .error-message {
+        color: $button-color;
+      }
 
       .form {
         width: 100%;

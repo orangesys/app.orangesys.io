@@ -16,6 +16,8 @@
       <header>新規ユーザー登録</header>
 
       <form id="user-info">
+        <p class="error-message">${errorMessage}</p>
+
         <div class="form mdc-text-field mdc-text-field--outlined">
           <input type="text" value.bind="company" id="company-field" required autofocus class="mdc-text-field__input">
           <div class="mdc-notched-outline">
