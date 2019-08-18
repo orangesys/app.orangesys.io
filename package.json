@@ -12,6 +12,8 @@
     "@typescript-eslint/parser": "^1.13.0",
     "aurelia-animator-css": "^1.0.4",
     "aurelia-bootstrapper": "^2.3.2",
+    "aurelia-event-aggregator": "^1.0.3",
+    "aurelia-validation": "^1.5.0",
     "eslint": "^6.1.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.0.0",
