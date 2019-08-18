@@ -1,0 +1,21 @@
+version: 2.1
+
+orbs:
+
+executors:
+  node:
+    docker:
+    - image: circleci/node:10
+
+jobs:
+  build_test:
+    executor: node
+    steps:
+    - run:
+        command: echo "Hello"
+
+
+workflows:
+  "Hello Workflow":
+    jobs:
+    - build_test
