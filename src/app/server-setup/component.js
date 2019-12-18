@@ -82,7 +82,7 @@ export default class ServerSetup extends Component<void, Props, void> {
             {this.isErrored &&
               <div className={styles.error}>
                 <div className={styles['error-text']}>
-                  <p>サーバ構築時にエラーが発生しました。</p>
+                  <p>サーバ構築時完了次第、管理者から連絡致します。</p>
                   <p>ErrorCode: {user.getServerSetup().errorCode}</p>
                 </div>
                 <p>
