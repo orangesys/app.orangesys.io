@@ -1,0 +1,71 @@
+{
+  "rules": {
+    "users": {
+      "$user_id": {
+        ".write": "$user_id === auth.uid",
+        ".read": "$user_id === auth.uid",
+        "createdAt": {
+          ".validate": "!data.exists() && newData.isString() && newData.val().matches(/^((19|20)[0-9][0-9])[-](0[1-9]|1[012])[-](0[1-9]|[12][0-9]|3[01])[T]([01][1-9]|[2][0-3])[:]([0-5][0-9])[:]([0-5][0-9])([+|-]([01][0-9]|[2][0-3])[:]([0-5][0-9])){0,1}$/)"
+        },
+        "companyName": {
+          ".validate": "newData.isString() && newData.val().length <= 100"
+        },
+        "customerId": {
+          ".validate": "!data.exists() && newData.isString() && newData.val().length === 18"
+        },
+        "email": {
+          ".validate": "newData.isString() && newData.val().matches(/(.+)@(.+){2,}\\.(.+){2,}/)"
+        },
+        "fullName": {
+          ".validate": "newData.isString() && newData.val().length <= 50"
+        },
+        "planId": {
+          ".validate": "newData.isString() && newData.val().matches(/small|medium|large/)"
+        },
+        "retention": {
+          ".validate": "newData.isString() && newData.val().matches(/^\\d{1,4}d$/)"
+        },
+        "serverSetup": {
+          "errorCode": {
+            ".validate": "newData.isString() && newData.val().length <= 100"
+          },
+          "errorMessage": {
+            ".validate": "newData.isString() && newData.val().length <= 1000"
+          },
+          "startedAt": {
+            ".validate": "newData.isString() && newData.val().matches(/^((19|20)[0-9][0-9])[-](0[1-9]|1[012])[-](0[1-9]|[12][0-9]|3[01])[T]([01][1-9]|[2][0-3])[:]([0-5][0-9])[:]([0-5][0-9])([+|-]([01][0-9]|[2][0-3])[:]([0-5][0-9])){0,1}$/)"
+          },
+          "completedAt": {
+            ".validate": "newData.isString() && newData.val().matches(/^((19|20)[0-9][0-9])[-](0[1-9]|1[012])[-](0[1-9]|[12][0-9]|3[01])[T]([01][1-9]|[2][0-3])[:]([0-5][0-9])[:]([0-5][0-9])([+|-]([01][0-9]|[2][0-3])[:]([0-5][0-9])){0,1}$/)"
+          },
+          "status": {
+            ".validate": "newData.isString() && newData.val().matches(/wait_starting|not-started|building|completed|errored/)"
+          }
+        },
+        "telegraf": {
+          "consumerId": {
+            ".validate": "newData.isString() && newData.val().length === 6"
+          },
+          "token": {
+            ".validate": "newData.isString() && newData.val().length >= 50"
+          }
+        },
+        "updatedAt": {
+          ".validate": "newData.isString() && newData.val().matches(/^((19|20)[0-9][0-9])[-](0[1-9]|1[012])[-](0[1-9]|[12][0-9]|3[01])[T]([01][1-9]|[2][0-3])[:]([0-5][0-9])[:]([0-5][0-9])([+|-]([01][0-9]|[2][0-3])[:]([0-5][0-9])){0,1}$/)"
+        }
+      }
+    },
+    "inquiries": {
+      "$inquiry_id": {
+        ".write": "!data.exists() && newData.exists()",
+        ".validate": "$inquiry_id.matches(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}-\\d{3}Z$/)",
+        "uid": {
+          ".validate": "newData.isString() && newData.val() === auth.uid"
+        },
+        "body": {
+          ".validate": "newData.isString() && newData.val().length <= 2000"
+        }
+      }
+    }
+  }
+}

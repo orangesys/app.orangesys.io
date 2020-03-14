@@ -1,0 +1,9 @@
+POST https://us-central1-orangesys-36d6e.cloudfunctions.net/customers/ HTTP/1.1
+content-type: application/json
+
+{
+  "token":"tok_1GFG912eZvKYlo2CB4xkToS9",
+  "planId":"small",
+  "uid":"OP5dflkd2Xc3DPmpfL8ycR6ZbEN2",
+  "email":"thaddeusjiang@gmail.com"
+}
