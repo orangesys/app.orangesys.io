@@ -18,3 +18,9 @@ export const registerCustomer = async (token: string, planId: string, uid: strin
   }
   return response?.data
 }
+
+export const changeCreditCard = async (token: string, customerId: string) => {
+  const url = `${API_ENDPOINT}/changeCard/`
+  const response = await axios.post(url, { token, customerId })
+  return response.data
+}

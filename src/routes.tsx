@@ -7,8 +7,9 @@ import { OrderPlan } from 'pages/OrderPlan'
 import { Authorized } from 'pages/Authorized'
 import { DashBoard } from 'pages/DashBoard'
 import { ServerSetup } from 'pages/ServerSetup'
-import { BaseInfo } from 'pages/BaseInformation'
+import { BaseInfo } from 'pages/BaseInfo'
 import { Plan } from 'pages/Plan'
+import { Settings } from 'pages/Settings'
 // import { Redirect } from '@reach/router'
 
 const NotFound = (props: RouteComponentProps) => <div>404</div>
@@ -20,7 +21,7 @@ export const routes = {
   SignIn: '/sign-in',
   OrderPlan: '/order-plan',
   ServerSetup: '/server-setup',
-  Setting: '/setting',
+  Settings: '/settings',
   DashBoard: '/',
   DashBoardGraph: '/graph',
   DashBoardDB: '/db',
@@ -28,11 +29,12 @@ export const routes = {
   DashBoardPlan: '/plan',
 }
 export const routeTitles = {
+  [routes.BaseInfo]: '基本情報',
   [routes.DashBoard]: 'ホーム',
   [routes.VerificationGuide]: 'メールアドレスの認証',
   [routes.OrderPlan]: 'プランの選択',
   [routes.ServerSetup]: 'サーバーセットアップ',
-  [routes.Setting]: '設定',
+  [routes.Settings]: '設定',
   [routes.DashBoardGraph]: 'Graph',
   [routes.DashBoardDB]: 'TSDB',
   [routes.DashBoardInquiry]: 'お問い合わせ',
@@ -49,6 +51,7 @@ export const Routes = () => {
         <OrderPlan path={routes.OrderPlan} />
         <ServerSetup path={routes.ServerSetup} />
         <Plan path={routes.DashBoardPlan} />
+        <Settings path={routes.Settings} />
         <NotFound default />
       </Authorized>
 

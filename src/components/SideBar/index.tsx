@@ -36,7 +36,7 @@ export const SideBar = () => {
     { id: 'plan', text: 'Plan', icon: PlanIcon, path: routes.DashBoardPlan },
     { id: 'graph', text: 'Graph', icon: GrafanaIcon, path: routes.DashBoardGraph },
     { id: 'db', text: 'TSDB', icon: TSDBIcon, path: routes.DashBoardDB },
-    { id: 'setting', text: 'Setting', icon: SettingsIcon, path: routes.Setting },
+    { id: 'settings', text: 'Settings', icon: SettingsIcon, path: routes.Settings },
     { id: 'inquiry', text: 'Inquiry', icon: InquiryIcon, path: routes.DashBoardInquiry },
   ]
 

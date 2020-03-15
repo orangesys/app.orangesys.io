@@ -91,7 +91,7 @@ export const ServerSetup = (props: RouteComponentProps) => {
             <div css={styles.error}>
               <div css={styles.errorText}>
                 <p>サーバ構築時完了次第、管理者から連絡致します。</p>
-                <p>ErrorCode: {viewer?.serverSetup.errorCode}</p>
+                <p>ErrorCode: {viewer?.serverSetup?.errorCode}</p>
               </div>
               <p>
                 <a href={`mailto:${INFO.SUPPORT_EMAIL}`}>{INFO.SUPPORT_EMAIL}</a> までお問い合わせください。

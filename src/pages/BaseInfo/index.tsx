@@ -56,7 +56,14 @@ export function BaseInfo(props: RouteComponentProps) {
             <div>
               <form css={styles.form} onSubmit={handleSubmit(onSubmit)}>
                 <div css={styles.field}>
-                  <TextField inputRef={register} name="companyName" label="会社名" fullWidth required />
+                  <TextField
+                    inputRef={register}
+                    name="companyName"
+                    label="会社名"
+                    fullWidth
+                    required
+                    defaultValue={viewer?.getCompanyName()}
+                  />
                 </div>
                 <div css={styles.field}>
                   <TextField
@@ -65,7 +72,7 @@ export function BaseInfo(props: RouteComponentProps) {
                     label="名前（フルネーム）"
                     fullWidth
                     required
-                    defaultValue={viewer?.displayName}
+                    defaultValue={viewer?.getFullName()}
                   />
                 </div>
                 <div css={styles.field}>

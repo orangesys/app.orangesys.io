@@ -178,17 +178,11 @@ export default class User {
   }
 
   getCompanyName(): string {
-    if (this.db == null) {
-      throw new Error('db is null')
-    }
-    return this.db.companyName
+    return this.db?.companyName ?? ''
   }
 
   getFullName(): string {
-    if (this.db == null) {
-      throw new Error('db is null')
-    }
-    return this.db.fullName
+    return this.db?.fullName ?? ''
   }
 
   getCustomerId(): string {

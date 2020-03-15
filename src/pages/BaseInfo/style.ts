@@ -1,5 +1,5 @@
 import { css } from '@emotion/core'
-import { fontSize, colors } from 'styles/common'
+import { colors, fontSize } from 'styles/common'
 
 export const whole = css`
   margin-top: 40px;
@@ -7,9 +7,9 @@ export const whole = css`
   align-items: center;
 `
 
-export const paper = css`
-  margin-top: 24px;
-  margin-bottom: 24px;
+export const navigation = css`
+  height: 70px;
+  text-align: right;
 `
 
 export const main = css`
@@ -28,14 +28,36 @@ export const title = css`
 `
 
 export const form = css`
+  padding: 25px;
   display: flex;
   flex-direction: column;
 `
 
 export const field = css`
-  margin-top: 16px;
+  margin-top: 10px;
 `
 
 export const submit = css`
-  margin: 24px 0;
+  margin-top: 24px;
+`
+
+export const external = css`
+  display: flex;
+  flex-direction: column;
+`
+
+export const external_label = css`
+  text-align: center;
+  font-size: ${fontSize.XL};
+`
+
+export const external_actions = css`
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+`
+
+export const external_button = css`
+  flex: 1;
+  padding: 8px;
 `
