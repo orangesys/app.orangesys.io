@@ -29,5 +29,7 @@ export const DashBoard = (props: RouteComponentProps) => {
     )
   }
 
-  return <div>Dash Borad</div>
+  return (
+    <Location>{({ location }) => <Redirect from={location.pathname} to={routes.DashBoardPlan} noThrow />}</Location>
+  )
 }

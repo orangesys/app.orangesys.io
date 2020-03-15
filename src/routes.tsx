@@ -8,6 +8,7 @@ import { Authorized } from 'pages/Authorized'
 import { DashBoard } from 'pages/DashBoard'
 import { ServerSetup } from 'pages/ServerSetup'
 import { BaseInfo } from 'pages/BaseInformation'
+import { Plan } from 'pages/Plan'
 // import { Redirect } from '@reach/router'
 
 const NotFound = (props: RouteComponentProps) => <div>404</div>
@@ -47,7 +48,7 @@ export const Routes = () => {
         <VerificationGuide path={routes.VerificationGuide} />
         <OrderPlan path={routes.OrderPlan} />
         <ServerSetup path={routes.ServerSetup} />
-
+        <Plan path={routes.DashBoardPlan} />
         <NotFound default />
       </Authorized>
 
