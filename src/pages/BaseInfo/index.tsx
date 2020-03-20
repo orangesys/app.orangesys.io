@@ -13,6 +13,7 @@ import { useMachine } from '@xstate/react'
 import { BaseInfoMachine } from './BaseInfoMachine'
 import { routes } from 'routes'
 import { UserService } from 'modules/user/user-service'
+import { Message } from 'components/Message'
 
 const schema = yup.object().shape({
   companyName: yup.string().required(),
@@ -79,7 +80,6 @@ export function BaseInfo(props: RouteComponentProps) {
                   <TextField name="email" label="メールアドレス" fullWidth value={viewer?.email} disabled />
                 </div>
                 {state.value === 'submitting' && <LinearProgress />}
-                {state?.context?.error?.message}
 
                 <div css={styles.submit}>
                   <Button
@@ -98,6 +98,8 @@ export function BaseInfo(props: RouteComponentProps) {
         </Paper>
       </div>
       <div css={layoutOffset}></div>
+      {/* FIXME: add failure state */}
+      <Message open={!!state?.context?.error} message={state?.context?.error?.code} type="error" />
     </div>
   )
 }

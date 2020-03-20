@@ -36,7 +36,7 @@ const CheckoutForm = ({ onSubmit }: { onSubmit: (data: any) => void }) => {
   // Handle real-time validation errors from the card Element.
   const handleChange = (event: any) => {
     if (event.error) {
-      setError(event.error.message)
+      setError(event.error.code)
     } else {
       setError(null)
     }

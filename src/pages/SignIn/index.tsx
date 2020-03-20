@@ -16,6 +16,7 @@ import { LogoHeader } from 'components/LogoHeader'
 import { useContext, useState } from 'react'
 import { ViewerContext } from 'contexts/Viewer'
 import { PasswordReset } from './PasswordReset'
+import { Message } from 'components/Message'
 
 const schema = yup.object().shape({
   email: yup
@@ -103,8 +104,6 @@ export function SignIn(props: RouteComponentProps) {
                     <TextField inputRef={register} name="password" type="password" label="パスワード" fullWidth />
                   </div>
                   {state.value === 'loading' && <LinearProgress />}
-                  {state?.context?.error?.message}
-
                   <div css={styles.submit}>
                     <Button variant="contained" color="primary" fullWidth type="submit">
                       メールアドレスでログイン
@@ -139,6 +138,8 @@ export function SignIn(props: RouteComponentProps) {
         </div>
         <div css={layoutOffset}></div>
       </div>
+      {/* FIXME: add failure state */}
+      <Message open={!!state?.context?.error} message={state?.context?.error?.code} type="error" />
     </div>
   )
 }

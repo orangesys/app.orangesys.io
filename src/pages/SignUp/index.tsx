@@ -19,6 +19,7 @@ import { LogoHeader } from 'components/LogoHeader'
 import React, { useContext } from 'react'
 import { ViewerContext } from 'contexts/Viewer'
 import User from 'modules/user/user'
+import { Message } from 'components/Message'
 
 const schemaWithPassword = yup.object().shape({
   companyName: yup.string().required(),
@@ -113,7 +114,6 @@ export function SignUp(props: RouteComponentProps) {
                   </React.Fragment>
 
                   {state.value === 'loading' && <LinearProgress />}
-                  {state?.context?.error?.message}
 
                   <div css={styles.submit}>
                     <Button
@@ -149,6 +149,8 @@ export function SignUp(props: RouteComponentProps) {
         </div>
         <div css={layoutOffset}></div>
       </div>
+      {/* FIXME: add failure state */}
+      <Message open={!!state?.context?.error} message={state?.context?.error?.code} type="error" />
     </div>
   )
 }

@@ -20,6 +20,7 @@ import { useContext } from 'react'
 import * as OrangesysApi from 'lib/orangesys-api'
 import { SERVER_SETUP_STATUS } from 'const/server-setup'
 import { formatISO } from 'date-fns'
+import { Message } from 'components/Message'
 
 export const OrderPlan = (props: RouteComponentProps) => {
   const userService = new UserService()
@@ -90,7 +91,6 @@ export const OrderPlan = (props: RouteComponentProps) => {
       <div css={layoutOffset}></div>
       <div css={layoutMain}>
         <Paper css={styles.paper}>
-          {state?.context?.error?.message}
           {state.value === 'planList' && (
             <div css={styles.main}>
               <div css={styles.title}>以下よりプランを選択してください</div>
@@ -127,6 +127,8 @@ export const OrderPlan = (props: RouteComponentProps) => {
       </div>
 
       <div css={layoutOffset}></div>
+      {/* FIXME: add failure state */}
+      <Message open={!!state?.context?.error} message={state?.context?.error?.code} type="error" />
     </div>
   )
 }
