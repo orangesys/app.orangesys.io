@@ -1,9 +1,14 @@
 version: 2
+
+references:
+  container_config: &container_config
+    docker:
+      - image: node:12
+    working_directory: ~/app
+
 jobs:
   build:
-    docker:
-      - image: circleci/node:12
-    working_directory: ~/app
+    <<: *container_config
     steps:
       - checkout
       - restore_cache:
@@ -21,10 +26,13 @@ jobs:
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
             - ./node_modules
-            # - ~/.cache/yarn
       - run:
           name: Build
           command: yarn build
+
+  deploy_database:
+    <<: *container_config
+    steps:
       - run:
-          name: Firebase Deploy
+          name: Firebase Deploy Database
           command: ./node_modules/.bin/firebase deploy --project "$FIREBASE_PROJECT" --token "$FIREBASE_TOKEN" --non-interactive --only database
