@@ -54,7 +54,7 @@ export const OrderPlan = (props: RouteComponentProps) => {
         // @ts-ignore
         const { retention } = plan
         if (!retention) {
-          throw 'plan is invalid'
+          throw new Error('plan is invalid')
         }
 
         try {
