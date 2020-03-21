@@ -1,5 +1,5 @@
 {
-  "name": "app.orangesys.io-next",
+  "name": "app.orangesys.io",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -19,6 +19,7 @@
     "@types/reach__router": "^1.3.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
+    "@types/yup": "^0.26.33",
     "@xstate/react": "^0.8.1",
     "axios": "^0.19.2",
     "date-fns": "^2.9.0",
@@ -66,7 +67,7 @@
     ]
   },
   "devDependencies": {
-    "@types/yup": "^0.26.31",
+    "firebase-tools": "^7.15.1",
     "husky": "^4.2.3",
     "lint-staged": "^10.0.7",
     "prettier": "1.19.1",

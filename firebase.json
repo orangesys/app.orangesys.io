@@ -1,4 +1,7 @@
 {
+  "projects": {
+    "default": "orangesys-36d6e"
+  },
   "database": {
     "rules": "firebase.rules.json"
   },
