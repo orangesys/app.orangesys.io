@@ -17,11 +17,12 @@ function Alert(props: any) {
   return <MuiAlert elevation={6} variant="filled" {...props} />
 }
 
-export const Message = ({ open, type, message, onClose, autoHideDuration }: Props) => {
+export const Message = ({ open, type, message, onClose, autoHideDuration = 4000 }: Props) => {
   return (
     <Snackbar open={open} autoHideDuration={autoHideDuration} onClose={onClose}>
       <Alert severity={type} onClose={onClose}>
-        {ERRORS[message]}
+        {type === 'info' && message}
+        {type === 'error' && ERRORS[message]}
       </Alert>
     </Snackbar>
   )

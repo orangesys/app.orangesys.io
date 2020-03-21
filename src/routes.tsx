@@ -10,6 +10,8 @@ import { ServerSetup } from 'pages/ServerSetup'
 import { BaseInfo } from 'pages/BaseInfo'
 import { Plan } from 'pages/Plan'
 import { Settings } from 'pages/Settings'
+import { Graph } from 'pages/DashBoard/Graph'
+import { DB } from 'pages/DashBoard/DB'
 // import { Redirect } from '@reach/router'
 
 const NotFound = (props: RouteComponentProps) => <div>404</div>
@@ -51,7 +53,10 @@ export const Routes = () => {
         <OrderPlan path={routes.OrderPlan} />
         <ServerSetup path={routes.ServerSetup} />
         <Plan path={routes.DashBoardPlan} />
+        <Graph path={routes.DashBoardGraph} />
+        <DB path={routes.DashBoardDB} />
         <Settings path={routes.Settings} />
+
         <NotFound default />
       </Authorized>
 

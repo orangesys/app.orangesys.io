@@ -4,7 +4,7 @@ import { RouteComponentProps } from '@reach/router'
 
 import * as styles from './style'
 import { layoutOffset, layoutMain } from 'styles/layout-center'
-import { Paper, LinearProgress } from '@material-ui/core'
+import { Paper, LinearProgress, Table, TableBody, TableRow, TableCell } from '@material-ui/core'
 
 import { ViewerContext } from 'contexts/Viewer'
 import React, { useContext } from 'react'
@@ -41,27 +41,23 @@ export function Plan(props: RouteComponentProps) {
       <div css={layoutOffset}></div>
       <div css={layoutMain}>
         <Paper>
-          <div css={styles.main}>
-            <div css={styles.title}>プラン情報</div>
-            <div css={styles.table}>
-              <div css={styles.row}>
-                <p css={styles.name}>プラン</p>
-                <p css={styles.content}>{plan?.title}</p>
-              </div>
-
-              <div css={styles.row}>
-                <p css={styles.name}>月額</p>
-                <p css={styles.content}>{plan?.price} / 月 (税抜)</p>
-              </div>
-
-              <div css={styles.row}>
-                <p css={styles.name}>データ保存期間 </p>
-                <p css={styles.content}>{plan?.retentionText}</p>
-              </div>
-
-              <div css={styles.row}>
-                <p css={styles.name}>Storage使用量</p>
-                <div css={styles.content}>
+          <Table>
+            <TableBody>
+              <TableRow>
+                <TableCell>プラン</TableCell>
+                <TableCell>{plan?.title}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>月額</TableCell>
+                <TableCell>{plan?.price} / 月 (税抜)</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>データ保存期間</TableCell>
+                <TableCell>{plan?.retentionText}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>Storage使用量</TableCell>
+                <TableCell>
                   {state.value === 'loading' && <div>...</div>}
                   {state.value === 'success' && (
                     <React.Fragment>
@@ -72,10 +68,10 @@ export function Plan(props: RouteComponentProps) {
                     </React.Fragment>
                   )}
                   {state.value === 'failure' && <span>{state.context.error}</span>}
-                </div>
-              </div>
-            </div>
-          </div>
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
         </Paper>
       </div>
       <div css={layoutOffset}></div>
