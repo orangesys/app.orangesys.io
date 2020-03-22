@@ -14,7 +14,7 @@ import { useContext, useEffect } from 'react'
 import { ViewerContext } from 'contexts/Viewer'
 import * as OrangesysApi from 'lib/orangesys-api'
 import { UserService } from 'modules/user/user-service'
-import { SERVER_SETUP_STATUS } from 'const/server-setup'
+import SERVER_SETUP_STATUS from 'const/server-setup-status'
 import { formatISO } from 'date-fns'
 
 export const ServerSetup = (props: RouteComponentProps) => {

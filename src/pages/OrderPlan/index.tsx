@@ -18,7 +18,7 @@ import { routes } from 'routes'
 import { ViewerContext } from 'contexts/Viewer'
 import { useContext } from 'react'
 import * as OrangesysApi from 'lib/orangesys-api'
-import { SERVER_SETUP_STATUS } from 'const/server-setup'
+import SERVER_SETUP_STATUS from 'const/server-setup-status'
 import { formatISO } from 'date-fns'
 import { Message } from 'components/Message'
 

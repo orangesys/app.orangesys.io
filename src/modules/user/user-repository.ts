@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { formatISO } from 'lib/dateUtils'
-import SERVER_SETUP_STATUS from './server-setup-status'
+import SERVER_SETUP_STATUS from 'const/server-setup-status'
 import { FirebaseAuth, FirebaseDB, FirebaseUser, FirebaseFactory } from 'lib/firebase'
 
 type NewUserFields = {

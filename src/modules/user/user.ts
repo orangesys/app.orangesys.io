@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { SERVER_SETUP_STATUS } from './server-setup-status'
+import SERVER_SETUP_STATUS from 'const/server-setup-status'
 import { plans, PlanIdType, PlanType } from 'modules/plan/plans'
 
 export type ServerSetupStatus = 'not-started' | 'building' | 'completed' | 'errored'
