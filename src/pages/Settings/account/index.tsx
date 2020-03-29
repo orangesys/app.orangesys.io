@@ -5,10 +5,11 @@ import { RouteComponentProps } from '@reach/router'
 import * as styles from './style'
 
 import { TextField, Button, LinearProgress } from '@material-ui/core'
+import { Email } from '@material-ui/icons'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { ViewerContext } from 'contexts/Viewer'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { useMachine } from '@xstate/react'
 import { BaseInfoMachine } from './BaseInfoMachine'
 import { UserService } from 'modules/user/user-service'
@@ -47,6 +48,14 @@ export function AccountSetting(props: RouteComponentProps) {
     send('SUBMIT', { data })
   }
 
+  const [sentEmail, setSentEmail] = useState(false)
+
+  const sendMailForResetPassword = () => {
+    const userService = new UserService()
+    userService.sendPasswordResetEmail(viewer?.email ?? '')
+    setSentEmail(true)
+  }
+
   return (
     <form css={styles.form} onSubmit={handleSubmit(onSubmit)}>
       <div css={styles.field}>
@@ -72,6 +81,12 @@ export function AccountSetting(props: RouteComponentProps) {
       <div css={styles.field}>
         <TextField name="email" label="メールアドレス" fullWidth value={viewer?.email} disabled />
       </div>
+      <div css={styles.field}>
+        <Button color="secondary" startIcon={<Email />} onClick={sendMailForResetPassword}>
+          パスワード再設定
+        </Button>
+      </div>
+
       {state.value === 'submitting' && <LinearProgress />}
 
       <div css={styles.submit}>
@@ -80,6 +95,12 @@ export function AccountSetting(props: RouteComponentProps) {
         </Button>
       </div>
       {/* FIXME: add failure state */}
+      <Message
+        open={sentEmail}
+        onClose={() => setSentEmail(false)}
+        message="パスワード再設定用のメールを送信しました。"
+        type="info"
+      />
       <Message open={!!state?.context?.error} message={state?.context?.error?.code} type="error" />
     </form>
   )
