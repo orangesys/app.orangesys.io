@@ -3,7 +3,7 @@ import { jsx } from '@emotion/core'
 import { RouteComponentProps } from '@reach/router'
 
 import * as styles from './style'
-import { layoutOffset, layoutMain } from 'styles/layout-center'
+import { layoutOffset, layoutMain, MainStyle } from 'styles/layout-center'
 import { Paper, LinearProgress, Table, TableBody, TableRow, TableCell } from '@material-ui/core'
 
 import { ViewerContext } from 'contexts/Viewer'
@@ -37,7 +37,7 @@ export function Plan(props: RouteComponentProps) {
   const parsePercent = (usage: number): number => parseInt(((usage / plan?.storageByte) * 100).toFixed(), 10)
 
   return (
-    <div css={styles.whole}>
+    <div css={MainStyle}>
       <div css={layoutOffset}></div>
       <div css={layoutMain}>
         <Paper>

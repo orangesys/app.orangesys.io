@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 import * as styles from './style'
-import { layoutOffset, layoutMain } from 'styles/layout-center'
+import { layoutOffset, layoutMain, MainStyle } from 'styles/layout-center'
 import { Paper, Button, TextField, LinearProgress } from '@material-ui/core'
 import { PersonAdd, Email, GitHub as GitHubIcon } from '@material-ui/icons'
 import { routes } from 'routes'
@@ -84,7 +84,7 @@ export function SignIn(props: RouteComponentProps) {
     <div>
       <LogoHeader />
 
-      <div css={styles.whole}>
+      <div css={MainStyle}>
         <div css={layoutOffset}></div>
         <div css={layoutMain}>
           <div css={styles.navigation}>

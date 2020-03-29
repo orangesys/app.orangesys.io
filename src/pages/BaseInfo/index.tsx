@@ -3,7 +3,7 @@ import { jsx } from '@emotion/core'
 import { RouteComponentProps, navigate } from '@reach/router'
 
 import * as styles from './style'
-import { layoutOffset, layoutMain } from 'styles/layout-center'
+import { layoutOffset, layoutMain, MainStyle } from 'styles/layout-center'
 import { Paper, TextField, Button, LinearProgress } from '@material-ui/core'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -48,7 +48,7 @@ export function BaseInfo(props: RouteComponentProps) {
   }
 
   return (
-    <div css={styles.whole}>
+    <div css={MainStyle}>
       <div css={layoutOffset}></div>
       <div css={layoutMain}>
         <Paper>

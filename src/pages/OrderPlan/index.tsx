@@ -2,7 +2,7 @@
 import { jsx } from '@emotion/core'
 
 import * as styles from './style'
-import { layoutOffset, layoutMain } from 'styles/layout-center'
+import { layoutOffset, layoutMain, MainStyle } from 'styles/layout-center'
 import { plans } from 'modules/plan/plans'
 import { RouteComponentProps, navigate } from '@reach/router'
 import { CircularProgress, Paper } from '@material-ui/core'
@@ -87,7 +87,7 @@ export const OrderPlan = (props: RouteComponentProps) => {
   }
 
   return (
-    <div css={styles.whole}>
+    <div css={MainStyle}>
       <div css={layoutOffset}></div>
       <div css={layoutMain}>
         <Paper css={styles.paper}>

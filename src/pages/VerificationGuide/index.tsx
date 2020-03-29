@@ -3,7 +3,7 @@ import { jsx } from '@emotion/core'
 import { RouteComponentProps } from '@reach/router'
 
 import * as styles from './style'
-import { layoutOffset, layoutMain } from 'styles/layout-center'
+import { layoutOffset, layoutMain, MainStyle } from 'styles/layout-center'
 import { Paper, Button } from '@material-ui/core'
 import { useContext } from 'react'
 import { ViewerContext } from 'contexts/Viewer'
@@ -16,7 +16,7 @@ export function VerificationGuide(props: RouteComponentProps) {
   }
 
   return (
-    <div css={styles.whole}>
+    <div css={MainStyle}>
       <div css={layoutOffset}></div>
       <div css={layoutMain}>
         <Paper>

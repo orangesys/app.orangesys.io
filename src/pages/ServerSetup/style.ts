@@ -1,11 +1,6 @@
 import { css } from '@emotion/core'
 import { colors } from 'styles/common'
 
-export const whole = css`
-  margin-top: 50px;
-  display: flex;
-`
-
 export const paper = css`
   padding: 20px;
 `

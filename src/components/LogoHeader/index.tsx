@@ -4,7 +4,7 @@ import logoImage from '../../images/logo@3x.png'
 import * as styles from './style'
 
 export const LogoHeader = () => (
-  <header css={styles.whole}>
+  <header>
     <div css={styles.topBar} />
     <div css={styles.main}>
       <div>

@@ -2,12 +2,11 @@ import { css } from '@emotion/core'
 import { colors, fontSize } from '../../styles/common'
 
 export const whole = css`
-  height: 100px;
   display: flex;
   align-items: center;
   border-bottom: 3px solid ${colors.primary};
+  height: 100px;
   width: 100%;
-  padding-left: 34px;
   flex-direction: row;
   flex-wrap: wrap;
   font-size: ${fontSize.XL};
@@ -15,8 +14,9 @@ export const whole = css`
   box-shadow: 0 3px 3px 0 rgb(230, 230, 230);
 `
 
-export const app_name = css`
+export const appName = css`
   color: ${colors.primary};
+  margin-left: 24px;
 `
 
 export const separator = css`

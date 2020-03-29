@@ -1,8 +1,6 @@
 import { css } from '@emotion/core'
 import { colors } from '../../styles/common'
 
-export const whole = css``
-
 export const topBar = css`
   display: flex;
   height: 4px;

@@ -4,7 +4,7 @@ import { jsx } from '@emotion/core'
 import { RouteComponentProps, navigate } from '@reach/router'
 
 import * as styles from './style'
-import { layoutOffset, layoutMain } from 'styles/layout-center'
+import { layoutOffset, layoutMain, MainStyle } from 'styles/layout-center'
 import { Paper, CircularProgress } from '@material-ui/core'
 import { useMachine } from '@xstate/react'
 import { ServerSetupMachine } from './ServerSetupMachine'
@@ -74,7 +74,7 @@ export const ServerSetup = (props: RouteComponentProps) => {
   }, [send, state.context.timer])
 
   return (
-    <div css={styles.whole}>
+    <div css={MainStyle}>
       <div css={layoutOffset}></div>
       <div css={layoutMain}>
         <Paper>

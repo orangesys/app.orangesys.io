@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core'
 import * as styles from './style'
-import { layoutOffset, layoutMain } from 'styles/layout-center'
+import { layoutOffset, layoutMain, MainStyle } from 'styles/layout-center'
 import { Paper, Table, TableBody, TableRow, TableCell, TextField, IconButton } from '@material-ui/core'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { ViewerContext } from 'contexts/Viewer'
@@ -19,7 +19,7 @@ export const DB = (props: RouteComponentProps) => {
   const grafanaUrl = `https://${consumerId}.g.orangesys.io`
 
   return (
-    <div css={styles.whole}>
+    <div css={MainStyle}>
       <div css={layoutOffset}></div>
       <div css={layoutMain}>
         <Paper>
@@ -53,7 +53,7 @@ export const DB = (props: RouteComponentProps) => {
         </Paper>
       </div>
       <div css={layoutOffset}></div>
-      <Message open={copied} type="info" message="クリップボードにコピーしました" />
+      <Message open={copied} onClose={() => setCopied(false)} type="info" message="クリップボードにコピーしました" />
     </div>
   )
 }
