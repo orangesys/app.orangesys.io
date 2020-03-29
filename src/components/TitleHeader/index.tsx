@@ -10,7 +10,7 @@ type Props = {
 
 export const TitleHeader: FunctionComponent<Props> = ({ title }) => (
   <header css={styles.whole}>
-    <div css={styles.app_name}>Orangesys.io</div>
+    <div css={styles.appName}>Orangesys.io</div>
     <div css={styles.separator}>&gt;&gt;</div>
     <div>{title}</div>
   </header>

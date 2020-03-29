@@ -1,13 +1,7 @@
 import { css } from '@emotion/core'
 
-export const whole = css`
-  margin-top: 50px;
-  display: flex;
-  flex-direction: row;
-`
-
 export const main = css`
-  padding: 30px;
+  padding: 24px;
 `
 
 export const message = css`
@@ -17,5 +11,5 @@ export const message = css`
 export const resend = css`
   display: flex;
   justify-content: center;
-  margin-top: 40px;
+  margin-top: 24px;
 `

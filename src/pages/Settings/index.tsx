@@ -4,8 +4,7 @@ import { Tabs, Tab, AppBar } from '@material-ui/core'
 import { RouteComponentProps } from 'lib/router'
 import { useState } from 'react'
 
-import * as styles from './style'
-import { layoutOffset, layoutMain } from 'styles/layout-center'
+import { layoutOffset, layoutMain, MainStyle } from 'styles/layout-center'
 import { TabPanel } from 'components/TabPanel'
 
 import { AccountSetting } from './account'
@@ -18,7 +17,7 @@ export function Settings(props: RouteComponentProps) {
   }
 
   return (
-    <div css={styles.whole}>
+    <div css={MainStyle}>
       <div css={layoutOffset}></div>
       <div css={layoutMain}>
         <AppBar position="static">

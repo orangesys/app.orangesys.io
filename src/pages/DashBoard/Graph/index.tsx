@@ -1,7 +1,6 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core'
-import * as styles from './style'
-import { layoutOffset, layoutMain } from 'styles/layout-center'
+import { layoutOffset, layoutMain, MainStyle } from 'styles/layout-center'
 import { Paper, Table, TableBody, TableRow, TableCell } from '@material-ui/core'
 import { ViewerContext } from 'contexts/Viewer'
 import { useContext } from 'react'
@@ -14,7 +13,7 @@ export const Graph = (props: RouteComponentProps) => {
   const grafanaUrl = `https://${consumerId}.g.orangesys.io`
 
   return (
-    <div css={styles.whole}>
+    <div css={MainStyle}>
       <div css={layoutOffset}></div>
       <div css={layoutMain}>
         <Paper>

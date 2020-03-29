@@ -1,8 +1,6 @@
 import { css } from '@emotion/core'
 import { colors, borderRadius, boxShadow, fontSize } from 'styles/common'
 
-export const whole = css``
-
 export const card = css`
   height: 200px;
   width: 350px;

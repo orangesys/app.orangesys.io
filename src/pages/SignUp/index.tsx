@@ -8,7 +8,7 @@ import { ExitToApp, GitHub as GitHubIcon } from '@material-ui/icons'
 import { RouteComponentProps } from '../../lib/router'
 
 import * as styles from './style'
-import { layoutMain, layoutOffset } from 'styles/layout-center'
+import { layoutMain, layoutOffset, MainStyle } from 'styles/layout-center'
 import { routes } from 'routes'
 import { navigate } from '@reach/router'
 
@@ -84,7 +84,7 @@ export function SignUp(props: RouteComponentProps) {
   return (
     <div>
       <LogoHeader />
-      <div css={styles.whole}>
+      <div css={MainStyle}>
         <div css={layoutOffset}></div>
         <div css={layoutMain}>
           <div css={styles.navigation}>

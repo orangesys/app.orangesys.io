@@ -29,6 +29,9 @@ export type DBUser = {
   retention?: '10d' | '40d' | '400d'
   serverSetup?: ServerSetup
   telegraf?: ApiSecrets
+  server: {
+    storageUsage: number
+  }
 }
 
 type Provider = {
@@ -129,6 +132,10 @@ export default class User {
       consumerId: this.db.telegraf.consumerId,
       token: this.db.telegraf.token,
     }
+  }
+
+  get storageUsage(): number {
+    return this.db?.server.storageUsage ?? 0
   }
 
   get canChangeEmail(): boolean {

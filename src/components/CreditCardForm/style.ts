@@ -1,12 +1,6 @@
 import { css } from '@emotion/core'
 import { fontSize, colors } from 'styles/common'
 
-export const whole = css`
-  margin-top: 40px;
-  display: flex;
-  align-items: center;
-`
-
 export const paper = css`
   margin-top: 24px;
   margin-bottom: 24px;

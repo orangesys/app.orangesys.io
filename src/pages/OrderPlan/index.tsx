@@ -2,7 +2,7 @@
 import { jsx } from '@emotion/core'
 
 import * as styles from './style'
-import { layoutOffset, layoutMain } from 'styles/layout-center'
+import { layoutOffset, layoutMain, MainStyle } from 'styles/layout-center'
 import { plans } from 'modules/plan/plans'
 import { RouteComponentProps, navigate } from '@reach/router'
 import { CircularProgress, Paper } from '@material-ui/core'
@@ -17,20 +17,15 @@ import { UserService } from 'modules/user/user-service'
 import { routes } from 'routes'
 import { ViewerContext } from 'contexts/Viewer'
 import { useContext } from 'react'
-import * as OrangesysApi from 'lib/orangesys-api'
-import SERVER_SETUP_STATUS from 'const/server-setup-status'
-import { formatISO } from 'date-fns'
 import { Message } from 'components/Message'
 
 export const OrderPlan = (props: RouteComponentProps) => {
   const userService = new UserService()
-  const { viewer, setViewer } = useContext(ViewerContext)
+  const { viewer } = useContext(ViewerContext)
 
   const [state, send] = useMachine(OrderPlanMachine, {
     actions: {
       goNextPage: context => {
-        const { user } = context
-        setViewer(user)
         navigate(routes.ServerSetup)
       },
     },
@@ -48,46 +43,17 @@ export const OrderPlan = (props: RouteComponentProps) => {
         const updatedUser = await userService.savePaymentInformation(user.uid, plan.id, customerId, subscriptionId)
         return updatedUser
       },
-      requestSetupServer: async (context, e) => {
-        const { user, plan } = context
-        const uid = user.getId()
-        // @ts-ignore
-        const { retention } = plan
-        if (!retention) {
-          throw new Error('plan is invalid')
-        }
-
-        try {
-          const apiClient = new OrangesysApi.Client({})
-          await apiClient.createServer(retention, uid)
-          const user = await userService.updateServerSetupStatus(uid, {
-            status: SERVER_SETUP_STATUS.BUILDING,
-            startedAt: formatISO(new Date()),
-          })
-          setViewer(user)
-        } catch (error) {
-          const errorCode = 'creation_request_error'
-          const errorMessage = error.toString()
-          const user = await userService.updateServerSetupStatus(uid, {
-            status: SERVER_SETUP_STATUS.ERRORED,
-            errorCode,
-            errorMessage,
-          })
-          setViewer(user)
-          throw errorCode
-        }
-      },
     },
   })
 
   const onSubmit = (data: any) => {
-    const { plan } = state.context
+    const plan = state?.context?.plan
 
     send('SUBMIT', { token: data.id, user: viewer?.auth, plan })
   }
 
   return (
-    <div css={styles.whole}>
+    <div css={MainStyle}>
       <div css={layoutOffset}></div>
       <div css={layoutMain}>
         <Paper css={styles.paper}>
