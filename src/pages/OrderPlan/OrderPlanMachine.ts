@@ -13,7 +13,6 @@ interface OrderStateSchema {
     planList: {}
     cardForm: {}
     loading: {}
-    setupServer: {}
     success: {}
   }
 }
@@ -59,7 +58,7 @@ export const OrderPlanMachine = Machine<OrderContext, OrderStateSchema, OrderEve
       invoke: {
         src: 'registerPayment',
         onDone: {
-          target: 'setupServer',
+          target: 'success',
           actions: assign({
             user: (_, event) => event.data,
           }),
@@ -69,17 +68,6 @@ export const OrderPlanMachine = Machine<OrderContext, OrderStateSchema, OrderEve
           actions: assign({
             error: (_, event) => event.data,
           }),
-        },
-      },
-    },
-    setupServer: {
-      invoke: {
-        src: 'requestSetupServer',
-        onDone: {
-          target: 'success',
-        },
-        onError: {
-          target: 'success',
         },
       },
     },

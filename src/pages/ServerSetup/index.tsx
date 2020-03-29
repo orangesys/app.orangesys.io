@@ -12,7 +12,6 @@ import { routes } from 'routes'
 import * as INFO from 'modules/support/info'
 import { useContext, useEffect } from 'react'
 import { ViewerContext } from 'contexts/Viewer'
-import * as OrangesysApi from 'lib/orangesys-api'
 import { UserService } from 'modules/user/user-service'
 import SERVER_SETUP_STATUS from 'const/server-setup-status'
 import { formatISO } from 'date-fns'
@@ -28,24 +27,14 @@ export const ServerSetup = (props: RouteComponentProps) => {
       requestCreatingServer: async () => {
         const uid = viewer?.getId()
         const retention = viewer?.getPlan().retention
-        try {
-          const apiClient = new OrangesysApi.Client()
-          await apiClient.createServer(retention, uid)
-          const user = await userService.updateServerSetupStatus(uid, {
-            status: SERVER_SETUP_STATUS.BUILDING,
-            startedAt: formatISO(new Date()),
-          })
-          setViewer(user)
-        } catch (error) {
-          const errorCode = 'creation_request_error'
-          const errorMessage = err.toString()
-          const user = await userService.updateServerSetupStatus(uid, {
-            status: SERVER_SETUP_STATUS.ERRORED,
-            errorCode,
-            errorMessage,
-          })
-          setViewer(user)
-        }
+
+        // restart server setup
+        await apiClient.createServer(retention, uid)
+        const user = await userService.updateServerSetupStatus(uid, {
+          status: SERVER_SETUP_STATUS.BUILDING,
+          startedAt: formatISO(new Date()),
+        })
+        setViewer(user)
       },
     },
   })

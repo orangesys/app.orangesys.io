@@ -4,7 +4,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 TODO:
 
-- [ ] CircleCI
+[![CircleCI](https://circleci.com/gh/ThaddeusJiang/app.orangesys.io.svg?style=svg)](https://circleci.com/gh/ThaddeusJiang/app.orangesys.io)
+
 - [ ] Codacy Badge
 - [ ] dependencies Status
 
@@ -28,7 +29,6 @@ REACT_APP_FIREBASE_DATABASE_URL=https://orangesys-36d6e.firebaseio.com
 REACT_APP_FIREBASE_STORAGE_BUCKET=orangesys-36d6e.appspot.com
 REACT_APP_STRIPE_PUBLISHABLE_KEY=pk_XXXXXXXXXXXXXXXXXXXXX
 REACT_APP_PAYMENT_API_ENDPOINT=https://PAYMENT_API_ENDPOINT
-REACT_APP_ORANGESYS_API_ENDPOINT=https://ORANGESYS_API_ENDPOINT
 REACT_APP_SENTRY_DSN=https://XXXXXXXX@sentry.io/YYYYYYY
 REACT_APP_GA_TRACKING_ID=UA-XXXXXXXX-Y
 ```

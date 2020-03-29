@@ -2,7 +2,6 @@
 import { jsx } from '@emotion/core'
 import { RouteComponentProps } from '@reach/router'
 
-import * as styles from './style'
 import { layoutOffset, layoutMain, MainStyle } from 'styles/layout-center'
 import { Paper, LinearProgress, Table, TableBody, TableRow, TableCell } from '@material-ui/core'
 
@@ -10,7 +9,7 @@ import { ViewerContext } from 'contexts/Viewer'
 import React, { useContext } from 'react'
 import { useMachine } from '@xstate/react'
 import { UsageMachine } from './UsageMachine'
-import * as OrangesysApi from 'lib/orangesys-api'
+import { UserService } from 'modules/user/user-service'
 
 export function Plan(props: RouteComponentProps) {
   const { viewer } = useContext(ViewerContext)
@@ -19,12 +18,9 @@ export function Plan(props: RouteComponentProps) {
   const [state] = useMachine(UsageMachine, {
     services: {
       fetchStorageUsage: async () => {
-        const apiClient = new OrangesysApi.Client({})
-        const storageUsage = await apiClient.getStorageUsage(
-          viewer?.getId() || '',
-          viewer?.apiSecrets?.consumerId || '',
-        )
-        return storageUsage
+        const userService = new UserService()
+        const user = await userService.fetchUser()
+        return user.storageUsage
       },
     },
   })
