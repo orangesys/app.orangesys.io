@@ -1,7 +1,7 @@
 import { createModel } from '@xstate/test'
-import { BaseInfoMachine } from './BaseInfoMachine'
+import { AccountSettingMachine } from './AccountSettingMachine'
 
-const settingModel = createModel(BaseInfoMachine).withEvents({
+const settingModel = createModel(AccountSettingMachine).withEvents({
   SUBMIT: {},
 })
 

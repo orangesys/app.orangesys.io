@@ -26,7 +26,7 @@ const schema = yup.object().shape({
   password: yup.string().required(),
 })
 
-export function SignIn(props: RouteComponentProps) {
+export default function SignIn(props: RouteComponentProps) {
   const { setViewer } = useContext(ViewerContext)
 
   const navigate = useNavigate()

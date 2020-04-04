@@ -1,20 +1,24 @@
-import React from 'react'
-import { Router, RouteComponentProps } from './lib/router'
-import { SignUp } from 'pages/SignUp'
-import { SignIn } from 'pages/SignIn'
-import { VerificationGuide } from 'pages/VerificationGuide'
-import { OrderPlan } from 'pages/OrderPlan'
-import { Authorized } from 'pages/Authorized'
-import { DashBoard } from 'pages/DashBoard'
-import { ServerSetup } from 'pages/ServerSetup'
-import { BaseInfo } from 'pages/BaseInfo'
-import { Plan } from 'pages/Plan'
-import { Settings } from 'pages/Settings'
-import { Graph } from 'pages/DashBoard/Graph'
-import { DB } from 'pages/DashBoard/DB'
-// import { Redirect } from '@reach/router'
+import React, { Suspense } from 'react'
+import { Router } from '@reach/router'
 
-const NotFound = (props: RouteComponentProps) => <div>404</div>
+import { Loading } from 'components/Loading'
+import NotFound from 'pages/NotFound'
+
+const SignIn = React.lazy(() => import('pages/SignIn'))
+const SignUp = React.lazy(() => import('pages/SignUp'))
+const Authorized = React.lazy(() => import('pages/Authorized'))
+
+const VerificationGuide = React.lazy(() => import('pages/VerificationGuide'))
+
+const Plan = React.lazy(() => import('pages/Plan'))
+const Settings = React.lazy(() => import('pages/Settings'))
+const ServerSetup = React.lazy(() => import('pages/ServerSetup'))
+const BaseInfo = React.lazy(() => import('pages/BaseInfo'))
+const OrderPlan = React.lazy(() => import('pages/OrderPlan'))
+
+const DashBoard = React.lazy(() => import('pages/DashBoard'))
+const Graph = React.lazy(() => import('pages/DashBoard/Graph'))
+const DB = React.lazy(() => import('pages/DashBoard/DB'))
 
 export const routes = {
   SignUp: 'sign-up',
@@ -45,25 +49,27 @@ export const routeTitles = {
 
 export const Routes = () => {
   return (
-    <Router>
-      <Authorized path="/">
-        <DashBoard path={routes.DashBoard} />
-        <BaseInfo path={routes.BaseInfo} />
-        <VerificationGuide path={routes.VerificationGuide} />
-        <OrderPlan path={routes.OrderPlan} />
-        <ServerSetup path={routes.ServerSetup} />
-        <Plan path={routes.DashBoardPlan} />
-        <Graph path={routes.DashBoardGraph} />
-        <DB path={routes.DashBoardDB} />
-        <Settings path={routes.Settings} />
+    <Suspense fallback={<Loading />}>
+      <Router>
+        <Authorized path="/">
+          <DashBoard path={routes.DashBoard} />
+          <BaseInfo path={routes.BaseInfo} />
+          <VerificationGuide path={routes.VerificationGuide} />
+          <OrderPlan path={routes.OrderPlan} />
+          <ServerSetup path={routes.ServerSetup} />
+          <Plan path={routes.DashBoardPlan} />
+          <Graph path={routes.DashBoardGraph} />
+          <DB path={routes.DashBoardDB} />
+          <Settings path={routes.Settings} />
+
+          <NotFound default />
+        </Authorized>
+
+        <SignIn path={routes.SignIn} />
+        <SignUp path={routes.SignUp} />
 
         <NotFound default />
-      </Authorized>
-
-      <SignIn path={routes.SignIn} />
-      <SignUp path={routes.SignUp} />
-
-      <NotFound default />
-    </Router>
+      </Router>
+    </Suspense>
   )
 }

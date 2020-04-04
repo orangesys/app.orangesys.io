@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core'
 import { Tabs, Tab, AppBar } from '@material-ui/core'
-import { RouteComponentProps } from 'lib/router'
+import { RouteComponentProps } from '@reach/router'
 import { useState } from 'react'
 
 import { layoutOffset, layoutMain, MainStyle } from 'styles/layout-center'
@@ -10,7 +10,7 @@ import { TabPanel } from 'components/TabPanel'
 import { AccountSetting } from './account'
 import { PaymentSetting } from './payment'
 
-export function Settings(props: RouteComponentProps) {
+export default function Settings(props: RouteComponentProps) {
   const [tabIndex, setTabIndex] = useState(0)
   const handleChange = (_: any, newValue: number) => {
     setTabIndex(newValue)

@@ -5,12 +5,11 @@ import * as yup from 'yup'
 
 import { TextField, Button, Paper, LinearProgress } from '@material-ui/core'
 import { ExitToApp, GitHub as GitHubIcon } from '@material-ui/icons'
-import { RouteComponentProps } from '../../lib/router'
 
 import * as styles from './style'
 import { layoutMain, layoutOffset, MainStyle } from 'styles/layout-center'
 import { routes } from 'routes'
-import { navigate } from '@reach/router'
+import { RouteComponentProps, navigate } from '@reach/router'
 
 import { useMachine } from '@xstate/react'
 import { SignUpMachine, SignUpContext } from './SignUpMachie'
@@ -36,7 +35,7 @@ const schemaWithOAuth = yup.object().shape({
   fullName: yup.string().required(),
 })
 
-export function SignUp(props: RouteComponentProps) {
+export default function SignUp(props: RouteComponentProps) {
   const [state, send] = useMachine(SignUpMachine, {
     actions: {
       goNextPage: (context: SignUpContext) => {

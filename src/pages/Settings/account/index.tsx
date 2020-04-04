@@ -11,7 +11,7 @@ import * as yup from 'yup'
 import { ViewerContext } from 'contexts/Viewer'
 import { useContext, useState } from 'react'
 import { useMachine } from '@xstate/react'
-import { BaseInfoMachine } from './BaseInfoMachine'
+import { AccountSettingMachine } from './AccountSettingMachine'
 import { UserService } from 'modules/user/user-service'
 import { Message } from 'components/Message'
 
@@ -22,7 +22,7 @@ const schema = yup.object().shape({
 
 export function AccountSetting(props: RouteComponentProps) {
   const { viewer, setViewer } = useContext(ViewerContext)
-  const [state, send] = useMachine(BaseInfoMachine, {
+  const [state, send] = useMachine(AccountSettingMachine, {
     actions: {
       notify: context => {
         const { data: user } = context

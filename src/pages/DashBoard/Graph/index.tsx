@@ -4,7 +4,7 @@ import { layoutOffset, layoutMain, MainStyle } from 'styles/layout-center'
 import { Paper, Table, TableBody, TableRow, TableCell } from '@material-ui/core'
 import { ViewerContext } from 'contexts/Viewer'
 import { useContext } from 'react'
-import { RouteComponentProps } from 'lib/router'
+import { RouteComponentProps } from '@reach/router'
 
 export const Graph = (props: RouteComponentProps) => {
   const { viewer } = useContext(ViewerContext)
@@ -45,3 +45,5 @@ export const Graph = (props: RouteComponentProps) => {
     </div>
   )
 }
+
+export default Graph

@@ -11,7 +11,7 @@ import { useMachine } from '@xstate/react'
 import { UsageMachine } from './UsageMachine'
 import { UserService } from 'modules/user/user-service'
 
-export function Plan(props: RouteComponentProps) {
+export default function Plan(props: RouteComponentProps) {
   const { viewer } = useContext(ViewerContext)
   const plan = viewer?.getPlan()
 

@@ -18,3 +18,5 @@ export const Authorized = (props: RouteComponentProps<{ children: any }>) => {
     </Location>
   )
 }
+
+export default Authorized

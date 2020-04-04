@@ -93,3 +93,5 @@ export const ServerSetup = (props: RouteComponentProps) => {
     </div>
   )
 }
+
+export default ServerSetup
