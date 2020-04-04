@@ -28,6 +28,11 @@ export const BaseInfoMachine = Machine<BaseInfoContext, BaseInfoStateSchema, Bas
       on: {
         SUBMIT: 'submitting',
       },
+      meta: {
+        test: func => {
+          func('idle')
+        },
+      },
     },
     submitting: {
       invoke: {
@@ -43,6 +48,11 @@ export const BaseInfoMachine = Machine<BaseInfoContext, BaseInfoStateSchema, Bas
           actions: assign({
             error: (_, e) => e.data,
           }),
+        },
+      },
+      meta: {
+        test: func => {
+          func('submitting')
         },
       },
     },
