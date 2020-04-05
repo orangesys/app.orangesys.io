@@ -1,12 +1,12 @@
 import React, { Suspense } from 'react'
 import { Router } from '@reach/router'
+import Authorized from 'pages/Authorized'
 
 import { Loading } from 'components/Loading'
 import NotFound from 'pages/NotFound'
 
 const SignIn = React.lazy(() => import('pages/SignIn'))
 const SignUp = React.lazy(() => import('pages/SignUp'))
-const Authorized = React.lazy(() => import('pages/Authorized'))
 
 const VerificationGuide = React.lazy(() => import('pages/VerificationGuide'))
 
@@ -21,30 +21,30 @@ const Graph = React.lazy(() => import('pages/DashBoard/Graph'))
 const DB = React.lazy(() => import('pages/DashBoard/DB'))
 
 export const routes = {
+  SignIn: '/sign-in',
   SignUp: 'sign-up',
   BaseInfo: '/base-info',
   VerificationGuide: '/verification-guide',
-  SignIn: '/sign-in',
   OrderPlan: '/order-plan',
   ServerSetup: '/server-setup',
-  Settings: '/settings',
   DashBoard: '/',
+  DashBoardPlan: '/plan',
   DashBoardGraph: '/graph',
   DashBoardDB: '/db',
   DashBoardInquiry: '/inquiry',
-  DashBoardPlan: '/plan',
+  Settings: '/settings',
 }
 export const routeTitles = {
   [routes.BaseInfo]: '基本情報',
-  [routes.DashBoard]: 'ホーム',
   [routes.VerificationGuide]: 'メールアドレスの認証',
   [routes.OrderPlan]: 'プランの選択',
   [routes.ServerSetup]: 'サーバーセットアップ',
-  [routes.Settings]: '設定',
+  [routes.DashBoard]: 'ホーム',
+  [routes.DashBoardPlan]: 'プラン',
   [routes.DashBoardGraph]: 'Graph',
   [routes.DashBoardDB]: 'TSDB',
   [routes.DashBoardInquiry]: 'お問い合わせ',
-  [routes.DashBoardPlan]: 'プラン',
+  [routes.Settings]: '設定',
 }
 
 export const Routes = () => {

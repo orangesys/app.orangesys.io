@@ -41,7 +41,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "e2e:open": "cypress open",
+    "e2e:record": "cypress run --record",
+    "e2e:coverage": "nyc report --reporter=text-summary"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -70,9 +72,15 @@
     ]
   },
   "devDependencies": {
+    "@cypress/code-coverage": "^2.0.5",
+    "cypress": "^4.3.0",
+    "eslint-plugin-cypress": "^2.10.3",
+    "faker": "^4.1.0",
     "firebase-tools": "^7.15.1",
     "husky": "^4.2.3",
+    "istanbul-lib-coverage": "^3.0.0",
     "lint-staged": "^10.0.7",
+    "nyc": "^15.0.1",
     "prettier": "1.19.1",
     "pretty-quick": "^2.0.1"
   }
