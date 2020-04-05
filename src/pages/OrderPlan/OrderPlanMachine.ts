@@ -42,6 +42,11 @@ export const OrderPlanMachine = Machine<OrderContext, OrderStateSchema, OrderEve
           }),
         },
       },
+      meta: {
+        test: (func: Function) => {
+          func('planList')
+        },
+      },
     },
     cardForm: {
       on: {
@@ -49,8 +54,13 @@ export const OrderPlanMachine = Machine<OrderContext, OrderStateSchema, OrderEve
         CHANGE_PLAN: {
           target: 'planList',
           actions: assign({
-            plan: _ => undefined,
+            plan: (_) => undefined,
           }),
+        },
+      },
+      meta: {
+        test: (func: Function) => {
+          func('cardForm')
         },
       },
     },
@@ -70,10 +80,20 @@ export const OrderPlanMachine = Machine<OrderContext, OrderStateSchema, OrderEve
           }),
         },
       },
+      meta: {
+        test: (func: Function) => {
+          func('loading')
+        },
+      },
     },
     success: {
       type: 'final',
       entry: 'goNextPage',
+      meta: {
+        test: (func: Function) => {
+          func('success')
+        },
+      },
     },
   },
 })

@@ -8,12 +8,12 @@ const settingModel = createModel(AccountSettingMachine).withEvents({
 describe('account setting', () => {
   const testPlans = settingModel.getShortestPathPlans()
 
-  testPlans.forEach(plan => {
+  testPlans.forEach((plan) => {
     describe(plan.description, () => {
-      plan.paths.forEach(path => {
+      plan.paths.forEach((path) => {
         it(path.description, async () => {
           // do any setup, then...
-          const func = state => {
+          const func = (state) => {
             console.log(state)
           }
 

@@ -12,6 +12,7 @@ interface SignUpStateSchema {
 }
 
 type SignUpEvent = { type: 'SUBMIT' } | { type: 'CONNECT_AUTH'; providerId: ProviderId }
+
 export interface SignUpContext {
   data?: any
   error?: any
@@ -37,6 +38,11 @@ export const SignUpMachine = Machine<SignUpContext, SignUpStateSchema, SignUpEve
           }),
         },
       },
+      meta: {
+        test: (func: Function) => {
+          func('idle')
+        },
+      },
     },
     // ok
     loading_sign_up: {
@@ -53,6 +59,11 @@ export const SignUpMachine = Machine<SignUpContext, SignUpStateSchema, SignUpEve
           actions: assign({
             error: (_, event) => event.data,
           }),
+        },
+      },
+      meta: {
+        test: (func: Function) => {
+          func('loading_sign_up')
         },
       },
     },
@@ -73,10 +84,20 @@ export const SignUpMachine = Machine<SignUpContext, SignUpStateSchema, SignUpEve
           }),
         },
       },
+      meta: {
+        test: (func: Function) => {
+          func('popup')
+        },
+      },
     },
     success: {
       type: 'final',
       entry: 'goNextPage',
+      meta: {
+        test: (func: Function) => {
+          func('success')
+        },
+      },
     },
   },
 })

@@ -12,7 +12,7 @@ type Context = {
   data?: any
   error?: any
 }
-
+// FIXME: no event, whether need state machine?
 export const UsageMachine = Machine<Context, StateSchema>({
   id: 'usage_machine',
   initial: 'loading',

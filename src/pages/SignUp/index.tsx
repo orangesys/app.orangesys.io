@@ -12,7 +12,7 @@ import { routes } from 'routes'
 import { RouteComponentProps, navigate } from '@reach/router'
 
 import { useMachine } from '@xstate/react'
-import { SignUpMachine, SignUpContext } from './SignUpMachie'
+import { SignUpMachine, SignUpContext } from './SignUpMachine'
 import { UserService } from 'modules/user/user-service'
 import { LogoHeader } from 'components/LogoHeader'
 import React, { useContext } from 'react'
