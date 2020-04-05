@@ -30,6 +30,10 @@ jobs:
           name: Build
           command: yarn build
 
+      - run:
+          name: Testing
+          command: yarn test
+
   deploy_database:
     <<: *container_config
     steps:
