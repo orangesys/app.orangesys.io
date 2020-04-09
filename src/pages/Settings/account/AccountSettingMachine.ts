@@ -1,22 +1,20 @@
 import { Machine, assign } from 'xstate'
 
-type BaseInfoStateSchema = {
+type StateSchema = {
   states: {
     idle: {}
     submitting: {}
-    // failure: {}
-    // success: {}
   }
 }
 
-type BaseInfoEvent = { type: 'SUBMIT' } | { type: 'REFRESH' }
+type Event = { type: 'SUBMIT' }
 
-type BaseInfoContext = {
+type Context = {
   data?: any
   error?: any
 }
 
-export const BaseInfoMachine = Machine<BaseInfoContext, BaseInfoStateSchema, BaseInfoEvent>({
+export const AccountSettingMachine = Machine<Context, StateSchema, Event>({
   id: 'base_information',
   initial: 'idle',
   context: {
@@ -27,6 +25,11 @@ export const BaseInfoMachine = Machine<BaseInfoContext, BaseInfoStateSchema, Bas
     idle: {
       on: {
         SUBMIT: 'submitting',
+      },
+      meta: {
+        test: (func: Function) => {
+          func('idle')
+        },
       },
     },
     submitting: {
@@ -45,18 +48,11 @@ export const BaseInfoMachine = Machine<BaseInfoContext, BaseInfoStateSchema, Bas
           }),
         },
       },
+      meta: {
+        test: (func: Function) => {
+          func('submitting')
+        },
+      },
     },
-    // success: {
-    //   on: {
-    //     REFRESH: 'idle',
-    //   },
-    //   entry: 'notify',
-    // },
-    // failure: {
-    //   on: {
-    //     REFRESH: 'idle',
-    //   },
-    //   entry: 'notify',
-    // },
   },
 })

@@ -163,9 +163,7 @@ export default class User {
   getPlan(): PlanType {
     const planId = this.getPlanId()
     const plan = plans.get(planId)
-    if (plan == null) {
-      throw new Error('plan is null')
-    }
+
     return plan
   }
 

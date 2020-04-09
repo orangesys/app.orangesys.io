@@ -28,6 +28,11 @@ export const BaseInfoMachine = Machine<BaseInfoContext, BaseInfoStateSchema, Bas
       on: {
         SUBMIT: 'submitting',
       },
+      meta: {
+        test: (func: Function) => {
+          func('idle')
+        },
+      },
     },
     submitting: {
       invoke: {
@@ -45,14 +50,29 @@ export const BaseInfoMachine = Machine<BaseInfoContext, BaseInfoStateSchema, Bas
           }),
         },
       },
+      meta: {
+        test: (func: Function) => {
+          func('submitting')
+        },
+      },
     },
     success: {
       type: 'final',
       entry: 'goNextPage',
+      meta: {
+        test: (func: Function) => {
+          func('success')
+        },
+      },
     },
     failure: {
       on: {
         FIX: 'idle',
+      },
+      meta: {
+        test: (func: Function) => {
+          func('failure')
+        },
       },
     },
   },

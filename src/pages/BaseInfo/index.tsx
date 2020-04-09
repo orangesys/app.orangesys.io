@@ -20,7 +20,7 @@ const schema = yup.object().shape({
   fullName: yup.string().required(),
 })
 
-export function BaseInfo(props: RouteComponentProps) {
+export default function BaseInfo(props: RouteComponentProps) {
   const { viewer, setViewer } = useContext(ViewerContext)
   const [state, send] = useMachine(BaseInfoMachine, {
     actions: {

@@ -8,7 +8,7 @@ import { Paper, Button } from '@material-ui/core'
 import { useContext } from 'react'
 import { ViewerContext } from 'contexts/Viewer'
 
-export function VerificationGuide(props: RouteComponentProps) {
+export default function VerificationGuide(props: RouteComponentProps) {
   const { viewer } = useContext(ViewerContext)
 
   const onResendEmail = () => {

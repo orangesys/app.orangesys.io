@@ -37,6 +37,11 @@ export const SignInMachine = Machine<SignInContext, SignInStateSchema, SignInEve
           }),
         },
       },
+      meta: {
+        test: (func: Function) => {
+          func('idle')
+        },
+      },
     },
     loading: {
       invoke: {
@@ -56,6 +61,11 @@ export const SignInMachine = Machine<SignInContext, SignInStateSchema, SignInEve
               return event.data
             },
           }),
+        },
+      },
+      meta: {
+        test: (func: Function) => {
+          func('loading')
         },
       },
     },
@@ -79,10 +89,20 @@ export const SignInMachine = Machine<SignInContext, SignInStateSchema, SignInEve
           }),
         },
       },
+      meta: {
+        test: (func: Function) => {
+          func('popup')
+        },
+      },
     },
     success: {
       type: 'final',
       entry: 'goNextPage',
+      meta: {
+        test: (func: Function) => {
+          func('success')
+        },
+      },
     },
   },
 })

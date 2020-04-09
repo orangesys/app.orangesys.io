@@ -33,3 +33,5 @@ export const DashBoard = (props: RouteComponentProps) => {
     <Location>{({ location }) => <Redirect from={location.pathname} to={routes.DashBoardPlan} noThrow />}</Location>
   )
 }
+
+export default DashBoard

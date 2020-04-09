@@ -41,6 +41,11 @@ export const ServerSetupMachine = Machine<ServerSetupContext, ServerSetupStateSc
           }),
         },
       },
+      meta: {
+        test: (func: Function) => {
+          func('idle')
+        },
+      },
     },
     not_started: {
       invoke: {
@@ -52,27 +57,39 @@ export const ServerSetupMachine = Machine<ServerSetupContext, ServerSetupStateSc
           target: 'error',
         },
       },
+      meta: {
+        test: (func: Function) => {
+          func('not_started')
+        },
+      },
     },
     building: {
       on: {
         NOTIFY_SUCCESS: 'success',
         NOTIFY_ERROR: 'error',
       },
-      after: {
-        1: {
-          target: 'building',
-          actions: assign({
-            timer: (context, event) => context.timer + 1,
-          }),
+      meta: {
+        test: (func: Function) => {
+          func('building')
         },
       },
     },
     error: {
       type: 'final',
+      meta: {
+        test: (func: Function) => {
+          func('error')
+        },
+      },
     },
     success: {
       type: 'final',
       entry: 'goNextPage',
+      meta: {
+        test: (func: Function) => {
+          func('success')
+        },
+      },
     },
   },
 })

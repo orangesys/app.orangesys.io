@@ -70,7 +70,7 @@ const CheckoutForm = ({ onSubmit }: { onSubmit: (data: any) => void }) => {
       </div>
       <div css={styles.submit}>
         <Button variant="contained" color="primary" fullWidth type="submit">
-          Submit Payment
+          登録
         </Button>
       </div>
     </form>

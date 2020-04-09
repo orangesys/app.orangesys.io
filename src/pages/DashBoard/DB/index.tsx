@@ -57,3 +57,5 @@ export const DB = (props: RouteComponentProps) => {
     </div>
   )
 }
+
+export default DB

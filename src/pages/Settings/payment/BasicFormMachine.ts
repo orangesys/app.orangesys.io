@@ -28,6 +28,11 @@ export const BasicFormMachine = Machine<Context, StateSchema, Event>({
       on: {
         SUBMIT: 'submitting',
       },
+      meta: {
+        test: (func: Function) => {
+          func('idle')
+        },
+      },
     },
     submitting: {
       invoke: {
@@ -45,16 +50,31 @@ export const BasicFormMachine = Machine<Context, StateSchema, Event>({
           }),
         },
       },
+      meta: {
+        test: (func: Function) => {
+          func('submitting')
+        },
+      },
     },
     success: {
       on: {
         REFRESH: 'idle',
       },
       entry: 'notifySuccess',
+      meta: {
+        test: (func: Function) => {
+          func('success')
+        },
+      },
     },
     failure: {
       on: {
         REFRESH: 'idle',
+      },
+      meta: {
+        test: (func: Function) => {
+          func('failure')
+        },
       },
     },
   },

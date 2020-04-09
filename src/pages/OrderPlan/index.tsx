@@ -98,3 +98,5 @@ export const OrderPlan = (props: RouteComponentProps) => {
     </div>
   )
 }
+
+export default OrderPlan

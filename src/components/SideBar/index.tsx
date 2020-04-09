@@ -5,7 +5,6 @@ import ServerIcon from '@material-ui/icons/Cloud'
 import PlanIcon from '@material-ui/icons/Work'
 import GrafanaIcon from '@material-ui/icons/Assessment'
 import TSDBIcon from '@material-ui/icons/DataUsage'
-import InquiryIcon from '@material-ui/icons/ContactMail'
 import SettingsIcon from '@material-ui/icons/Settings'
 import LogoutIcon from '@material-ui/icons/PowerSettingsNew'
 import { MenuList, MenuItem } from '@material-ui/core'
@@ -23,7 +22,7 @@ import User from 'modules/user/user'
 import { routes } from 'routes'
 
 export const SideBar = () => {
-  const { setViewer } = useContext(ViewerContext)
+  const { viewer, setViewer } = useContext(ViewerContext)
 
   const signOut = async () => {
     const userService = new UserService()
@@ -31,13 +30,14 @@ export const SideBar = () => {
     setViewer(new User())
   }
 
+  const MENU_PLAN = { id: 'plan', text: 'Plan', icon: PlanIcon, path: routes.DashBoardPlan }
+
   const MENUS = [
     { id: 'server', text: 'Server', icon: ServerIcon, path: routes.ServerSetup },
-    { id: 'plan', text: 'Plan', icon: PlanIcon, path: routes.DashBoardPlan },
+    ...(viewer?.planId ? [MENU_PLAN] : []),
     { id: 'graph', text: 'Graph', icon: GrafanaIcon, path: routes.DashBoardGraph },
     { id: 'db', text: 'TSDB', icon: TSDBIcon, path: routes.DashBoardDB },
     { id: 'settings', text: 'Settings', icon: SettingsIcon, path: routes.Settings },
-    { id: 'inquiry', text: 'Inquiry', icon: InquiryIcon, path: routes.DashBoardInquiry },
   ]
 
   return (
@@ -46,7 +46,7 @@ export const SideBar = () => {
         <img src={logoImage} alt="OrangeSys Logo" width={36} height={36} />
       </div>
       <MenuList>
-        {MENUS.map(item => (
+        {MENUS.map((item) => (
           <MenuItem key={item.id} onClick={() => navigate(item.path)}>
             <Item Icon={item.icon} label={item.text} />
           </MenuItem>
@@ -58,3 +58,5 @@ export const SideBar = () => {
     </div>
   )
 }
+
+export default SideBar
