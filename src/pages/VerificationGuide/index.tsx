@@ -1,18 +1,34 @@
 /** @jsx jsx */
+import { useContext } from 'react'
 import { jsx } from '@emotion/core'
 import { RouteComponentProps } from '@reach/router'
 
 import * as styles from './style'
 import { layoutOffset, layoutMain, MainStyle } from 'styles/layout-center'
 import { Paper, Button } from '@material-ui/core'
-import { useContext } from 'react'
+
 import { ViewerContext } from 'contexts/Viewer'
+import { GlobalMessageContext } from 'contexts/GlobalMessage'
 
 export default function VerificationGuide(props: RouteComponentProps) {
   const { viewer } = useContext(ViewerContext)
+  const globalMessage = useContext(GlobalMessageContext)
 
   const onResendEmail = () => {
-    viewer?.sendEmailVerification()
+    try {
+      viewer?.sendEmailVerification()
+      globalMessage.setGlobalMessage({
+        type: 'success',
+        message: '確認メールを再送信しました',
+        open: true,
+      })
+    } catch (error) {
+      globalMessage.setGlobalMessage({
+        type: 'error',
+        message: error.code,
+        open: true,
+      })
+    }
   }
 
   return (

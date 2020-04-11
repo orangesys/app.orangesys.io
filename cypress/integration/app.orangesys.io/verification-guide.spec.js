@@ -7,7 +7,7 @@ describe('verification guide', function() {
 
   it('need to verify email', function() {
     cy.contains('メールアドレスの認証')
-    // TODO: add notice
     cy.contains('確認メールを再送信').click()
+    cy.contains('確認メールを再送信しました')
   })
 })

@@ -14,7 +14,6 @@ import { BaseInfoMachine } from './BaseInfoMachine'
 import { routes } from 'routes'
 import { UserService } from 'modules/user/user-service'
 import { Message } from 'components/Message'
-
 const schema = yup.object().shape({
   companyName: yup.string().required(),
   fullName: yup.string().required(),
@@ -24,7 +23,7 @@ export default function BaseInfo(props: RouteComponentProps) {
   const { viewer, setViewer } = useContext(ViewerContext)
   const [state, send] = useMachine(BaseInfoMachine, {
     actions: {
-      goNextPage: context => {
+      goNextPage: (context) => {
         const { data: user } = context
         setViewer(user)
         navigate(routes.DashBoard)
