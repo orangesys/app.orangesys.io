@@ -47,9 +47,10 @@ workflows:
           yarn: true
           record: true
           post-steps:
+            - store_test_results:
+                path: cypress/results
             - store_artifacts:
-                path: coverage
-            - run: npx nyc report
+                path: .nyc_output
           # filters:
           #   branches:
           #     only: master
