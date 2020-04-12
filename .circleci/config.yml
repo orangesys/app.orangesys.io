@@ -9,7 +9,6 @@ orbs:
 
 jobs:
   build:
-    working_directory: ~/app
     docker:
       - image: node:12
     steps:
@@ -36,21 +35,22 @@ jobs:
 
 workflows:
   version: 2
-  build_and_test:
+  unit:
     jobs:
       - build
 
   e2e:
     jobs:
       - cypress/run:
-          name: frontend e2e
           yarn: true
+          start: yarn start
+          wait-on: 'http://localhost:3000'
           record: true
           post-steps:
             - store_test_results:
                 path: cypress/results
             - store_artifacts:
                 path: .nyc_output
-          # filters:
-          #   branches:
-          #     only: master
+          filters:
+            branches:
+              only: master
