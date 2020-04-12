@@ -15,6 +15,7 @@ import { UserService } from 'modules/user/user-service'
 import { LogoHeader } from 'components/LogoHeader'
 import { useContext, useState } from 'react'
 import { ViewerContext } from 'contexts/Viewer'
+import { GlobalMessageContext } from 'contexts/GlobalMessage'
 import { PasswordReset } from './PasswordReset'
 import { Message } from 'components/Message'
 
@@ -28,25 +29,39 @@ const schema = yup.object().shape({
 
 export default function SignIn(props: RouteComponentProps) {
   const { setViewer } = useContext(ViewerContext)
-
+  const globalMessage = useContext(GlobalMessageContext)
   const navigate = useNavigate()
   const userService = new UserService()
   const [openPasswordReset, setOpenPasswordReset] = useState(false)
+
   const onCancelPasswordReset = () => {
     setOpenPasswordReset(false)
   }
 
   const onSubmitPasswordRest = (email: string) => {
-    userService.sendPasswordResetEmail(email)
+    try {
+      userService.sendPasswordResetEmail(email)
+      globalMessage.setGlobalMessage({
+        type: 'success',
+        message: 'パスワード再設定のメールを送信しました',
+        open: true,
+      })
+    } catch (error) {
+      globalMessage.setGlobalMessage({
+        type: 'error',
+        message: error.code,
+        open: true,
+      })
+    }
+
     setOpenPasswordReset(false)
   }
 
   const [state, send] = useMachine(SignInMachine, {
     actions: {
-      goNextPage: context => {
+      goNextPage: (context) => {
         const { data: user } = context
         setViewer(user)
-        console.log(user)
 
         navigate(routes.DashBoard)
       },
@@ -80,6 +95,8 @@ export default function SignIn(props: RouteComponentProps) {
     send('CONNECT_AUTH', { providerId: 'github.com' })
   }
 
+  const isLoading = state.value === 'loading'
+
   return (
     <div>
       <LogoHeader />
@@ -88,7 +105,12 @@ export default function SignIn(props: RouteComponentProps) {
         <div css={layoutOffset}></div>
         <div css={layoutMain}>
           <div css={styles.navigation}>
-            <Button color="secondary" startIcon={<PersonAdd />} onClick={() => navigate(routes.SignUp)}>
+            <Button
+              disabled={isLoading}
+              color="secondary"
+              startIcon={<PersonAdd />}
+              onClick={() => navigate(routes.SignUp)}
+            >
               新規アカウント登録へ
             </Button>
           </div>
@@ -98,14 +120,22 @@ export default function SignIn(props: RouteComponentProps) {
               <div>
                 <form css={styles.form} onSubmit={handleSubmit(onSubmit)}>
                   <div css={styles.field}>
-                    <TextField inputRef={register} name="email" label="メールアドレス" fullWidth />
+                    <TextField disabled={isLoading} inputRef={register} name="email" label="メールアドレス" fullWidth />
                   </div>
                   <div css={styles.field}>
-                    <TextField inputRef={register} name="password" type="password" label="パスワード" fullWidth />
+                    <TextField
+                      disabled={isLoading}
+                      inputRef={register}
+                      name="password"
+                      type="password"
+                      label="パスワード"
+                      fullWidth
+                    />
                   </div>
-                  {state.value === 'loading' && <LinearProgress />}
+
                   <div css={styles.submit}>
-                    <Button variant="contained" color="primary" fullWidth type="submit">
+                    {isLoading && <LinearProgress />}
+                    <Button disabled={isLoading} variant="contained" color="primary" fullWidth type="submit">
                       メールアドレスでログイン
                     </Button>
                   </div>
@@ -114,12 +144,24 @@ export default function SignIn(props: RouteComponentProps) {
                     <p css={styles.external_label}>外部アカウントでログイン</p>
                     <div css={styles.external_actions}>
                       <div css={styles.external_button}>
-                        <Button variant="contained" fullWidth startIcon={<GitHubIcon />} onClick={connectGoogle}>
+                        <Button
+                          disabled={isLoading}
+                          variant="contained"
+                          fullWidth
+                          startIcon={<GitHubIcon />}
+                          onClick={connectGoogle}
+                        >
                           Google
                         </Button>
                       </div>
                       <div css={styles.external_button}>
-                        <Button variant="contained" fullWidth startIcon={<GitHubIcon />} onClick={connectGitHub}>
+                        <Button
+                          disabled={isLoading}
+                          variant="contained"
+                          fullWidth
+                          startIcon={<GitHubIcon />}
+                          onClick={connectGitHub}
+                        >
                           GitHub
                         </Button>
                       </div>
@@ -130,7 +172,12 @@ export default function SignIn(props: RouteComponentProps) {
             </div>
           </Paper>
           <div>
-            <Button color="secondary" startIcon={<Email />} onClick={() => setOpenPasswordReset(true)}>
+            <Button
+              disabled={isLoading}
+              color="secondary"
+              startIcon={<Email />}
+              onClick={() => setOpenPasswordReset(true)}
+            >
               パスワード再設定
             </Button>
             {openPasswordReset && <PasswordReset onCancel={onCancelPasswordReset} onSubmit={onSubmitPasswordRest} />}

@@ -3,10 +3,10 @@ import { Router } from '@reach/router'
 import Authorized from 'pages/Authorized'
 
 import { Loading } from 'components/Loading'
-import NotFound from 'pages/NotFound'
 
-const SignIn = React.lazy(() => import('pages/SignIn'))
-const SignUp = React.lazy(() => import('pages/SignUp'))
+import NotFound from 'pages/NotFound'
+import SignIn from 'pages/SignIn'
+import SignUp from 'pages/SignUp'
 
 const VerificationGuide = React.lazy(() => import('pages/VerificationGuide'))
 

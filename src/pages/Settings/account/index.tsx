@@ -24,7 +24,7 @@ export function AccountSetting(props: RouteComponentProps) {
   const { viewer, setViewer } = useContext(ViewerContext)
   const [state, send] = useMachine(AccountSettingMachine, {
     actions: {
-      notify: context => {
+      notify: (context) => {
         const { data: user } = context
         setViewer(user)
       },

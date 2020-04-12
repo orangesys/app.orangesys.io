@@ -1,6 +1,6 @@
 /** @jsx jsx */
+import { useContext } from 'react'
 import { jsx } from '@emotion/core'
-
 import * as styles from './style'
 import { layoutOffset, layoutMain, MainStyle } from 'styles/layout-center'
 import { plans } from 'modules/plan/plans'
@@ -16,7 +16,6 @@ import * as StripeRequester from 'modules/stripe/requester'
 import { UserService } from 'modules/user/user-service'
 import { routes } from 'routes'
 import { ViewerContext } from 'contexts/Viewer'
-import { useContext } from 'react'
 import { Message } from 'components/Message'
 
 export const OrderPlan = (props: RouteComponentProps) => {
@@ -25,7 +24,7 @@ export const OrderPlan = (props: RouteComponentProps) => {
 
   const [state, send] = useMachine(OrderPlanMachine, {
     actions: {
-      goNextPage: context => {
+      goNextPage: (context) => {
         navigate(routes.ServerSetup)
       },
     },
@@ -61,7 +60,7 @@ export const OrderPlan = (props: RouteComponentProps) => {
             <div css={styles.main}>
               <div css={styles.title}>以下よりプランを選択してください</div>
               <div css={styles.list}>
-                {Array.from(plans.values()).map(plan => {
+                {Array.from(plans.values()).map((plan) => {
                   return (
                     <div key={plan.id} css={styles.planCard} onClick={() => send({ type: 'CHOOSE', data: plan })}>
                       <PlanCard plan={plan} />

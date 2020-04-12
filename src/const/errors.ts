@@ -12,6 +12,7 @@ const ERRORS: IError = {
   'auth/account-exists-with-different-credential': '既に指定のメールアドレスで登録済です',
   'auth/network-request-failed': 'ネットワークエラーが発生しました',
   'auth/popup-closed-by-user': '',
+  'auth is null': 'ログイン情報が無効です、再ログインしてください',
   'custom-auth/user-already-exists': '指定したユーザは既に登録済みです',
   'custom-auth/email-and-password-are-wrong': 'ユーザが存在しないかパスワードが異なります',
   'stripe/abort': 'ネットワークエラーが発生しました。ネットワーク設定をご確認の上再度お試しください',
