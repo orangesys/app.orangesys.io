@@ -43,8 +43,13 @@ workflows:
   e2e:
     jobs:
       - cypress/run:
+          name: frontend e2e
           yarn: true
           record: true
-          filters:
-            branches:
-              only: master
+          post-steps:
+            - store_artifacts:
+                path: coverage
+            - run: npx nyc report
+          # filters:
+          #   branches:
+          #     only: master
