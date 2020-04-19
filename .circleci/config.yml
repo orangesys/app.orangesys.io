@@ -29,9 +29,9 @@ jobs:
       - run:
           name: Unit Testing
           command: yarn test
-      # - run:
-      #     name: Firebase Deploy Database
-      #     command: yarn firebase deploy --project "$FIREBASE_PROJECT" --token "$FIREBASE_TOKEN" --non-interactive --only database
+      - run:
+          name: Firebase Deploy Database
+          command: yarn firebase deploy --project "$DEV_FIREBASE_PROJECT" --token "$FIREBASE_TOKEN" --non-interactive --only database
 
 workflows:
   version: 2
