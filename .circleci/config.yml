@@ -52,4 +52,6 @@ workflows:
                 path: .nyc_output
           filters:
             branches:
-              only: master
+              only: 
+               - master
+               - feat/refactor
