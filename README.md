@@ -1,55 +1,48 @@
-# Development
-[![CircleCI](https://circleci.com/gh/orangesys/app.orangesys.io.svg?style=svg)](https://circleci.com/gh/orangesys/app.orangesys.io)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/ec60a4042fdd49ce9a1038a500ba92a3)](https://www.codacy.com/app/orangesys/app.orangesys.io?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=orangesys/app.orangesys.io&amp;utm_campaign=Badge_Grade)
-[![dependencies Status](https://david-dm.org/orangesys/app.orangesys.io.svg)](https://david-dm.org/orangesys/app.orangesys.io)
+# app.orangesys.io
 
-## install nvm & node
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-```bash
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
-```
+TODO:
 
-```bash
-nvm install 8.4.0
-nvm alias default 8.4.0
-```
+[![CircleCI](https://circleci.com/gh/ThaddeusJiang/app.orangesys.io.svg?style=svg)](https://circleci.com/gh/ThaddeusJiang/app.orangesys.io)
 
-```bash
-npm install yarn -g
-export PATH=$(npm bin):$PATH
-```
+- [ ] Codacy Badge
+- [ ] dependencies Status
+
+## Env
+
+- node.js 10+
+- yarn
 
 ## Config
 
-``` bash
+```sh
 cp .env-sample .env
 ```
 
-## Change api key with .env
-
-``` bash
+```sh
 # edit .env
 NODE_ENV=development
-FIREBASE_API_KEY=XXXXXXXXXXXXXXXXXXXXX
-FIREBASE_AUTH_DOMAIN=orangesys-21d3f.firebaseapp.com
-FIREBASE_DATABASE_URL=https://orangesys-21d3f.firebaseio.com
-FIREBASE_STORAGE_BUCKET=orangesys-21d3f.appspot.com
-PAYMENT_API_ENDPOINT=https://PAYMENT_API_ENDPOINT
-ORANGESYS_API_ENDPOINT=https://ORANGESYS_API_ENDPOINT
-SENTRY_DSN=https://XXXXXXXX@sentry.io/YYYYYYY
-HOST=0.0.0.0
+REACT_APP_FIREBASE_API_KEY=XXXXXXXXXXXXXXXXXXXXX
+REACT_APP_FIREBASE_AUTH_DOMAIN=orangesys-36d6e.firebaseapp.com
+REACT_APP_FIREBASE_DATABASE_URL=https://orangesys-36d6e.firebaseio.com
+REACT_APP_FIREBASE_STORAGE_BUCKET=orangesys-36d6e.appspot.com
+REACT_APP_STRIPE_PUBLISHABLE_KEY=pk_XXXXXXXXXXXXXXXXXXXXX
+REACT_APP_PAYMENT_API_ENDPOINT=https://PAYMENT_API_ENDPOINT
+REACT_APP_SENTRY_DSN=https://XXXXXXXX@sentry.io/YYYYYYY
+REACT_APP_GA_TRACKING_ID=UA-XXXXXXXX-Y
 ```
 
 ## Install
 
-```bash
+```sh
 yarn
 ```
 
 ## Test
 
-```bash
-npm test
+```sh
+yarn test
 ```
 
 ## Create a Firebase project
@@ -60,6 +53,8 @@ For more information, see <https://console.firebase.google.com>
 
 ```bash
 firebase login:ci
+
+firebase use [project_id]
 ```
 
 ## Update database rules
@@ -68,8 +63,43 @@ firebase login:ci
 firebase deploy --project "$FIREBASE_PROJECT" --token "$FIREBASE_TOKEN" --non-interactive --only database
 ```
 
-## Start in deployment
+## Start in development
 
-```bash
-npm run dev
 ```
+yarn start
+```
+
+## Build
+
+```
+yarn build
+```
+
+## Build with
+
+- [React](https://github.com/facebook/react)
+  - Main framework for runtime.
+- [typescript](https://www.typescriptlang.org/)
+  - Type checker
+- [emotion](https://github.com/emotion-js/emotion)
+  - CSS IN JS
+- [Reach/Router](https://github.com/reach/router)
+  - Router
+- [Xstate](https://github.com/davidkpiano/xstate)
+  - JavaScript state machines and statecharts
+- [Material-UI](https://github.com/mui-org/material-ui)
+  - UI Component
+- [React Hook Form](https://github.com/react-hook-form/react-hook-form)
+  - Form Helper
+- [firebase](https://github.com/firebase/firebase-js-sdk)
+  - OAuth and DB
+- [@stripe/react-stripe-js](https://github.com/stripe/react-stripe-js)
+  - Payment
+- [date-fns](https://date-fns.org/)
+  - Modern JavaScript date utility library
+
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).

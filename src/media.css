@@ -1,4 +1,0 @@
-
-@custom-media --pc-viewport only screen and (min-width: 961px);
-@custom-media --tablet-viewport only screen and (min-width: 641px) and (max-width: 960px);
-@custom-media --sp-viewport only screen and (max-width: 640px);
