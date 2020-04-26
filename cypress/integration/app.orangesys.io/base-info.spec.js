@@ -6,9 +6,9 @@ describe('base info', function() {
   })
 
   it('full company name and full name, save and notice', function() {
-    const email = Cypress.env('test_email')
-    const company_name = Cypress.env('test_company_name')
-    const full_name = Cypress.env('test_full_name')
+    const email = Cypress.env('TEST_EMAIL')
+    const company_name = Cypress.env('TEST_COMPANY_NAME')
+    const full_name = Cypress.env('TEST_FULL_NAME')
 
     cy.get('input[name="email"]').should('have.value', email)
 

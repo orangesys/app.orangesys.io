@@ -5,7 +5,7 @@ describe('settings', function() {
     cy.visit('/settings')
   })
   it('account setting', function() {
-    const email = Cypress.env('test_email')
+    const email = Cypress.env('TEST_EMAIL')
 
     cy.get('input[name="email"]').should('have.value', email)
 

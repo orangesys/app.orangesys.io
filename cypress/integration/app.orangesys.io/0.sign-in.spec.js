@@ -2,7 +2,7 @@
 
 describe('sign in', function() {
   it('send password reset email', function() {
-    const email = Cypress.env('test_email')
+    const email = Cypress.env('TEST_EMAIL')
 
     cy.visit('/sign-in')
     cy.contains('パスワード再設定').click()
@@ -17,8 +17,8 @@ describe('sign in', function() {
   })
 
   it('fill username and password, sign in', function() {
-    const email = Cypress.env('test_email')
-    const password = Cypress.env('test_password')
+    const email = Cypress.env('TEST_EMAIL')
+    const password = Cypress.env('TEST_PASSWORD')
 
     cy.visit('/sign-in')
     cy.get('input[name="email"]').type(email)

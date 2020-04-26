@@ -17,10 +17,10 @@ executors:
     docker:
       - image: 'cypress/base:10'
     environment:
-      test_email: ${CYPRESS_TEST_EMAIL}
-      test_password: ${CYPRESS_TEST_PASSWORD}
-      test_company_name: ${CYPRESS_TEST_COMPANY_NAME}
-      test_full_name: ${CYPRESS_TEST_FULL_NAME}
+      CYPRESS_TEST_EMAIL: ${CYPRESS_TEST_EMAIL}
+      CYPRESS_TEST_PASSWORD: ${CYPRESS_TEST_PASSWORD}
+      CYPRESS_TEST_COMPANY_NAME: ${CYPRESS_TEST_COMPANY_NAME}
+      CYPRESS_TEST_FULL_NAME: ${CYPRESS_TEST_FULL_NAME}
 
 jobs:
   test:
@@ -51,9 +51,6 @@ workflows:
       - test
       - cypress/run:
           executor: cypress
-          command: |
-            echo $REACT_APP_NODEJS_ENV_DEV | base64 --decode -i > .env
-            npx cypress run --record
           yarn: true
           start: yarn start
           wait-on: 'http://localhost:3000'
@@ -68,3 +65,4 @@ workflows:
               only:
                 - master
                 - feat/refactor
+                - fix-cypress
