@@ -32,6 +32,15 @@ jobs:
       - run:
           name: Firebase Deploy Database
           command: yarn firebase deploy --project "$DEV_FIREBASE_PROJECT" --token "$FIREBASE_TOKEN" --non-interactive --only database
+executors:
+  cypress:
+    docker:
+      - image: 'cypress/base:10'
+    environment:
+      email: ${CYPRESS_TEST_EMAIL}
+      password: ${CYPRESS_TEST_PASSWORD}
+      company_name: ${CYPRESS_TEST_COMPANY_NAME}
+      full_name: ${CYPRESS_TEST_FULL_NAME}
 
 workflows:
   version: 2
@@ -41,6 +50,7 @@ workflows:
   e2e:
     jobs:
       - cypress/run:
+          executor: cypress
           yarn: true
           start: yarn start
           wait-on: 'http://localhost:3000'
@@ -52,6 +62,6 @@ workflows:
                 path: .nyc_output
           filters:
             branches:
-              only: 
-               - master
-               - feat/refactor
+              only:
+                - master
+                - feat/refactor
