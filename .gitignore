@@ -10,6 +10,7 @@
 
 /cypress/screenshots
 /cypress/videos
+cypress.env.json
 .nyc_output
 
 # production
