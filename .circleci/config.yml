@@ -7,31 +7,35 @@ orbs:
   # to lock the version and prevent unexpected CI changes
   cypress: cypress-io/cypress@1
   node: circleci/node@2.0.3
+  cache-git: wink/git@1.0.0
+
+executors:
+  node:
+    docker:
+      - image: circleci/node:12    
 
 jobs:
-  build:
-    docker:
-      - image: 'node:12'
+  test:
+    parameters:
+      executor:
+        description: The name of custom executor to use
+        type: executor
+        default: node
+    executor: <<parameters.executor>>
     steps:
-      - checkout
-      - restore_cache:
-          keys:
-            # when lock file changes, use increasingly general patterns to restore cache
-            - yarn-packages-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - yarn-packages-v1-{{ .Branch }}-
-            - yarn-packages-v1-
-      - run:
-          name: Install Dependencies
-          command: yarn --frozen-lockfile --cache-folder ~/.cache/yarn
-      - save_cache:
-          paths:
-            - ~/.cache/yarn
-          key: yarn-packages-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
-      - run:
-          name: Unit Testing
-          command: |
-            echo $REACT_APP_NODEJS_ENV_DEV | base64 --decode -i > .env
-            yarn test
+      - cache-git/checkout-repo
+      - node/install-yarn
+      - node/install-packages:
+          cache-key: "yarn.lock"
+          pkg-manager: "yarn"
+      - node/test:
+          pkg-manager: "yarn"
+
+      # - run:
+      #     name: Unit Testing
+      #     command: |
+      #       echo $REACT_APP_NODEJS_ENV_DEV | base64 --decode -i > .env
+      #       yarn test
       # - run:
       #     name: Firebase Deploy Database
       #     command: yarn firebase deploy --project "$DEV_FIREBASE_PROJECT" --token "$FIREBASE_TOKEN" --non-interactive --only database
@@ -39,24 +43,24 @@ jobs:
 
 workflows:
   version: 2
-  # unit:
+  unit:
+    jobs:
+      - test
+  # e2e:
   #   jobs:
   #     - build
-  e2e:
-    jobs:
-      - build
-      - cypress/run:
-          yarn: true
-          start: yarn start
-          wait-on: 'http://localhost:3000'
-          record: true
-          post-steps:
-            - store_test_results:
-                path: cypress/results
-            - store_artifacts:
-                path: .nyc_output
-          filters:
-            branches:
-              only: 
-               - master
-               - feat/refactor
+  #     - cypress/run:
+  #         yarn: true
+  #         start: yarn start
+  #         wait-on: 'http://localhost:3000'
+  #         record: true
+  #         post-steps:
+  #           - store_test_results:
+  #               path: cypress/results
+  #           - store_artifacts:
+  #               path: .nyc_output
+  #         filters:
+  #           branches:
+  #             only: 
+  #              - master
+  #              - feat/refactor
