@@ -26,8 +26,15 @@ describe('sign in', function() {
 
     cy.server()
     cy.route('POST', '/identitytoolkit/v3/relyingparty/verifyPassword*').as('verifyPassword')
+    cy.route('POST', '/identitytoolkit/v3/relyingparty/getAccountInfo*').as('getAccountInfo')
+
     cy.get('button[type="submit"]').click()
     cy.wait('@verifyPassword')
+    cy.wait('@getAccountInfo')
+
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(5000)
+
     cy.contains('Logout')
   })
 })
