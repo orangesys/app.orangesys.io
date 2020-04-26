@@ -6,11 +6,12 @@ orbs:
   # the strict explicit version "cypress-io/cypress@1.x.y"
   # to lock the version and prevent unexpected CI changes
   cypress: cypress-io/cypress@1
+  node: circleci/node@2.0.3
 
 jobs:
   build:
     docker:
-      - image: node:12
+      - image: 'node:12'
     steps:
       - checkout
       - restore_cache:
@@ -28,18 +29,22 @@ jobs:
           key: yarn-packages-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - run:
           name: Unit Testing
-          command: yarn test
-      - run:
-          name: Firebase Deploy Database
-          command: yarn firebase deploy --project "$DEV_FIREBASE_PROJECT" --token "$FIREBASE_TOKEN" --non-interactive --only database
+          command: |
+            echo $REACT_APP_NODEJS_ENV_DEV | base64 --decode -i > .env
+            yarn test
+      # - run:
+      #     name: Firebase Deploy Database
+      #     command: yarn firebase deploy --project "$DEV_FIREBASE_PROJECT" --token "$FIREBASE_TOKEN" --non-interactive --only database
+
 
 workflows:
   version: 2
-  unit:
-    jobs:
-      - build
+  # unit:
+  #   jobs:
+  #     - build
   e2e:
     jobs:
+      - build
       - cypress/run:
           yarn: true
           start: yarn start
