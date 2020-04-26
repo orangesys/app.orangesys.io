@@ -17,10 +17,6 @@ executors:
     docker:
       - image: 'cypress/base:10'
     environment:
-      CYPRESS_TEST_EMAIL: $CYPRESS_TEST_EMAIL
-      CYPRESS_TEST_PASSWORD: $CYPRESS_TEST_PASSWORD
-      CYPRESS_TEST_COMPANY_NAME: $CYPRESS_TEST_COMPANY_NAME
-      CYPRESS_TEST_FULL_NAME: $CYPRESS_TEST_FULL_NAME
 
 jobs:
   test:
@@ -50,7 +46,6 @@ workflows:
     jobs:
       - test
       - cypress/run:
-          executor: cypress
           yarn: true
           start: yarn start
           wait-on: 'http://localhost:3000'
