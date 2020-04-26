@@ -30,12 +30,6 @@ jobs:
           pkg-manager: "yarn"
       - node/test:
           pkg-manager: "yarn"
-
-      # - run:
-      #     name: Unit Testing
-      #     command: |
-      #       echo $REACT_APP_NODEJS_ENV_DEV | base64 --decode -i > .env
-      #       yarn test
       # - run:
       #     name: Firebase Deploy Database
       #     command: yarn firebase deploy --project "$DEV_FIREBASE_PROJECT" --token "$FIREBASE_TOKEN" --non-interactive --only database
