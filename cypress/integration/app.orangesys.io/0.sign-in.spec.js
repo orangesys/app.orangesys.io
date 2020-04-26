@@ -23,8 +23,11 @@ describe('sign in', function() {
     cy.visit('/sign-in')
     cy.get('input[name="email"]').type(email)
     cy.get('input[name="password"]').type(password)
-    cy.get('button[type="submit"]').click()
 
+    cy.server()
+    cy.route('POST', '/identitytoolkit/v3/relyingparty/verifyPassword*').as('verifyPassword')
+    cy.get('button[type="submit"]').click()
+    cy.wait('@verifyPassword')
     cy.contains('Logout')
   })
 })
