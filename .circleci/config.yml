@@ -37,10 +37,10 @@ executors:
     docker:
       - image: 'cypress/base:10'
     environment:
-      CYPRESS_TEST_EMAIL: ${CYPRESS_TEST_EMAIL}
-      CYPRESS_TEST_PASSWORD: ${CYPRESS_TEST_PASSWORD}
-      CYPRESS_TEST_COMPANY_NAME: ${CYPRESS_TEST_COMPANY_NAME}
-      CYPRESS_TEST_FULL_NAME: ${CYPRESS_TEST_FULL_NAME}
+      test_email: ${CYPRESS_TEST_EMAIL}
+      test_password: ${CYPRESS_TEST_PASSWORD}
+      test_company_name: ${CYPRESS_TEST_COMPANY_NAME}
+      test_full_name: ${CYPRESS_TEST_FULL_NAME}
 
 workflows:
   version: 2
