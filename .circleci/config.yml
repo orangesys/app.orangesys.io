@@ -42,21 +42,21 @@ workflows:
   main:
     jobs:
       - test
-  # e2e:
-  #   jobs:
-  #     - build
-  #     - cypress/run:
-  #         yarn: true
-  #         start: yarn start
-  #         wait-on: 'http://localhost:3000'
-  #         record: true
-  #         post-steps:
-  #           - store_test_results:
-  #               path: cypress/results
-  #           - store_artifacts:
-  #               path: .nyc_output
-  #         filters:
-  #           branches:
-  #             only: 
-  #              - master
-  #              - feat/refactor
+      - cypress/run:
+          command: |
+            echo $REACT_APP_NODEJS_ENV_DEV | base64 --decode -i > .env
+            npx cypress run --record
+          yarn: true
+          start: yarn start
+          wait-on: 'http://localhost:3000'
+          record: true
+          post-steps:
+            - store_test_results:
+                path: cypress/results
+            - store_artifacts:
+                path: .nyc_output
+          filters:
+            branches:
+              only: 
+               - master
+               - feat/refactor
