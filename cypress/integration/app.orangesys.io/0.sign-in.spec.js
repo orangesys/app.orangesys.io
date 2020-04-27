@@ -32,9 +32,6 @@ describe('sign in', function() {
     cy.wait('@verifyPassword')
     cy.wait('@getAccountInfo')
 
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(5000)
-
     cy.contains('Logout')
   })
 })
