@@ -93,6 +93,7 @@ export default function SignUp(props: RouteComponentProps) {
           </div>
           <Paper>
             <div css={styles.main}>
+              {state?.context?.error?.code}
               <div css={styles.title}>{state.context.providerId ? '外部アカウントで登録' : '新規ユーザ登録'}</div>
               <div>
                 <form css={styles.form} onSubmit={handleSubmit(onSubmit)}>

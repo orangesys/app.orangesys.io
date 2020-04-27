@@ -14,7 +14,7 @@ describe('sign up', function() {
     cy.route('POST', '/identitytoolkit/v3/relyingparty/signupNewUser*').as('signupNewUser')
     cy.route('POST', '/identitytoolkit/v3/relyingparty/getAccountInfo*').as('getAccountInfo')
     cy.get('button[type="submit"]').click()
-    cy.contains('signupNewUser')
+    cy.wait('@signupNewUser')
     cy.wait('@getAccountInfo')
 
     cy.contains('メールアドレスの認証')
