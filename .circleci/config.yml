@@ -13,14 +13,6 @@ executors:
   node:
     docker:
       - image: circleci/node:12
-  cypress:
-    docker:
-      - image: 'cypress/base:10'
-    environment:
-      test_email: ${CYPRESS_TEST_EMAIL}
-      test_password: ${CYPRESS_TEST_PASSWORD}
-      test_company_name: ${CYPRESS_TEST_COMPANY_NAME}
-      test_full_name: ${CYPRESS_TEST_FULL_NAME}
 
 jobs:
   test:
@@ -50,21 +42,11 @@ workflows:
     jobs:
       - test
       - cypress/run:
-          executor: cypress
-          command: |
-            echo $REACT_APP_NODEJS_ENV_DEV | base64 --decode -i > .env
-            npx cypress run --record
           yarn: true
-          start: yarn start
-          wait-on: 'http://localhost:3000'
           record: true
-          post-steps:
-            - store_test_results:
-                path: cypress/results
-            - store_artifacts:
-                path: .nyc_output
           filters:
             branches:
               only:
                 - master
                 - feat/refactor
+                - fix-cypress

@@ -38,12 +38,11 @@
     "yup": "^0.28.1"
   },
   "scripts": {
-    "start": "react-scripts -r @cypress/instrument-cra start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "e2e:open": "cypress open",
-    "e2e:record": "cypress run --record",
-    "e2e:coverage": "nyc report --reporter=text-summary"
+    "e2e:record": "cypress run --record"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -72,8 +71,6 @@
     ]
   },
   "devDependencies": {
-    "@cypress/code-coverage": "^3.1.0",
-    "@cypress/instrument-cra": "^1.1.0",
     "cypress": "^4.3.0",
     "eslint-plugin-cypress": "^2.10.3",
     "faker": "^4.1.0",
@@ -81,7 +78,6 @@
     "husky": "^4.2.3",
     "istanbul-lib-coverage": "^3.0.0",
     "lint-staged": "^10.0.7",
-    "nyc": "^15.0.1",
     "prettier": "1.19.1",
     "pretty-quick": "^2.0.1"
   }
