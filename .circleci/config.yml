@@ -69,7 +69,7 @@ workflows:
               only:
                 - master
                 - feat/refactor
-      - deploy-dev:
+      - deploy-to-dev:
           requires:
             - test
           filters:
