@@ -36,6 +36,26 @@ jobs:
       # - run:
       #     name: Firebase Deploy Database
       #     command: yarn firebase deploy --project "$DEV_FIREBASE_PROJECT" --token "$FIREBASE_TOKEN" --non-interactive --only database
+  deploy-to-dev:
+    parameters:
+      executor:
+        description: The name of custom executor to use
+        type: executor
+        default: node
+    executor: <<parameters.executor>>
+    steps:
+      - cache-git/checkout-repo
+      - node/install-yarn
+      - node/install-packages:
+          cache-key: 'yarn.lock'
+          pkg-manager: 'yarn'
+      - run: yarn build
+      - run: 
+          name: deploy to firebase
+          command: |
+            yarn add firebase-tools
+            export PATH="$(npm bin):$PATH"
+            firebase deploy --project "dev-app-orangesys" -p build --token "$FIREBASE_TOKEN" --non-interactive
 
 workflows:
   main:
@@ -49,4 +69,10 @@ workflows:
               only:
                 - master
                 - feat/refactor
-                - fix-cypress
+      - deploy-dev:
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - feat/refactor
