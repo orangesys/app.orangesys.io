@@ -8,14 +8,11 @@ import NotFound from 'pages/NotFound'
 import SignIn from 'pages/SignIn'
 import SignUp from 'pages/SignUp'
 
-const VerificationGuide = React.lazy(() => import('pages/VerificationGuide'))
-
 const Plan = React.lazy(() => import('pages/Plan'))
 const Settings = React.lazy(() => import('pages/Settings'))
 const ServerSetup = React.lazy(() => import('pages/ServerSetup'))
 const BaseInfo = React.lazy(() => import('pages/BaseInfo'))
 const OrderPlan = React.lazy(() => import('pages/OrderPlan'))
-
 const DashBoard = React.lazy(() => import('pages/DashBoard'))
 const Graph = React.lazy(() => import('pages/DashBoard/Graph'))
 const DB = React.lazy(() => import('pages/DashBoard/DB'))
@@ -24,7 +21,6 @@ export const routes = {
   SignIn: '/sign-in',
   SignUp: 'sign-up',
   BaseInfo: '/base-info',
-  VerificationGuide: '/verification-guide',
   OrderPlan: '/order-plan',
   ServerSetup: '/server-setup',
   DashBoard: '/',
@@ -36,7 +32,6 @@ export const routes = {
 }
 export const routeTitles = {
   [routes.BaseInfo]: '基本情報',
-  [routes.VerificationGuide]: 'メールアドレスの認証',
   [routes.OrderPlan]: 'プランの選択',
   [routes.ServerSetup]: 'サーバーセットアップ',
   [routes.DashBoard]: 'ホーム',
@@ -54,7 +49,6 @@ export const Routes = () => {
         <Authorized path="/">
           <DashBoard path={routes.DashBoard} />
           <BaseInfo path={routes.BaseInfo} />
-          <VerificationGuide path={routes.VerificationGuide} />
           <OrderPlan path={routes.OrderPlan} />
           <ServerSetup path={routes.ServerSetup} />
           <Plan path={routes.DashBoardPlan} />
