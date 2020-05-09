@@ -9,7 +9,7 @@ type ServerSetupStateSchema = {
   states: {
     idle: {}
     not_started: {}
-    building: {}
+    waiting: {}
     error: {}
     success: {}
   }
@@ -33,7 +33,7 @@ export const ServerSetupMachine = Machine<ServerSetupContext, ServerSetupStateSc
       on: {
         NOTIFY_SUCCESS: 'success',
         START_BUILD_SERVER: 'not_started',
-        WAIT: 'building',
+        WAIT: 'waiting',
         NOTIFY_ERROR: {
           target: 'error',
           actions: assign({
@@ -48,14 +48,8 @@ export const ServerSetupMachine = Machine<ServerSetupContext, ServerSetupStateSc
       },
     },
     not_started: {
-      invoke: {
-        src: 'requestCreatingServer',
-        onDone: {
-          target: 'building',
-        },
-        onError: {
-          target: 'error',
-        },
+      after: {
+        1000: 'waiting',
       },
       meta: {
         test: (func: Function) => {
@@ -63,14 +57,23 @@ export const ServerSetupMachine = Machine<ServerSetupContext, ServerSetupStateSc
         },
       },
     },
-    building: {
+    waiting: {
+      invoke: {
+        src: 'fetchServerStatus',
+        onDone: {
+          target: 'waiting',
+        },
+        onError: {
+          target: 'error',
+        },
+      },
       on: {
         NOTIFY_SUCCESS: 'success',
         NOTIFY_ERROR: 'error',
       },
       meta: {
         test: (func: Function) => {
-          func('building')
+          func('waiting')
         },
       },
     },

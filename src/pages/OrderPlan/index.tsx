@@ -20,11 +20,13 @@ import { Message } from 'components/Message'
 
 export const OrderPlan = (props: RouteComponentProps) => {
   const userService = new UserService()
-  const { viewer } = useContext(ViewerContext)
+  const { viewer, setViewer } = useContext(ViewerContext)
 
   const [state, send] = useMachine(OrderPlanMachine, {
     actions: {
       goNextPage: (context) => {
+        const user = context?.user
+        setViewer(user)
         navigate(routes.ServerSetup)
       },
     },

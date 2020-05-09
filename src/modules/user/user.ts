@@ -134,8 +134,8 @@ export default class User {
     }
   }
 
-  get storageUsage(): number {
-    return this.db?.server.storageUsage ?? 0
+  get storageUsage(): number | undefined {
+    return this.db?.server?.storageUsage
   }
 
   get canChangeEmail(): boolean {
