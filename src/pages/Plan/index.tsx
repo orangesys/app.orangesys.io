@@ -55,15 +55,21 @@ export default function Plan(props: RouteComponentProps) {
                 <TableCell>Storage使用量</TableCell>
                 <TableCell>
                   {state.value === 'loading' && <div>...</div>}
+                  {state.value === 'failure' && <span>{state.context.error}</span>}
                   {state.value === 'success' && (
                     <React.Fragment>
                       <p>
-                        {parseGB(state.context.data)} GB/{plan?.storage} GB
+                        {(() => {
+                          if (state.context.data === undefined) {
+                            return 'Server not usable now.'
+                          } else {
+                            return `${parseGB(state.context.data)} GB/${plan?.storage} GB`
+                          }
+                        })()}
                       </p>
                       <LinearProgress variant="determinate" value={parsePercent(state.context.data)} />
                     </React.Fragment>
                   )}
-                  {state.value === 'failure' && <span>{state.context.error}</span>}
                 </TableCell>
               </TableRow>
             </TableBody>

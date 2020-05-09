@@ -13,8 +13,6 @@ import * as INFO from 'modules/support/info'
 import { useContext, useEffect } from 'react'
 import { ViewerContext } from 'contexts/Viewer'
 import { UserService } from 'modules/user/user-service'
-import SERVER_SETUP_STATUS from 'const/server-setup-status'
-import { formatISO } from 'date-fns'
 
 export const ServerSetup = (props: RouteComponentProps) => {
   const { viewer, setViewer } = useContext(ViewerContext)
@@ -24,16 +22,8 @@ export const ServerSetup = (props: RouteComponentProps) => {
       goNextPage: () => navigate(routes.DashBoard),
     },
     services: {
-      requestCreatingServer: async () => {
-        const uid = viewer?.getId()
-        const retention = viewer?.getPlan().retention
-
-        // restart server setup
-        await apiClient.createServer(retention, uid)
-        const user = await userService.updateServerSetupStatus(uid, {
-          status: SERVER_SETUP_STATUS.BUILDING,
-          startedAt: formatISO(new Date()),
-        })
+      fetchServerStatus: async () => {
+        const user = await userService.fetchUser()
         setViewer(user)
       },
     },
@@ -67,7 +57,7 @@ export const ServerSetup = (props: RouteComponentProps) => {
       <div css={layoutOffset}></div>
       <div css={layoutMain}>
         <Paper>
-          {state.value === 'building' && (
+          {state.value === 'waiting' && (
             <div css={styles.processing}>
               <p>現在サーバ構築中です。しばらくお待ちください</p>
               <div css={styles.progress}>
