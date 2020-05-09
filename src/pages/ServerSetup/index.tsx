@@ -30,8 +30,6 @@ export const ServerSetup = (props: RouteComponentProps) => {
   })
 
   useEffect(() => {
-    // @ts-ignore
-    console.log(state.context.timer)
     if (viewer?.serverSetupNotStarted) {
       send('START_BUILD_SERVER')
     }

@@ -8,21 +8,15 @@ import { useContext } from 'react'
 
 export const DashBoard = (props: RouteComponentProps) => {
   const { viewer } = useContext(ViewerContext)
-  const { emailVerified, planSelected, serverSetupCompleted } = viewer || {}
+  const { planSelected, serverSetupCompleted } = viewer || {}
   if (!viewer?.db) {
     return <Location>{({ location }) => <Redirect from={location.pathname} to={routes.BaseInfo} noThrow />}</Location>
   }
 
-  if (!emailVerified) {
-    return (
-      <Location>
-        {({ location }) => <Redirect from={location.pathname} to={routes.VerificationGuide} noThrow />}
-      </Location>
-    )
-  }
   if (!planSelected) {
     return <Location>{({ location }) => <Redirect from={location.pathname} to={routes.OrderPlan} noThrow />}</Location>
   }
+
   if (!serverSetupCompleted) {
     return (
       <Location>{({ location }) => <Redirect from={location.pathname} to={routes.ServerSetup} noThrow />}</Location>
