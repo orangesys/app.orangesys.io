@@ -50,12 +50,12 @@ jobs:
           cache-key: 'yarn.lock'
           pkg-manager: 'yarn'
       - run: yarn build
-      - run: 
+      - run:
           name: deploy to firebase
           command: |
             yarn add firebase-tools
             export PATH="$(npm bin):$PATH"
-            firebase deploy --project "dev-app-orangesys" -p build --token "$FIREBASE_TOKEN" --non-interactive
+            firebase deploy --project "$FIREBASE_PROJECT" -p build --token "$FIREBASE_TOKEN" --non-interactive
 
 workflows:
   main:
