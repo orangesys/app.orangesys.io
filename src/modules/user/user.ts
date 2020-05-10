@@ -220,11 +220,4 @@ export default class User {
     }
     this.auth.sendEmailVerification()
   }
-
-  async verifyEmail(code: string): Promise<void> {
-    if (this.auth == null) {
-      throw new Error('auth is null')
-    }
-    await this.auth.applyActionCode(code)
-  }
 }
