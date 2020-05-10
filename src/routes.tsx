@@ -7,15 +7,14 @@ import { Loading } from 'components/Loading'
 import NotFound from 'pages/NotFound'
 import SignIn from 'pages/SignIn'
 import SignUp from 'pages/SignUp'
-
-const Plan = React.lazy(() => import('pages/Plan'))
-const Settings = React.lazy(() => import('pages/Settings'))
-const ServerSetup = React.lazy(() => import('pages/ServerSetup'))
-const BaseInfo = React.lazy(() => import('pages/BaseInfo'))
-const OrderPlan = React.lazy(() => import('pages/OrderPlan'))
-const DashBoard = React.lazy(() => import('pages/DashBoard'))
-const Graph = React.lazy(() => import('pages/DashBoard/Graph'))
-const DB = React.lazy(() => import('pages/DashBoard/DB'))
+import Settings from 'pages/Settings'
+import ServerSetup from 'pages/ServerSetup'
+import Plan from 'pages/Plan'
+import DB from 'pages/DashBoard/DB'
+import BaseInfo from 'pages/BaseInfo'
+import OrderPlan from 'pages/OrderPlan'
+import Graph from 'pages/DashBoard/Graph'
+import DashBoard from 'pages/DashBoard'
 
 export const routes = {
   SignIn: '/sign-in',
@@ -49,11 +48,12 @@ export const Routes = () => {
         <Authorized path="/">
           <DashBoard path={routes.DashBoard} />
           <BaseInfo path={routes.BaseInfo} />
+
           <OrderPlan path={routes.OrderPlan} />
           <ServerSetup path={routes.ServerSetup} />
-          <Plan path={routes.DashBoardPlan} />
           <Graph path={routes.DashBoardGraph} />
           <DB path={routes.DashBoardDB} />
+          <Plan path={routes.DashBoardPlan} />
           <Settings path={routes.Settings} />
 
           <NotFound default />
