@@ -43,7 +43,6 @@ export class UserService {
 
   async createUserWithEmailAndPassword(email: string, password: string, newUserFields: NewUserFields): Promise<User> {
     const authUser = await this.repository.createUserWithEmailAndPassword(email, password)
-    authUser.sendEmailVerification()
     await this.repository.addNewUserOnDB(authUser.uid, newUserFields)
     return this.createFromObject(newUserFields, authUser)
   }
@@ -52,9 +51,6 @@ export class UserService {
     const authUser = await this.repository.fetchAuthUserFromAuth()
     if (authUser == null) {
       throw new Error("auth doesn't exist")
-    }
-    if (!authUser.emailVerified) {
-      authUser.sendEmailVerification()
     }
     const db = await this.repository.fetchFromDB(authUser.uid)
     if (db != null) {
