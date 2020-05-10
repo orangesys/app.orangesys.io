@@ -4,7 +4,7 @@ import { jsx } from '@emotion/core'
 import * as styles from './style'
 import { layoutOffset, layoutMain, MainStyle } from 'styles/layout-center'
 import { plans } from 'modules/plan/plans'
-import { RouteComponentProps, navigate } from '@reach/router'
+import { RouteComponentProps, navigate, Redirect } from '@reach/router'
 import { CircularProgress, Paper } from '@material-ui/core'
 
 import { PlanCard } from 'components/PlanCard'
@@ -51,6 +51,18 @@ export const OrderPlan = (props: RouteComponentProps) => {
     const plan = state?.context?.plan
 
     send('SUBMIT', { token: data.id, user: viewer?.auth, plan })
+  }
+
+  if (!viewer?.db) {
+    return <Redirect to={routes.BaseInfo} noThrow />
+  }
+
+  if (viewer?.needVerifyEmail) {
+    return <Redirect to={routes.VerificationGuide} noThrow />
+  }
+
+  if (viewer?.planSelected) {
+    return <Redirect to={routes.ServerSetup} noThrow />
   }
 
   return (

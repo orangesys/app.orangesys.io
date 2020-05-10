@@ -30,11 +30,9 @@ export const SideBar = () => {
     setViewer(new User())
   }
 
-  const MENU_PLAN = { id: 'plan', text: 'Plan', icon: PlanIcon, path: routes.DashBoardPlan }
-
   const MENUS = [
     { id: 'server', text: 'Server', icon: ServerIcon, path: routes.ServerSetup },
-    ...(viewer?.planId ? [MENU_PLAN] : []),
+    { id: 'plan', text: 'Plan', icon: PlanIcon, path: routes.DashBoardPlan },
     { id: 'graph', text: 'Graph', icon: GrafanaIcon, path: routes.DashBoardGraph },
     { id: 'db', text: 'TSDB', icon: TSDBIcon, path: routes.DashBoardDB },
     { id: 'settings', text: 'Settings', icon: SettingsIcon, path: routes.Settings },
@@ -47,7 +45,7 @@ export const SideBar = () => {
       </div>
       <MenuList>
         {MENUS.map((item) => (
-          <MenuItem key={item.id} onClick={() => navigate(item.path)}>
+          <MenuItem key={item.id} disabled={!viewer?.serverSetupCompleted} onClick={() => navigate(item.path)}>
             <Item Icon={item.icon} label={item.text} />
           </MenuItem>
         ))}
