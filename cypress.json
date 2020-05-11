@@ -1,5 +1,5 @@
 {
   "projectId": "kp8wew",
-  "baseUrl": "https://app-orangesys-io.netlify.app",
+  "baseUrl": "http://localhost:3000",
   "integrationFolder": "cypress/integration/app.orangesys.io"
 }

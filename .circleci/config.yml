@@ -1,11 +1,6 @@
 version: 2.1
 
 orbs:
-  # "cypress-io/cypress@1" installs the latest published
-  # version "1.x.y" of the orb. We recommend you then use
-  # the strict explicit version "cypress-io/cypress@1.x.y"
-  # to lock the version and prevent unexpected CI changes
-  cypress: cypress-io/cypress@1
   node: circleci/node@2.0.3
   cache-git: wink/git@1.0.0
 
@@ -33,9 +28,6 @@ jobs:
           command: |
             echo $REACT_APP_NODEJS_ENV_DEV | base64 --decode -i > .env
             yarn test
-      # - run:
-      #     name: Firebase Deploy Database
-      #     command: yarn firebase deploy --project "$DEV_FIREBASE_PROJECT" --token "$FIREBASE_TOKEN" --non-interactive --only database
   deploy-to-dev:
     parameters:
       executor:
@@ -55,20 +47,12 @@ jobs:
           command: |
             yarn add firebase-tools
             export PATH="$(npm bin):$PATH"
-            firebase deploy --project "$FIREBASE_PROJECT" -p build --token "$FIREBASE_TOKEN" --non-interactive
+            firebase deploy --project "$DEV_FIREBASE_PROJECT" -p build --token "$DEV_FIREBASE_TOKEN" --non-interactive
 
 workflows:
   main:
     jobs:
       - test
-      - cypress/run:
-          yarn: true
-          record: true
-          filters:
-            branches:
-              only:
-                - master
-                - feat/refactor
       - deploy-to-dev:
           requires:
             - test

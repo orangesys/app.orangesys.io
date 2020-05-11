@@ -109,13 +109,6 @@ export default class User {
     return this.db.serverSetup
   }
 
-  get emailVerified(): boolean {
-    if (this.auth == null) {
-      return false
-    }
-    return !!this.auth.emailVerified
-  }
-
   get loggedIn(): boolean {
     return !!this.auth?.uid
   }
@@ -138,12 +131,12 @@ export default class User {
     return this.db?.server?.storageUsage
   }
 
-  get canChangeEmail(): boolean {
+  get needVerifyEmail(): boolean {
     const providerData = this.getProviderData()
-    if (providerData == null || providerData.length !== 0) {
+    if (providerData == null || providerData.length === 0) {
       return false
     }
-    return providerData[0].providerId === 'password'
+    return providerData[0].providerId === 'password' && !this.auth?.emailVerified
   }
 
   getId(): string {

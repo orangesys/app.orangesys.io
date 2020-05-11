@@ -43,6 +43,7 @@ export class UserService {
 
   async createUserWithEmailAndPassword(email: string, password: string, newUserFields: NewUserFields): Promise<User> {
     const authUser = await this.repository.createUserWithEmailAndPassword(email, password)
+    authUser.sendEmailVerification()
     await this.repository.addNewUserOnDB(authUser.uid, newUserFields)
     return this.createFromObject(newUserFields, authUser)
   }

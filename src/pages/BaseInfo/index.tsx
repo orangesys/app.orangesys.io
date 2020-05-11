@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core'
-import { RouteComponentProps, navigate } from '@reach/router'
+import { RouteComponentProps, navigate, Redirect } from '@reach/router'
 
 import * as styles from './style'
 import { layoutOffset, layoutMain, MainStyle } from 'styles/layout-center'
@@ -14,6 +14,7 @@ import { BaseInfoMachine } from './BaseInfoMachine'
 import { routes } from 'routes'
 import { UserService } from 'modules/user/user-service'
 import { Message } from 'components/Message'
+
 const schema = yup.object().shape({
   companyName: yup.string().required(),
   fullName: yup.string().required(),
@@ -26,7 +27,7 @@ export default function BaseInfo(props: RouteComponentProps) {
       goNextPage: (context) => {
         const { data: user } = context
         setViewer(user)
-        navigate(routes.DashBoard)
+        navigate(routes.OrderPlan)
       },
     },
     services: {
@@ -44,6 +45,10 @@ export default function BaseInfo(props: RouteComponentProps) {
 
   const onSubmit = (data: any) => {
     send('SUBMIT', { data })
+  }
+
+  if (viewer?.db) {
+    return <Redirect to={routes.OrderPlan} noThrow />
   }
 
   return (
